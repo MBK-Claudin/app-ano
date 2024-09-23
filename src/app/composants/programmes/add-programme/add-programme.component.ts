@@ -1,33 +1,36 @@
-import { CommonModule, Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DataServiceService } from '../../../services/data-service.service';
-import { ObjectifsInterface } from '../../../interfaces/objectifs-interface';
 import { ObjectifServiceService } from '../../../services/objectif-service.service';
+import { Programmes } from '../../../interfaces/programmes';
+import { DataServiceService } from '../../../services/data-service.service';
+import { Location } from '@angular/common';
+import { ProgrammeServiceService } from '../../../services/programme-service.service';
 
 @Component({
-  selector: 'app-add-objectif',
+  selector: 'app-add-programme',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
   ],
-  templateUrl: './add-objectif.component.html',
-  styleUrl: './add-objectif.component.css'
+  templateUrl: './add-programme.component.html',
+  styleUrl: './add-programme.component.css'
 })
-export class AddObjectifComponent {
-  objectif: ObjectifsInterface = {
+export class AddProgrammeComponent {
+  programmes: Programmes = {
     id: 0,
-    secteur: '',
-    objectif: '',
+    objectif_id: 0,
+    libelle: '',
     date_debut: new Date(),
     date_fin: new Date(),
     organisation: [],
     ancrage: [],
     responsable: [],
     email: []
-  };
+  }
 
+  objectifs: any[] = [];
   users: any[] =[];
   organisations: any[] = [];
   selectedOrganisation: string = '';
@@ -36,14 +39,28 @@ export class AddObjectifComponent {
   selectedName: string = '';
 
   constructor(
-    private dataService: DataServiceService,
     private objectifService: ObjectifServiceService,
+    private dataService: DataServiceService,
+    private programmeService: ProgrammeServiceService,
     private location: Location,
   ){}
 
   ngOnInit(){
-    this.getusers()
-    this.getorganisations()
+    this.getObjectif();
+    this.getusers();
+    this.getorganisations();
+  }
+
+  insertProgrammes(){
+    this.programmeService.insertProgramme(this.programmes).subscribe(
+      data => {
+        console.log(data);
+        this.goBack()
+      },
+      error => {
+        console.log("Erreur lores de l'insertion de nouveau programme",error);
+      }
+    )
   }
 
   goBack(){
@@ -72,8 +89,8 @@ export class AddObjectifComponent {
 
   addOrganisationField() {
     if (this.selectedOrganisation && this.selectedAncrage) {
-      this.objectif.organisation.push(this.selectedOrganisation);
-      this.objectif.ancrage.push(this.selectedAncrage);
+      this.programmes.organisation.push(this.selectedOrganisation);
+      this.programmes.ancrage.push(this.selectedAncrage);
       // Réinitialise les sélections après l'ajout
       this.selectedOrganisation = '';
       this.selectedAncrage = '';
@@ -82,8 +99,8 @@ export class AddObjectifComponent {
 
   addUserField() {
     if (this.selectedEmail && this.selectedName) {
-      this.objectif.responsable.push(this.selectedName);
-      this.objectif.email.push(this.selectedEmail);
+      this.programmes.responsable.push(this.selectedName);
+      this.programmes.email.push(this.selectedEmail);
       // Réinitialise les sélections après l'ajout
       this.selectedEmail = '';
       this.selectedName = '';
@@ -102,22 +119,21 @@ export class AddObjectifComponent {
   }
 
   removeOrganisationField(index: number) {
-    this.objectif.organisation.splice(index, 1);
-    this.objectif.ancrage.splice(index, 1);
+    this.programmes.organisation.splice(index, 1);
+    this.programmes.ancrage.splice(index, 1);
   }
   
   removeUserField(index: number) {
-    this.objectif.responsable.splice(index, 1);
-    this.objectif.email.splice(index, 1);
+    this.programmes.responsable.splice(index, 1);
+    this.programmes.email.splice(index, 1);
   }
 
-  insertObjectif(){
-    this.objectifService.insertObjectif(this.objectif).subscribe(
-      res => {
-        console.log('response', res);
-        this.goBack()
+  getObjectif(){
+    this.objectifService.getobjectifs().subscribe(
+      data => {
+        this.objectifs = data;
       }
-    );
+    )
   }
 
 }

@@ -2,27 +2,28 @@
     <div class="container-fluid">
         <div class="row column_title">
             <div class="col-md-12">
-                <div class="page_title">
-                    <h2>Objectifs Stratégiques</h2>
-                </div>
+            <div class="page_title">
+                <h2>Objectifs Stratégiques</h2>
+            </div>
             </div>
         </div>
+
         <div class="row justify-content-center">
             <div class="col-md-12 mx-auto">
                 <div class="white_shd full margin_bottom_30">
                     <div class="row full graph_head">
                         <div class="col-6">
                             <div class="heading1 margin_0">
-                                <h2>Mètre à jour un objectif stratégique</h2>
+                                <h2>Ajouter des objectifs stratégiques</h2>
                             </div>
                         </div>
                         <div class="col-6 text-right">
-                            <button type="button" class="btn btn-link" (click)="goBack()">liste des objectifs stratégiques</button>
+                            <button class="btn btn-link" (click)="goBack()">liste des objectifs stratégiques</button>
                         </div>
                     </div>
                     <div class="row full d-flex justify-content-center align-items-center">
                         <div class="col-md-12 my-3">
-                            <form (ngSubmit)="submitEditObjectif()">
+                            <form (ngSubmit) = "insertProgrammes()">
                                 <div class="row mx-4">
                                     <div class="col-6">
                                         <!-- section du programme -->
@@ -34,20 +35,30 @@
                                             </div>
                                         </div> 
                                         <div class="form-group">
-                                            <label for="programme-name">Secteur :</label>
-                                            <input type="text" class="form-control" id="secteur" name="secteur" [(ngModel)] = "editObjectif.secteur" [value]="editObjectif.secteur">
-                                        </div>
-                                        <div class="form-group">
                                             <label for="programme-name">Objectif :</label>
-                                            <input type="text" class="form-control" id="objectif" name="objectif" [(ngModel)] = "editObjectif.objectif" [value]="editObjectif.objectif">
+                                            <select name="objectif_id" id="objectif_id" class="form-control" [(ngModel)]="programmes.objectif_id">
+                                                <option [value]="ob.id" *ngFor="let ob of objectifs">{{ ob.objectif }}</option>
+                                            </select>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="heading1 margin_0">
+                                                    <h5>Programme</h5>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="form-group">
+                                            <label for="programme-name">Libellé du programme :</label>
+                                            <input type="text" class="form-control" id="objectif" name="objectif" [(ngModel)] = "programmes.libelle" >
                                         </div>
                                         <div class="form-group">
                                             <label for="programme-start-date">Date de debut</label>
-                                            <input type="date" class="form-control" id="date_debut" name="date_debut" [(ngModel)] = "editObjectif.date_debut" [value]="editObjectif.date_debut">
+                                            <input type="date" class="form-control" id="date_debut" name="date_debut" [(ngModel)] = "programmes.date_debut" >
                                         </div>
                                         <div class="form-group">
                                             <label for="programme-start-date">Date de fin</label>
-                                            <input type="date" class="form-control" id="date_fin" name="date_fin" [(ngModel)] = "editObjectif.date_fin" [value]="editObjectif.date_fin">
+                                            <input type="date" class="form-control" id="date_fin" name="date_fin" [(ngModel)] = "programmes.date_fin" >
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -55,30 +66,23 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="heading1 margin_0">
-                                                    <h5>Organisations ({{ editObjectif.organisation.length }})</h5>
+                                                    <h5>Organisations ({{ programmes.organisation.length }})</h5>
                                                 </div>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <button type="button" class="btn btn-primary" (click)="addOrganisationField()">
+                                                <a class="btn btn-primary" (click)="addOrganisationField()" >
                                                     <i class="fas fa-plus"></i>
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>
-        
-                                        <div id="block_organisation" >
-                                            
-                                            <div class="row" *ngFor="let org of editObjectif.organisation; let i = index">
-                                                <div class="col-9">
-                                                    <span>{{ org }}</span><br>
-                                                    <span>{{ editObjectif.ancrage[i] }}</span>
-                                                </div>
-                                                <div class="col-3 text-right">
-                                                    <button type="button" class="btn btn-danger" (click)="removeOrganisationField(i)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
+
+                                        <div id="block_organisation">
+                                            <div *ngFor="let org of programmes.organisation; let i = index" style="display: none;">
+                                                <span>{{ org }} - {{ programmes.ancrage[i] }}</span>
+                                                <button type="button" class="btn btn-danger" (click)="removeOrganisationField(i)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </div>
-                                            <hr>
                                             <div class="form-group">
                                                 <label for="organisation">Libellé de l'organisation</label>
                                                 <select class="form-control" [(ngModel)]="selectedOrganisation" name="organisations[]">
@@ -100,29 +104,23 @@
                                         <div class="row">
                                             <div class="col-6">
                                                 <div class="heading1 margin_0">
-                                                    <h5>Responsables ({{ editObjectif.responsable.length }})</h5>
+                                                    <h5>Responsables ({{ programmes.responsable.length }})</h5>
                                                 </div>
                                             </div>
                                             <div class="col-6 text-right">
-                                                <button type="button" class="btn btn-primary" title="Ajouter un responsable" (click)="addUserField()">
+                                                <a class="btn btn-primary" title="Ajouter un responsable" (click)="addUserField()">
                                                     <i class="fas fa-plus"></i>
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>    
                                         <div id="block_responsables">
                                             <!-- Champs de saisie -->
-                                            <div class="row" *ngFor="let resp of editObjectif.responsable; let i = index" >
-                                                <div class="col-9">
-                                                    <span>{{ resp }}</span><br>
-                                                    <span>{{ editObjectif.email[i] }}</span>
-                                                </div>
-                                                <div class="col-3 text-right">
-                                                    <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </div>
+                                            <div *ngFor="let resp of programmes.responsable; let i = index" style="display: none;">
+                                                <span>{{ resp }} - {{ programmes.email[i] }}</span>
+                                                <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </div>
-                                            <hr>
                                             <div class="form-group">
                                                 <label for="responsable">Responsables</label>
                                                 <select id="responsable" type="text" class="form-control" name="responsables[]" (change)="onUserSelect($event)" required [(ngModel)]="selectedName">
