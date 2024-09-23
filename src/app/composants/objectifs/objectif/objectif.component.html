@@ -1,0 +1,104 @@
+
+
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+            <div class="page_title">
+                <h2>Objectifs Stratégiques</h2>
+            </div>
+            </div>
+        </div>
+        <button (click)="test()">teste</button>
+        <div *ngIf="testeobjectifs.length > 0">
+            <div *ngFor="let item of testeobjectifs">
+                <button (click)="test()">click</button>
+            </div>
+        </div>
+        <div *ngFor="let item of testeobjectifs">
+            <button (click)="test()">click</button>
+        </div>
+        <!-- Affichage des données -->
+        <div class="row" id="block-tableau">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row full graph_head">
+                        <div class="col-3">
+                            <div class="heading1 margin_0">
+                                <h2>Listes des objectifs stratégiques</h2>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Recherche..." id="search-input" (input)="filterObjectifs()">
+                        </div>
+                        <div class="col-3 text-right">
+                            <a [routerLink]="['/add/objectif']" class="btn btn-primary" title="Ajouter un programme">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Secteur</th>
+                                        <th>Objectif</th>
+                                        <th>Date Debut</th>
+                                        <th>Date Fin</th>
+                                        <th>organisation & Ancrage</th>
+                                        <th>Responsable</th>
+                                        <th>Ehéance</th>
+                                        <th>Tx. Ex. Phys.</th>
+                                        <th>Tx. Ex. Fin.</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of objectifs">
+                                        <td>{{ item.secteur }}</td>
+                                        <td>{{ item.objectif }}</td>
+                                        <td>{{ item.date_debut}}</td>
+                                        <td>{{ item.date_fin }}</td>
+                                        <td>
+                                            <ng-container *ngFor="let org of item.organisations; let i = index">
+                                                <span>{{ org.libelle }}/</span>
+                                                <span>{{ org.pivot.ancrage }}</span>
+                                                <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
+                                                <br>
+                                            </ng-container>
+                                        </td><br>
+                                        <td>
+                                            <ng-container *ngFor="let user of item.users; let i = index">
+                                                <span>{{ user.name }}</span>
+                                                <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
+                                                <br>
+                                            </ng-container>
+                                        </td>
+                                        <td>{{ item.echeance}}</td>
+                                        <td>{{ item.taux_execution_physique }} %</td>
+                                        <td>{{ item.taux_execution_financier }}%</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-secondary" title="Plus de détails" (click)="teste(item.id)">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>  
+                                                <a [routerLink] = "['/select/objectif', item.id]" class="btn btn-primary" title="Modifier" id="btn-edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button class="btn btn-danger" title="Supprimer" (click)="teste(item.id)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
