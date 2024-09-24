@@ -18,4 +18,8 @@ export class ProgrammeServiceService {
   insertProgramme(data: any):Observable<any>{
     return this.http.post<any>('http://localhost:8000/api/insert/programme' , data)
   }
+
+  selectProgramme(id: any):Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/select/programme/'+id);
+  }
 }

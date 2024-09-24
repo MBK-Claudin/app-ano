@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ObjectifServiceService } from '../../../services/objectif-service.service';
 import { ActivatedRoute } from '@angular/router';
@@ -22,11 +22,16 @@ export class DetailsObjectifComponent {
   constructor(
     private objectifService: ObjectifServiceService,
     private route: ActivatedRoute,
+    private location: Location,
   ){}
 
   ngOnInit(){
     this.id = this.route.snapshot.paramMap.get('id');
     this.getObjectif()
+  }
+
+  goBack(){
+    this.location.back();
   }
 
   getObjectif(){

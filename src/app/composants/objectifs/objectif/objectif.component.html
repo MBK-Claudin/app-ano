@@ -43,7 +43,7 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody *ngIf="objectifs.length > 0">
                                     <tr *ngFor="let item of objectifs">
                                         <td>{{ item.secteur }}</td>
                                         <td>{{ item.objectif }}</td>
@@ -75,7 +75,7 @@
                                                 <a [routerLink] = "['/select/objectif', item.id]" class="btn btn-primary" title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-danger" (click)="test()">
+                                                <button class="btn btn-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>

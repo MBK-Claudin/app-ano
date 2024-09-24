@@ -1,1 +1,114 @@
-<p>details-programme works!</p>
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+            <div class="page_title">
+                <h2>Objectifs Stratégiques -> Fiches Objectifs Stratégiques ({{ detailsProgramme.libelle }})</h2>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- invoice section -->
+                    <div class="col-md-12">
+                        <div class="white_shd full margin_bottom_30">
+                            <div class="full">
+                                <div class="invoice_inner">
+                                    <div class="row my-3">
+                                        <div class="col-md-4">
+                                            <div class="full invoice_blog padding_infor_info padding-bottom_0">
+                                                <h4>Objectif Strat.</h4>
+                                                <p><strong>Planification</strong><br>  
+                                                    {{ detailsProgramme.date_debut }}<br> 
+                                                    {{ detailsProgramme.date_fin }}<br>    
+                                                    <strong>Secteur : </strong>{{ detailsProgramme.libelle }}<br>  
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="full invoice_blog padding_infor_info padding-bottom_0">
+                                                <h4>Resp. & Part. prenantes</h4>
+                                                <p><strong>Responsables :</strong><br>
+                                                    <ng-container *ngFor="let resp of responsables; let i = index">
+                                                        <span>{{ resp.name }} - {{ resp.email }}</span>
+                                                        <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
+                                                        <br>
+                                                    </ng-container>
+                                                </p>
+                                                <p><strong>Parties prenantes :</strong><br>
+                                                    <ng-container *ngFor="let org of organisations; let i = index">
+                                                        <span>{{ org.libelle }} - {{ org.pivot.ancrage }}</span>
+                                                        <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
+                                                        <br>
+                                                    </ng-container>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="full invoice_blog padding_infor_info padding-bottom_0">
+                                                <h4>Prograssion </h4>
+                                                <p><strong>Echéance : </strong>{{ detailsProgramme.echeance }}<br> 
+                                                    <strong>Tx. ex. physique : </strong>{{ detailsProgramme.taux_execution_physique }} %<br> 
+                                                    <strong>Tx. ex. financier  : </strong>{{ detailsProgramme.taux_execution_financier }} %
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row column4 graph">
+            <!-- tab style 2 -->
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Tab Bar Style 2</h2>
+                        </div>
+                    </div>
+                    <div class="full inner_elements">
+                        <div class="row">
+                            <div class="col-md-12">
+                            <div class="tab_style2">
+                                <div class="tabbar padding_infor_info">
+                                    <nav>
+                                        <div class="nav nav-tabs" id="nav-tab1" role="tablist">
+                                            <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
+                                            <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#nav-profile_s2" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Profile</a>
+                                            <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#nav-contact_s2" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contact</a>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content" id="nav-tabContent_2">
+                                        <div class="tab-pane fade show active" id="contributeurs" role="tabpanel" aria-labelledby="nav-home-tab">
+                                            <app-contributeurs></app-contributeurs>
+                                        </div>
+                                        <div class="tab-pane fade" id="nav-profile_s2" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et 
+                                            quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos 
+                                            qui ratione voluptatem sequi nesciunt.
+                                        </p>
+                                        </div>
+                                        <div class="tab-pane fade" id="nav-contact_s2" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et 
+                                            quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos 
+                                            qui ratione voluptatem sequi nesciunt.
+                                        </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

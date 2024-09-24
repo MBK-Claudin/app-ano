@@ -17,8 +17,4 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'app-eano';
-
-  teste(){
-    console.log('Teste');
-  }
 }
