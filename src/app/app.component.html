@@ -6,7 +6,7 @@
             <div class="sidebar_blog_1">
                 <div class="sidebar-header">
                     <div class="logo_section">
-                        <a href="#"><img class="logo_icon img-responsive" src="assets/images/logo/logo_icon.png" alt="#" /></a>
+                        <a href="#"><img class="logo_icon img-responsive" src="assets/images/logo/cntippee_logo.png" alt="#" /></a>
                     </div>
                 </div>
                 <div class="sidebar_user_info">
@@ -24,6 +24,15 @@
                 <h4>General</h4>
                 <ul class="list-unstyled components">
                     <li class="active">
+                        <a href="#taches" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-clone yellow_color"></i> <span>Banette</span></a>
+                        <ul class="collapse list-unstyled" id="taches">
+                            <li>
+                                <a [routerLink]="['taches']">> <span>Tâches </span></a>
+                            </li>
+                            <li>
+                                <a [routerLink]="['affectations']">> <span>Affectations</span></a>
+                            </li>
+                        </ul>
                         <a href="#objectifs" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-clone yellow_color"></i> <span>Objectif Stratégiques</span></a>
                         <ul class="collapse list-unstyled" id="objectifs">
                             <li>
@@ -49,21 +58,20 @@
                     <div class="full">
                         <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i></button>
                         <div class="logo_section">
-                        <a href="#"><img class="img-responsive" src="assets/images/logo/logo.png" alt="#" /></a>
+                        <a href="#"><img class="img-responsive" src="assets/images/logo/eano_logo.png" alt="#" /></a>
                         </div>
                         <div class="right_topbar">
                         <div class="icon_info">
                             <ul>
                                 <li><a href="#"><i class="fa fa-bell-o"></i><span class="badge">2</span></a></li>
-                                <li><a href="#"><i class="fa fa-question-circle"></i></a></li>
                                 <li><a href="#"><i class="fa fa-envelope-o"></i><span class="badge">3</span></a></li>
                             </ul>
                             <ul class="user_profile_dd">
                                 <li>
                                     <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="assets/images/layout_img/user_img.jpg" alt="#" /><span class="name_user">John David</span></a>
                                     <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">My Profile</a>
-                                    <a class="dropdown-item" href="#"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>
+                                    <a class="dropdown-item" href="#">Mon Profil</a>
+                                    <a class="dropdown-item" href="#"><span>Déconnexion</span> <i class="fa fa-sign-out"></i></a>
                                     </div>
                                 </li>
                             </ul>

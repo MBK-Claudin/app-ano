@@ -19,7 +19,6 @@ import { DataServiceService } from '../../../services/data-service.service';
   styleUrl: './edit-objectif.component.css'
 })
 export class EditObjectifComponent {
-    selectObjectif:any[] = [];
     id: any;
     editObjectif: ObjectifsInterface = {
       id: 0,

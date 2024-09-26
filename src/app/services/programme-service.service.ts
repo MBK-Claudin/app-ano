@@ -16,10 +16,18 @@ export class ProgrammeServiceService {
   }
 
   insertProgramme(data: any):Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/programme' , data)
+    return this.http.post<any>('http://localhost:8000/api/insert/programme/' , data)
   }
 
   selectProgramme(id: any):Observable<any>{
     return this.http.get<any>('http://localhost:8000/api/select/programme/'+id);
+  }
+
+  editProgramme(data: any):Observable<any>{
+    return this.http.put<any>('http://localhost:8000/api/edit/programme/', data);
+  }
+
+  insertBudgetAnnuel(data: any):Observable<any>{
+    return this.http.post<any>('http://localhost:8000/api/insert/budgetannuel/', data);
   }
 }

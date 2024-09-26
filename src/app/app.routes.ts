@@ -1,3 +1,4 @@
+import { TachesComponent } from './composants/taches/taches/taches.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ObjectifComponent } from './composants/objectifs/objectif/objectif.component';
 import { EditObjectifComponent } from './composants/objectifs/edit-objectif/edit-objectif.component';
@@ -7,6 +8,8 @@ import { ProgrammeComponent } from './composants/programmes/programme/programme.
 import { NgModel } from '@angular/forms';
 import { AddProgrammeComponent } from './composants/programmes/add-programme/add-programme.component';
 import { DetailsProgrammeComponent } from './composants/programmes/details-programme/details-programme.component';
+import { EditProgrammeComponent } from './composants/programmes/edit-programme/edit-programme.component';
+import { AffectationsComponent } from './composants/affectations/affectations.component';
 
 export const routes: Routes = [
     { path: 'objectif', component: ObjectifComponent },
@@ -16,6 +19,8 @@ export const routes: Routes = [
     { path: 'programmes', component: ProgrammeComponent },
     { path: 'add/programme', component: AddProgrammeComponent },
     { path: 'details/programme/:id', component: DetailsProgrammeComponent },
-
+    { path: 'edit/programme/:id', component: EditProgrammeComponent },
+    { path: 'taches', component: TachesComponent },
+    { path: 'affectations', component: AffectationsComponent },
 
 ];

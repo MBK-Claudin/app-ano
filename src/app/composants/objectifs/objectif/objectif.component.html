@@ -43,7 +43,7 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody *ngIf="objectifs.length > 0">
+                                <tbody>
                                     <tr *ngFor="let item of objectifs">
                                         <td>{{ item.secteur }}</td>
                                         <td>{{ item.objectif }}</td>
@@ -51,12 +51,11 @@
                                         <td>{{ item.date_fin }}</td>
                                         <td>
                                             <ng-container *ngFor="let org of item.organisations; let i = index">
-                                                <span>{{ org.libelle }}/</span>
-                                                <span>{{ org.pivot.ancrage }}</span>
+                                                <span>{{ org.libelle }} - {{ org.pivot.ancrage }}</span>
                                                 <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
                                                 <br>
                                             </ng-container>
-                                        </td><br>
+                                        </td>
                                         <td>
                                             <ng-container *ngFor="let user of item.users; let i = index">
                                                 <span>{{ user.name }}</span>

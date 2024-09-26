@@ -5,7 +5,8 @@ import { Location } from '@angular/common';
 import { ProgrammeServiceService } from '../../../services/programme-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { error } from 'console';
-import { ContributeursComponent } from '../contributeurs/contributeurs.component';
+import { UsersComponent } from '../../users/users/users.component';
+import { BudgetannuelsComponent } from '../../budgetannuels/budgetannuels/budgetannuels.component';
 
 @Component({
   selector: 'app-details-programme',
@@ -13,11 +14,13 @@ import { ContributeursComponent } from '../contributeurs/contributeurs.component
   imports: [
     CommonModule,
     FormsModule,
-    ContributeursComponent
+    UsersComponent,
+    BudgetannuelsComponent,
   ],
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'
 })
+
 export class DetailsProgrammeComponent {
   detailsProgramme: any;
   organisations: any[] = [];

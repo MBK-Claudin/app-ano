@@ -6,6 +6,7 @@ import { Programmes } from '../../../interfaces/programmes';
 import { DataServiceService } from '../../../services/data-service.service';
 import { Location } from '@angular/common';
 import { ProgrammeServiceService } from '../../../services/programme-service.service';
+import { error } from 'node:console';
 
 @Component({
   selector: 'app-add-programme',
@@ -54,11 +55,10 @@ export class AddProgrammeComponent {
   insertProgrammes(){
     this.programmeService.insertProgramme(this.programmes).subscribe(
       data => {
-        console.log(data);
+        console.log('reponse insertion de programmes', data)
         this.goBack()
-      },
-      error => {
-        console.log("Erreur lores de l'insertion de nouveau programme",error);
+      }, error => {
+        console.log('erreur insertion de programmes', error);
       }
     )
   }

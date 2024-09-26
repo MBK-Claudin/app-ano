@@ -21,20 +21,7 @@ import { AddObjectifComponent } from '../add-objectif/add-objectif.component';
 })
 export class ObjectifComponent {
   
-  objectif: ObjectifsInterface = {
-    id: 0,
-    secteur: '',
-    objectif: '',
-    date_debut: new Date(),
-    date_fin: new Date(),
-    organisation: [],
-    ancrage: [],
-    responsable: [],
-    email: []
-  };
 
-  users: any[] =[];
-  organisations: any[] = [];
   objectifs: any[] = [];
 
   constructor(

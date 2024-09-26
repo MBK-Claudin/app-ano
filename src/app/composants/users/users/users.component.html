@@ -1,0 +1,126 @@
+
+<!-- Affichage des données -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="white_shd full margin_bottom_30">
+            <div class="row full graph_head">
+                <div class="col-3">
+                    <div class="heading1 margin_0">
+                        <h2>Listes des contributeurs</h2>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="Recherche...">
+                </div>
+                <div class="col-3 text-right">
+                    <button (click)="modal()" class="btn btn-primary" title="Ajouter un programme">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="table_section padding_infor_info">
+                <div class="table-responsive-sm">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Nom & Prénom</th>
+                                <th>Email</th>
+                                <th>Photo</th>
+                                <th>Rôle</th>
+                                <th>Organisation</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of users">
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.email }}</td>
+                                <td>
+                                    <img width="40" [src]="item.photo_url" class="rounded-circle" alt="#">
+                                </td>
+                                <td>{{ item.pivot.role }}</td>
+                                <td>
+                                    <ng-container *ngFor="let org of item.organisations; let i = index">
+                                        <span>{{ org.pivot.poste }}</span>
+                                        <br>
+                                    </ng-container>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a class="btn btn-secondary" title="Plus de détails">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a class="btn btn-primary" title="Modifier">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-danger" (click)="test()">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="edit_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nouveau contributeur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span (click)="closemodal()" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (ngSubmit)="insertContributeur()">
+                    <div class="text-center mt-3">
+                        <img  [src]="photoPreviewUrl ? photoPreviewUrl : 'https://via.placeholder.com/150'" alt="Aperçu de la photo" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Nom & Prénom</label>
+                        <input type="text" class="form-control" id="name" name="name" [(ngModel)]="contributeur.name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="contributeur.email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Rôle</label>
+                        <input type="text" class="form-control" id="role" name="role" [(ngModel)]="contributeur.role">
+                    </div>
+                    <div class="form-group">
+                        <label for="photo">Photo</label>
+                        <input type="file" class="form-control" (change)="onFileSelected($event)">
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="heading1 margin_0">
+                                <h5>Organisations</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="organisation">Libellé de l'organisation</label>
+                        <select class="form-control" id="organisation" name="organisation" [(ngModel)]="contributeur.organisations" required>
+                            <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="poste">Poste</label>
+                        <input type="text" class="form-control" [(ngModel)]="contributeur.poste" id="poste" name="poste">
+                    </div>
+                    <!-- Fin du formulaire -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">enregistrer le contributeur</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
