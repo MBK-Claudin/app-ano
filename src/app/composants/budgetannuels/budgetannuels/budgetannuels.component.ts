@@ -41,11 +41,21 @@ export class BudgetannuelsComponent {
   insertBudgetAnnuel(){
     //this.budgetannuel.periode = this.selectedperiode;
     this.budgetannuel.programme_id = this.programme_id;
+    const BudgetAnnuelForm = new FormData()
+    BudgetAnnuelForm.append('programme_id', this.budgetannuel.programme_id.toString());
+    BudgetAnnuelForm.append('periode', this.budgetannuel.periode);
+    BudgetAnnuelForm.append('date_debut', this.budgetannuel.date_debut.toString());
+    BudgetAnnuelForm.append('date_fin', this.budgetannuel.date_fin.toString());
+    BudgetAnnuelForm.append('excel', this.budgetannuel.excel);
     console.log(this.budgetannuel);
 
-    this.programmeService.insertBudgetAnnuel(this.budgetannuel).subscribe(
+    this.programmeService.insertBudgetAnnuel(BudgetAnnuelForm).subscribe(
       data => {
         console.log(data);
+        const modal = document.getElementById('modal_add');
+        if(modal != null){
+          modal.style.display = 'none';
+        }
       }
     )
 
