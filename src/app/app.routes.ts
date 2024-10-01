@@ -10,6 +10,8 @@ import { AddProgrammeComponent } from './composants/programmes/add-programme/add
 import { DetailsProgrammeComponent } from './composants/programmes/details-programme/details-programme.component';
 import { EditProgrammeComponent } from './composants/programmes/edit-programme/edit-programme.component';
 import { AffectationsComponent } from './composants/affectations/affectations.component';
+import { DetailsBudgetannuelComponent } from './composants/budgetannuels/details-budgetannuel/details-budgetannuel.component';
+import { ActiviteBudgetannuelComponent } from './composants/budgetannuels/activite-budgetannuel/activite-budgetannuel.component';
 
 export const routes: Routes = [
     { path: 'objectif', component: ObjectifComponent },
@@ -22,5 +24,7 @@ export const routes: Routes = [
     { path: 'edit/programme/:id', component: EditProgrammeComponent },
     { path: 'taches', component: TachesComponent },
     { path: 'affectations', component: AffectationsComponent },
+    { path: 'details/budgetannuel/:id', component: DetailsBudgetannuelComponent },
+    {path : 'activité/budgetannuel/:id', component: ActiviteBudgetannuelComponent },
 
 ];

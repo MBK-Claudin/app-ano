@@ -81,22 +81,19 @@
                                     <nav>
                                         <div class="nav nav-tabs" id="nav-tab1" role="tablist">
                                             <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
-                                            <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#nav-profile_s2" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
-                                            <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#nav-contact_s2" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contact</a>
+                                            <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#budget" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
+                                            <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#ano" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">ANOs</a>
                                         </div>
                                     </nav>
                                     <div class="tab-content" id="nav-tabContent_2">
                                         <div class="tab-pane fade show active" id="contributeurs" role="tabpanel" aria-labelledby="nav-home-tab">
                                             <app-users [programme_id]="detailsProgramme.id"></app-users>
                                         </div>
-                                        <div class="tab-pane fade" id="nav-profile_s2" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                        <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="nav-profile-tab">
                                             <app-budgetannuels [programme_id]="detailsProgramme.id"></app-budgetannuels>
                                         </div>
-                                        <div class="tab-pane fade" id="nav-contact_s2" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et 
-                                                quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos 
-                                                qui ratione voluptatem sequi nesciunt.
-                                            </p>
+                                        <div class="tab-pane fade" id="ano" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                            <app-add-ano [programme_id]="detailsProgramme.id"></app-add-ano>
                                         </div>
                                     </div>
                                 </div>

@@ -75,7 +75,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="organisation">Libellé de l'organisation</label>
-                                                <select class="form-control" [(ngModel)]="selectedOrganisation" name="organisations[]">
+                                                <select class="form-control" [(ngModel)]="selectedOrganisation" (change)="onOrganisationChange($event)" name="organisations[]">
                                                     <option value="Autre">Autre</option>
                                                     <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
                                                 </select>
@@ -83,7 +83,7 @@
                                             
                                             <div class="form-group">
                                                 <label for="ancrage">Ancrage</label>
-                                                <select class="form-control" [(ngModel)]="selectedAncrage" name="ancrages[]">
+                                                <select class="form-control" [(ngModel)]="selectedAncrage" name="ancrages[]" [disabled]="isAncrageDisabled">
                                                     <option value="Autre">Autre</option>
                                                     <option value="Stratégique">Stratégique</option>
                                                     <option value="Opérationnel">Opérationnel</option>

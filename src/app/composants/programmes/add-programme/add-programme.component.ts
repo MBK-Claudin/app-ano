@@ -38,6 +38,7 @@ export class AddProgrammeComponent {
   selectedAncrage: string = '';
   selectedEmail: string = '';
   selectedName: string = '';
+  isAncrageDisabled: boolean = false;
 
   constructor(
     private objectifService: ObjectifServiceService,
@@ -51,6 +52,18 @@ export class AddProgrammeComponent {
     this.getusers();
     this.getorganisations();
   }
+
+  onOrganisationChange(event: any) {
+    const selectedValue = event.target.value;
+
+    if (selectedValue === 'Autre') {
+        this.selectedAncrage = 'Autre';
+        this.isAncrageDisabled = true;  // Désactive le champ
+    } else {
+        this.isAncrageDisabled = false; // Active le champ
+        this.selectedAncrage = '';  // Réinitialise l'ancrage si nécessaire
+    }
+}
 
   insertProgrammes(){
     this.programmeService.insertProgramme(this.programmes).subscribe(
@@ -94,6 +107,7 @@ export class AddProgrammeComponent {
       // Réinitialise les sélections après l'ajout
       this.selectedOrganisation = '';
       this.selectedAncrage = '';
+      this.isAncrageDisabled = false;
     }
   }
 

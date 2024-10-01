@@ -34,6 +34,7 @@ export class AddObjectifComponent {
   selectedAncrage: string = '';
   selectedEmail: string = '';
   selectedName: string = '';
+  isAncrageDisabled: boolean = false;
 
   constructor(
     private dataService: DataServiceService,
@@ -44,6 +45,16 @@ export class AddObjectifComponent {
   ngOnInit(){
     this.getusers()
     this.getorganisations()
+  }
+
+  
+  insertObjectif(){
+    this.objectifService.insertObjectif(this.objectif).subscribe(
+      res => {
+        console.log('response', res);
+        this.goBack()
+      }
+    );
   }
 
   goBack(){
@@ -77,6 +88,7 @@ export class AddObjectifComponent {
       // Réinitialise les sélections après l'ajout
       this.selectedOrganisation = '';
       this.selectedAncrage = '';
+      this.isAncrageDisabled = false;
     }
   }
 
@@ -101,6 +113,18 @@ export class AddObjectifComponent {
     }
   }
 
+  onOrganisationChange(event: any) {
+    const selectedValue = event.target.value;
+
+    if (selectedValue === 'Autre') {
+        this.selectedAncrage = 'Autre';
+        this.isAncrageDisabled = true;  // Désactive le champ
+    } else {
+        this.isAncrageDisabled = false; // Active le champ
+        this.selectedAncrage = '';  // Réinitialise l'ancrage si nécessaire
+    }
+  }
+
   removeOrganisationField(index: number) {
     this.objectif.organisation.splice(index, 1);
     this.objectif.ancrage.splice(index, 1);
@@ -111,13 +135,5 @@ export class AddObjectifComponent {
     this.objectif.email.splice(index, 1);
   }
 
-  insertObjectif(){
-    this.objectifService.insertObjectif(this.objectif).subscribe(
-      res => {
-        console.log('response', res);
-        this.goBack()
-      }
-    );
-  }
 
 }

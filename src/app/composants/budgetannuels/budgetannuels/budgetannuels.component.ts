@@ -1,10 +1,9 @@
 import { BudgetAnnuel } from './../../../interfaces/budget-annuel';
 import { Component, Input } from '@angular/core';
-import { execFile } from 'child_process';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { ProgrammeServiceService } from '../../../services/programme-service.service';
+import { BudgetannuelServiceService } from '../../../services/budgetannuel-service.service';
 
 @Component({
   selector: 'app-budgetannuels',
@@ -28,15 +27,27 @@ export class BudgetannuelsComponent {
     date_fin: new Date(),
     excel: new File([''], '')
   }
-  selectedperiode = '';
+  budgetannuels: any[] = [];
 
   file: File | null = null;
 
   constructor(
-    private programmeService: ProgrammeServiceService
+    private budgetservice: BudgetannuelServiceService,
   ){}
 
-  ngOnInit(){}
+  ngOnInit(){
+    this.getBudget()
+  }
+
+  getBudget(){
+    this.budgetservice.getBudget(this.programme_id).subscribe(
+      data => {
+        this.budgetannuels = data;
+      }, error => {
+        console.error(error);
+      }
+    )
+  }
 
   insertBudgetAnnuel(){
     //this.budgetannuel.periode = this.selectedperiode;
@@ -47,9 +58,9 @@ export class BudgetannuelsComponent {
     BudgetAnnuelForm.append('date_debut', this.budgetannuel.date_debut.toString());
     BudgetAnnuelForm.append('date_fin', this.budgetannuel.date_fin.toString());
     BudgetAnnuelForm.append('excel', this.budgetannuel.excel);
-    console.log(this.budgetannuel);
+    console.log(BudgetAnnuelForm);
 
-    this.programmeService.insertBudgetAnnuel(BudgetAnnuelForm).subscribe(
+    this.budgetservice.insertBudgetAnnuel(BudgetAnnuelForm).subscribe(
       data => {
         console.log(data);
         const modal = document.getElementById('modal_add');

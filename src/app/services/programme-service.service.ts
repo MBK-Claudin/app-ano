@@ -1,3 +1,4 @@
+import { DataServiceService } from './data-service.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -29,5 +30,9 @@ export class ProgrammeServiceService {
 
   insertBudgetAnnuel(data: any):Observable<any>{
     return this.http.post<any>('http://localhost:8000/api/insert/budgetannuel/', data);
+  }
+
+  insertANO(data: any): Observable<any>{
+    return this.http.post<any>('http://localhost:8000/api/insert/ano/', data);
   }
 }

@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { error } from 'console';
 import { UsersComponent } from '../../users/users/users.component';
 import { BudgetannuelsComponent } from '../../budgetannuels/budgetannuels/budgetannuels.component';
+import { AddAnoComponent } from '../../anos/add-ano/add-ano.component';
 
 @Component({
   selector: 'app-details-programme',
@@ -16,6 +17,7 @@ import { BudgetannuelsComponent } from '../../budgetannuels/budgetannuels/budget
     FormsModule,
     UsersComponent,
     BudgetannuelsComponent,
+    AddAnoComponent,
   ],
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'

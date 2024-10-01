@@ -31,19 +31,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>période</td>
-                                <td>Date de debut</td>
-                                <td>Date de fin</td>
-                                <td>Statut</td>
-                                <td>Budget Planifie</td>
-                                <td>Budget Executer</td>
+                            <tr *ngFor="let item of budgetannuels">
+                                <td>{{ item.periode }}</td>
+                                <td>{{ item.date_debut }}</td>
+                                <td>{{ item.date_fin }}</td>
+                                <td>{{ item.statut }}</td>
+                                <td>{{ item.Budget_planifier }}</td>
+                                <td>{{ item.Budget_executer }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a [routerLink]="['/add/budgetannuel']" class="btn btn-secondary" title="Plus de détails">
+                                        <a *ngIf="item.id" [routerLink]="['/details/budgetannuel/', item.id]" class="btn btn-secondary" title="Plus de détails">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a class="btn btn-primary" title="Modifier">
+                                        <a [routerLink]="['/details/budgetannuel/', item.id]" class="btn btn-primary" title="Modifier">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <button class="btn btn-danger" (click)="test()">

@@ -58,11 +58,10 @@ export class UsersComponent {
     userform.append('role', this.contributeur.role);
     userform.append('organisations', this.contributeur.organisations);
     userform.append('poste', this.contributeur.poste);
-    userform.append('photo', this.contributeur.photo)
+    userform.append('photo', this.contributeur.photo);
     console.log(this.contributeur, userform)
     this.userService.insertContributeur(userform).subscribe(
       data => {
-        console.log(data);
         const modal = document.getElementById('edit_modal');
 
         if(modal != null){
