@@ -125,7 +125,7 @@ export class ActiviteBudgetannuelComponent {
 
     if(this.jalon && this.JDate_debut && this.JDate_fin && this.JResponsables && this.JEmails){
       jalonFrom.append('activite_id', this.activite_id);
-      jalonFrom.append('site', this.JSite);
+      jalonFrom.append('site[]', this.JSite);
       jalonFrom.append('phase', this.JPhase);
       jalonFrom.append('libelle', this.jalon);
       jalonFrom.append('date_debut', this.JDate_debut!.toString());

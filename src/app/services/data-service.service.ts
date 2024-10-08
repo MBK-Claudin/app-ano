@@ -19,4 +19,7 @@ export class DataServiceService {
     return this.http.get<any>('http://127.0.0.1:8000/api/organisations');
   }
 
+  getJalon(): Observable<any>{
+    return this.http.get<any>('http://127.0.0.1:8000/api/activite');
+  }
 }
