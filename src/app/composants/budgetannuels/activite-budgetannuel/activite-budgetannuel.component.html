@@ -20,7 +20,7 @@
                                             <button (click)="modal()" class="btn btn-link">Etablir un ANO</button>
                                         </div>
                                         <div class="col-6">
-                                            <button class="btn btn-link">Etablir une Activité/Jalon</button>
+                                            <button (click)="jalonmodal()" class="btn btn-link">Etablir une Activité/Jalon</button>
                                         </div>
                                     </div>
                                 </div>
@@ -77,13 +77,23 @@
         </div>
     </div>
 </div>
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <ejs-gantt height="500px" [dataSource]="nothing" [taskFields]="taskSettings"></ejs-gantt>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <div class="modal" tabindex="-1" role="dialog"  id="modal">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Nouvelle ANO {{currentEvent.event}}</h5>
+                <h5 class="modal-title">Nouvelle ANO </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span (click)="closemodal()" aria-hidden="true">&times;</span>
                 </button>
@@ -96,7 +106,7 @@
                             <!--ano -->
                             <div class="form-group">
                                 <label for="budget">Budget :</label>
-                                <input type="number" [(ngModel)]="budget" class="form-control" id="budget" name="budget" required>
+                                <input type="number" min="100000" step="10000" [(ngModel)]="budget" class="form-control" id="budget" name="budget" required>
                             </div>
                             <hr>
                             <div class="row">
@@ -176,6 +186,76 @@
                                 <input type="email" [(ngModel)]="email" class="form-control" id="email" name="email" readOnly>
                             </div>
                         </div>
+                    </div>
+                    <!-- Fin du formulaire -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">enregistrer l'ano</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="jalonmodal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nouvelle Activité</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span (click)="closejaonmodal()" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (ngSubmit)="insertJalon()">
+                    <div class="form-group">
+                        <label for="site">Site de déploiement :</label>
+                        <select name="site" id="site"  class="form-control" [(ngModel)]="JSite" required>
+                            <option [value]="site.id" *ngFor="let site of sites">{{site.libelle}}</option>
+                        </select>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="phase">Phase :</label>
+                        <select name="phase" id="phase"  class="form-control" [(ngModel)]="JPhase" required>
+                            <option [value]="phase.id" *ngFor="let phase of phases">{{phase.libelle}}</option>
+                        </select>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="evenement">Libellé de l'activité :</label>
+                        <input type="text" [(ngModel)]="jalon" class="form-control" id="evenement" name="evenement" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_debut">Date de debut :</label>
+                        <input type="date" [(ngModel)]="JDate_debut" class="form-control" id="date_debut" name="date_debut" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_fin">Date de fin :</label>
+                        <input type="date" [(ngModel)]="JDate_fin" class="form-control" id="date_fin" name="date_fin" required>
+                    </div>
+                    <hr>
+                    <!-- Responsable event -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="heading1 margin_0">
+                                <h5>Responsables ({{JResponsables.length}})</h5>
+                            </div>
+                        </div>
+                        <div class="col-6 text-right">
+                            <button type="button" class="btn btn-primary" (click)="addResponsable()"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Nom & prénom</label>
+                        <select type="text" [(ngModel)]="JResponsable" class="form-control" id="name" name="name[]" (change)="onUserSelectJalon($event)" required>
+                            <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" [(ngModel)]="JEmail" class="form-control" id="email" name="email" readOnly>
                     </div>
                     <!-- Fin du formulaire -->
                     <div class="modal-footer">

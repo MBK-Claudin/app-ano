@@ -1,11 +1,12 @@
+import { NgxSkeletonLoaderConfig } from './../../../../../node_modules/ngx-skeleton-loader/lib/ngx-skeleton-loader-config.types.d';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ObjectifsInterface } from '../../../interfaces/objectifs-interface';
-import { error } from 'console';
 import { ObjectifServiceService } from '../../../services/objectif-service.service';
 import { RouterModule } from '@angular/router';
 import { AddObjectifComponent } from '../add-objectif/add-objectif.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { error } from 'console';
 
 @Component({
   selector: 'app-objectif',
@@ -15,6 +16,7 @@ import { AddObjectifComponent } from '../add-objectif/add-objectif.component';
     FormsModule,
     RouterModule,
     AddObjectifComponent,
+    NgxSkeletonLoaderModule,
   ],
   templateUrl: './objectif.component.html',
   styleUrl: './objectif.component.css'
@@ -23,6 +25,7 @@ export class ObjectifComponent {
   
 
   objectifs: any[] = [];
+  loader = true;
 
   constructor(
     private objectifService: ObjectifServiceService,
@@ -41,9 +44,15 @@ export class ObjectifComponent {
   }
 
   getobjectifs(){
-    this.objectifService.getobjectifs().subscribe(data => {
+    this.objectifService.getobjectifs().subscribe(
+      data => {
+      this.loader = false;
       this.objectifs = data;
-    })
+      }, error => {
+        this.loader = false;
+        console.error(error);
+      }
+    )
   }
 
 }

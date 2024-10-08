@@ -1,17 +1,21 @@
 import { TachesComponent } from './composants/taches/taches/taches.component';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { ObjectifComponent } from './composants/objectifs/objectif/objectif.component';
 import { EditObjectifComponent } from './composants/objectifs/edit-objectif/edit-objectif.component';
 import { AddObjectifComponent } from './composants/objectifs/add-objectif/add-objectif.component';
 import { DetailsObjectifComponent } from './composants/objectifs/details-objectif/details-objectif.component';
 import { ProgrammeComponent } from './composants/programmes/programme/programme.component';
-import { NgModel } from '@angular/forms';
 import { AddProgrammeComponent } from './composants/programmes/add-programme/add-programme.component';
 import { DetailsProgrammeComponent } from './composants/programmes/details-programme/details-programme.component';
 import { EditProgrammeComponent } from './composants/programmes/edit-programme/edit-programme.component';
 import { AffectationsComponent } from './composants/affectations/affectations.component';
 import { DetailsBudgetannuelComponent } from './composants/budgetannuels/details-budgetannuel/details-budgetannuel.component';
 import { ActiviteBudgetannuelComponent } from './composants/budgetannuels/activite-budgetannuel/activite-budgetannuel.component';
+import { PlaningGanttComponent } from './composants/programmes/planing-gantt/planing-gantt.component';
+import { AnoComponent } from './composants/anos/ano/ano.component';
+import path from 'path';
+import { Component } from '@angular/core';
+import { AddAnoComponent } from './composants/anos/add-ano/add-ano.component';
 
 export const routes: Routes = [
     { path: 'objectif', component: ObjectifComponent },
@@ -25,6 +29,9 @@ export const routes: Routes = [
     { path: 'taches', component: TachesComponent },
     { path: 'affectations', component: AffectationsComponent },
     { path: 'details/budgetannuel/:id', component: DetailsBudgetannuelComponent },
-    {path : 'activité/budgetannuel/:id', component: ActiviteBudgetannuelComponent },
+    { path: 'activité/budgetannuel/:id', component: ActiviteBudgetannuelComponent },
+    { path: 'programme/planing/:id', component: PlaningGanttComponent },
+    { path: 'ano', component: AnoComponent },
+    { path: 'add/ano', component: AddAnoComponent },
 
 ];

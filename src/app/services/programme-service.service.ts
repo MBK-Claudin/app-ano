@@ -32,7 +32,8 @@ export class ProgrammeServiceService {
     return this.http.post<any>('http://localhost:8000/api/insert/budgetannuel/', data);
   }
 
-  insertANO(data: any): Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/ano/', data);
+  planingData(id :any):Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/programme/planing/'+id);
   }
+
 }

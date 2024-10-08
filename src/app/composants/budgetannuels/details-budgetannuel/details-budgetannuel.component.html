@@ -54,7 +54,7 @@
                                             </tr>
 
                                             <!-- Parcourir les activités -->
-                                            <ng-container *ngFor="let a of sous.activites">
+                                            <ng-container *ngFor="let a of sous.activitesbudgetannuel">
                                                 <tr>
                                                     <td></td>
                                                     <td>{{ a.libelle }}</td>
@@ -81,6 +81,7 @@
                                     </ng-container>
                                 </tbody>
                             </table>
+                            <ngx-skeleton-loader count="{{ 10 }}" appearance="line" *ngIf="loader" />
                         </div>
                     </div>
                 </div>

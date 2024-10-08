@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BudgetannuelServiceService } from '../../../services/budgetannuel-service.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { error } from 'console';
 
 @Component({
   selector: 'app-budgetannuels',
@@ -11,13 +13,14 @@ import { BudgetannuelServiceService } from '../../../services/budgetannuel-servi
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,NgxSkeletonLoaderModule,
   ],
   templateUrl: './budgetannuels.component.html',
   styleUrl: './budgetannuels.component.css'
 })
 export class BudgetannuelsComponent {
   @Input() programme_id!: number;
+  loader = true;
 
   budgetannuel: BudgetAnnuel = {
     id: 0,
@@ -28,6 +31,8 @@ export class BudgetannuelsComponent {
     excel: new File([''], '')
   }
   budgetannuels: any[] = [];
+  d_periode: any;
+  f_periode: any;
 
   file: File | null = null;
 
@@ -42,6 +47,7 @@ export class BudgetannuelsComponent {
   getBudget(){
     this.budgetservice.getBudget(this.programme_id).subscribe(
       data => {
+        this.loader = false
         this.budgetannuels = data;
       }, error => {
         console.error(error);
@@ -54,7 +60,7 @@ export class BudgetannuelsComponent {
     this.budgetannuel.programme_id = this.programme_id;
     const BudgetAnnuelForm = new FormData()
     BudgetAnnuelForm.append('programme_id', this.budgetannuel.programme_id.toString());
-    BudgetAnnuelForm.append('periode', this.budgetannuel.periode);
+    BudgetAnnuelForm.append('periode', this.d_periode+'-'+this.f_periode);
     BudgetAnnuelForm.append('date_debut', this.budgetannuel.date_debut.toString());
     BudgetAnnuelForm.append('date_fin', this.budgetannuel.date_fin.toString());
     BudgetAnnuelForm.append('excel', this.budgetannuel.excel);
@@ -62,11 +68,10 @@ export class BudgetannuelsComponent {
 
     this.budgetservice.insertBudgetAnnuel(BudgetAnnuelForm).subscribe(
       data => {
-        console.log(data);
-        const modal = document.getElementById('modal_add');
-        if(modal != null){
-          modal.style.display = 'none';
-        }
+        this.getBudget();
+        this.closemodal();
+      }, error => {
+        console.error(error);
       }
     )
 
@@ -77,10 +82,6 @@ export class BudgetannuelsComponent {
     if (input.files && input.files.length > 0) {
         this.budgetannuel.excel = input.files[0];
     }
-  }
-
-  test(){
-    alert('ok !!!!!!!!!!!!!!!!')
   }
 
   openmodal(){

@@ -3,11 +3,14 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ProgrammeServiceService } from '../../../services/programme-service.service';
-import { ActivatedRoute } from '@angular/router';
-import { error } from 'console';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UsersComponent } from '../../users/users/users.component';
 import { BudgetannuelsComponent } from '../../budgetannuels/budgetannuels/budgetannuels.component';
 import { AddAnoComponent } from '../../anos/add-ano/add-ano.component';
+import { PlaningGanttComponent } from '../planing-gantt/planing-gantt.component';
+import { AnoComponent } from '../../anos/ano/ano.component';
+import { SiteComponent } from '../../sites/site/site.component';
+import { LivrableComponent } from '../../livrables/livrable/livrable.component';
 
 @Component({
   selector: 'app-details-programme',
@@ -15,9 +18,14 @@ import { AddAnoComponent } from '../../anos/add-ano/add-ano.component';
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     UsersComponent,
     BudgetannuelsComponent,
     AddAnoComponent,
+    PlaningGanttComponent,
+    AnoComponent,
+    SiteComponent,
+    LivrableComponent,
   ],
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'
@@ -36,8 +44,8 @@ export class DetailsProgrammeComponent {
   ){}
 
   ngOnInit(){
-    this.id = this.router.snapshot.paramMap.get('id')
-    this.getProgramme()
+    this.id = this.router.snapshot.paramMap.get('id');
+    this.getProgramme();
   }
 
   goBack(){

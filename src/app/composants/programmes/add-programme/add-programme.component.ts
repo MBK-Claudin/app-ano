@@ -1,12 +1,12 @@
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ObjectifServiceService } from '../../../services/objectif-service.service';
 import { Programmes } from '../../../interfaces/programmes';
 import { DataServiceService } from '../../../services/data-service.service';
 import { Location } from '@angular/common';
 import { ProgrammeServiceService } from '../../../services/programme-service.service';
-import { error } from 'node:console';
 
 @Component({
   selector: 'app-add-programme',
@@ -14,11 +14,15 @@ import { error } from 'node:console';
   imports: [
     CommonModule,
     FormsModule,
+    NgxSkeletonLoaderModule,
   ],
   templateUrl: './add-programme.component.html',
   styleUrl: './add-programme.component.css'
 })
 export class AddProgrammeComponent {
+  loader = true;
+  isUser = false;
+  isOrganisation = false;
   programmes: Programmes = {
     id: 0,
     objectif_id: 0,
@@ -63,7 +67,13 @@ export class AddProgrammeComponent {
         this.isAncrageDisabled = false; // Active le champ
         this.selectedAncrage = '';  // Réinitialise l'ancrage si nécessaire
     }
-}
+  }
+
+  isLoader(){
+    if(this.isUser && this.isOrganisation){
+      this.loader = false;
+    }
+  }
 
   insertProgrammes(){
     this.programmeService.insertProgramme(this.programmes).subscribe(
@@ -83,6 +93,7 @@ export class AddProgrammeComponent {
   getusers(){
     this.dataService.getUsers().subscribe(
       data => {
+        this.isUser = true;
         this.users = data;
       },error => {
         console.log('Erreur lors du chargement de données !', error)
@@ -93,6 +104,7 @@ export class AddProgrammeComponent {
   getorganisations(){
     this.dataService.getOrganisations().subscribe(
       data => {
+        this.isOrganisation = true;
         this.organisations = data
       }, error => {
         console.log('Erreur lors du chargement de données !', error)

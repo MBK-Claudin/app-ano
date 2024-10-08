@@ -74,7 +74,7 @@
                                                 <a [routerLink]="['/edit/programme/', item.id]" class="btn btn-primary" title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-danger" (click)="test()">
+                                                <button class="btn btn-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -82,6 +82,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <ngx-skeleton-loader count="{{ 10 }}" appearance="line" *ngIf="loader" />
                         </div>
                     </div>
                 </div>

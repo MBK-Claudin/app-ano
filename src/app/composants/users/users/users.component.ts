@@ -62,12 +62,8 @@ export class UsersComponent {
     console.log(this.contributeur, userform)
     this.userService.insertContributeur(userform).subscribe(
       data => {
-        const modal = document.getElementById('edit_modal');
-
-        if(modal != null){
-          modal.style.display = 'none';
-        }
-
+        this.getusers();
+        this.closemodal();
       }
     );
   }

@@ -3,7 +3,7 @@
         <div class="row column_title">
             <div class="col-md-12">
             <div class="page_title">
-                <h2>Objectifs Stratégiques -> Fiches Objectifs Stratégiques ({{ detailsProgramme.libelle }})</h2>
+                <h2>Programme -> Fiches Programme ({{ detailsProgramme.libelle }} )</h2>
             </div>
             </div>
         </div>
@@ -18,11 +18,13 @@
                                     <div class="row my-3">
                                         <div class="col-md-4">
                                             <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                                <h4>Objectif Strat.</h4>
-                                                <p><strong>Planification</strong><br>  
-                                                    {{ detailsProgramme.date_debut }}<br> 
-                                                    {{ detailsProgramme.date_fin }}<br>    
-                                                    <strong>Secteur : </strong>{{ detailsProgramme.libelle }}<br>  
+                                                <h4>Programme :</h4>
+                                                <p><strong>Planification :</strong><br>  
+                                                    Du: {{ detailsProgramme.date_debut }} au: {{ detailsProgramme.date_fin }} 
+                                                    <a [routerLink]="['/programme/planing/', detailsProgramme.id]" class="btn btn-secondary" title="Voir le planing">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a><br>  
+                                                    <strong>Projet : </strong>{{ detailsProgramme.libelle }}<br>  
                                                 </p>
                                             </div>
                                         </div>
@@ -37,17 +39,19 @@
                                                     </ng-container>
                                                 </p>
                                                 <p><strong>Parties prenantes :</strong><br>
-                                                    <ng-container *ngFor="let org of organisations; let i = index">
-                                                        <span>{{ org.libelle }} - {{ org.pivot.ancrage }}</span>
-                                                        <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
-                                                        <br>
+                                                    <ng-container *ngIf="organisations.length > 0">
+                                                        <ng-container *ngFor="let org of organisations; let i = index">
+                                                            <span>{{ org.libelle }} - {{ org.pivot.ancrage }}</span>
+                                                            <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
+                                                            <br>
+                                                        </ng-container>
                                                     </ng-container>
                                                 </p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                                <h4>Prograssion </h4>
+                                                <h4>Progression </h4>
                                                 <p><strong>Echéance : </strong>{{ detailsProgramme.echeance }}<br> 
                                                     <strong>Tx. ex. physique : </strong>{{ detailsProgramme.taux_execution_physique }} %<br> 
                                                     <strong>Tx. ex. financier  : </strong>{{ detailsProgramme.taux_execution_financier }} %
@@ -68,36 +72,39 @@
             <!-- tab style 2 -->
             <div class="col-md-12">
                 <div class="white_shd full margin_bottom_30">
-                    <div class="full graph_head">
-                        <div class="heading1 margin_0">
-                            <h2>Tab Bar Style 2</h2>
-                        </div>
-                    </div>
                     <div class="full inner_elements">
                         <div class="row">
                             <div class="col-md-12">
-                            <div class="tab_style2">
-                                <div class="tabbar padding_infor_info">
-                                    <nav>
-                                        <div class="nav nav-tabs" id="nav-tab1" role="tablist">
-                                            <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
-                                            <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#budget" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
-                                            <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#ano" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">ANOs</a>
-                                        </div>
-                                    </nav>
-                                    <div class="tab-content" id="nav-tabContent_2">
-                                        <div class="tab-pane fade show active" id="contributeurs" role="tabpanel" aria-labelledby="nav-home-tab">
-                                            <app-users [programme_id]="detailsProgramme.id"></app-users>
-                                        </div>
-                                        <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                            <app-budgetannuels [programme_id]="detailsProgramme.id"></app-budgetannuels>
-                                        </div>
-                                        <div class="tab-pane fade" id="ano" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                            <app-add-ano [programme_id]="detailsProgramme.id"></app-add-ano>
+                                <div class="tab_style2">
+                                    <div class="tabbar padding_infor_info">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab1" role="tablist">
+                                                <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#budget" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
+                                                <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#ano" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">ANOs</a>
+                                                <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#site" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Sites</a>
+                                                <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#livrable" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Livrables</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content" id="nav-tabContent_2">
+                                            <div class="tab-pane fade show active" id="contributeurs" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <app-users [programme_id]="detailsProgramme.id"></app-users>
+                                            </div>
+                                            <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                <app-budgetannuels [programme_id]="detailsProgramme.id"></app-budgetannuels>
+                                            </div>
+                                            <div class="tab-pane fade" id="ano" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-ano></app-ano>
+                                            </div>
+                                            <div class="tab-pane fade" id="site" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-site [programme_id]="detailsProgramme.id"></app-site>
+                                            </div>                                            
+                                            <div class="tab-pane fade" id="livrable" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-livrable [programme_id]="detailsProgramme.id"></app-livrable>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>

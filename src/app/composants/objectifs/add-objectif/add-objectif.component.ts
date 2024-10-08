@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { DataServiceService } from '../../../services/data-service.service';
 import { ObjectifsInterface } from '../../../interfaces/objectifs-interface';
 import { ObjectifServiceService } from '../../../services/objectif-service.service';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-add-objectif',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    NgxSpinnerModule,
   ],
   templateUrl: './add-objectif.component.html',
   styleUrl: './add-objectif.component.css'
@@ -35,23 +37,30 @@ export class AddObjectifComponent {
   selectedEmail: string = '';
   selectedName: string = '';
   isAncrageDisabled: boolean = false;
+  isSpinner: boolean = false;
 
   constructor(
     private dataService: DataServiceService,
     private objectifService: ObjectifServiceService,
     private location: Location,
+    private spinner: NgxSpinnerService,
   ){}
 
   ngOnInit(){
     this.getusers()
     this.getorganisations()
+    this.openSpinner()
   }
 
   
   insertObjectif(){
+    this.isSpinner = true;
+    this.openSpinner()
     this.objectifService.insertObjectif(this.objectif).subscribe(
       res => {
         console.log('response', res);
+        this.isSpinner = false;
+        this.openSpinner()
         this.goBack()
       }
     );
@@ -59,6 +68,24 @@ export class AddObjectifComponent {
 
   goBack(){
     this.location.back();
+  }
+
+  openSpinner(){
+    if(this.isSpinner){
+      this.spinner.show();
+    } else {
+      setTimeout( () => {
+        this.spinner.hide();
+      },5000);
+    }
+  }
+  spinnerOpen(){
+    console.log('spinner !!!!!!!!!!!!!')
+    this.spinner.show();
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.spinner.hide();
+    }, 5000);
   }
 
   getusers(){

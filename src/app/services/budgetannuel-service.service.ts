@@ -22,4 +22,12 @@ export class BudgetannuelServiceService {
   getBudget(id: any):Observable<any>{
     return this.http.get<any>('http://localhost:8000/api/budgetannuels/'+id);
   }
+
+  getActivites():Observable<any> {
+    return this.http.get<any>('http://localhost:8000/api/budgetannuel/activites');
+  }
+
+  getOneActivite(id: any):Observable<any> {
+    return this.http.get<any>('http://localhost:8000/api/budgetannuel/activite/'+id);
+  }
 }

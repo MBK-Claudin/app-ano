@@ -1,12 +1,14 @@
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AnoInterface } from '../../../interfaces/ano-interface';
 import { FormsModule } from '@angular/forms';
-import { UserServiceService } from '../../../services/user-service.service';
 import { DataServiceService } from '../../../services/data-service.service';
-import { ProgrammeServiceService } from '../../../services/programme-service.service';
+import { AnoService } from '../../../services/ano.service';
+import { ActiviteService } from '../../../services/activite.service';
+import { GanttModule, TaskFieldsModel } from '@syncfusion/ej2-angular-gantt';
 import { error } from 'console';
+import { BudgetannuelServiceService } from '../../../services/budgetannuel-service.service';
 
 @Component({
   selector: 'app-activite-budgetannuel',
@@ -14,21 +16,26 @@ import { error } from 'console';
   imports: [
     CommonModule,
     FormsModule,
+    GanttModule,
+    NgxSkeletonLoaderModule,
   ],
   templateUrl: './activite-budgetannuel.component.html',
   styleUrl: './activite-budgetannuel.component.css'
 })
 export class ActiviteBudgetannuelComponent {
   @ViewChild('doc') documents: any;
+  loager = true
+
+  phases: any[] = [];
+  sites: any[] = [];
+  taskSettings: TaskFieldsModel | undefined;
+  nothing: object[] = [];
+  activite: any;
 
   activite_id: any;
   users: any[] = [];
   indexDoc: number = 0;
   indextEvent: number = 0;
-
-  ano = {
-    documents: new File([''], ''),
-  }
 
   anoList = [{
     event: '',
@@ -49,24 +56,141 @@ export class ActiviteBudgetannuelComponent {
   date_fin: string = '';
   responsable: string = '';
   email: string = '';
+  // jalon var
+  jalon: string = '';
+  JDate_debut: Date | null = null;
+  JDate_fin: Date | null = null;
+  JResponsable: string = '';
+  JEmail: string = '';
+  JPhase: string = '';
+  JSite: string = '';
 
-  currentEvent = {
-    event: '',
-    date_d: new Date(),
-    date_f: new Date(),
-    responsable: '',
-    email: ''
-  }
-  
+  JResponsables: string[] = [];
+  JEmails: string[] = [];
+
   constructor(
     private router: ActivatedRoute,
     private data: DataServiceService,
-    private programmservice: ProgrammeServiceService,
+    private ano: AnoService,
+    private activiteService: ActiviteService,
+    private budgetannuelService: BudgetannuelServiceService,
   ){}
 
   ngOnInit(){
     this.activite_id = this.router.snapshot.paramMap.get('id');
+    this.indexDoc = 0;
+    this.indextEvent = 0;
     this.getusers();
+    this.getPhases();
+    this.getSites();
+    this.taskSettings = {id: 'TaskID', name: 'TaskName', startDate: 'StartDate', endDate: 'EndDate', duration: 'Duration', progress: 'Progress', child: 'subtasks' };
+    this.nothing = [
+      {
+          TaskID: 1,
+          TaskName: 'Project Initiation',
+          StartDate: new Date('04/02/2019'),
+          EndDate: new Date('04/21/2019'),
+          subtasks: [
+              { TaskID: 2, TaskName: 'Identify Site location', StartDate: new Date('04/02/2019'), Duration: 4, Progress: 50 },
+              { TaskID: 3, TaskName: 'Perform Soil test', StartDate: new Date('04/02/2019'), Duration: 4, Progress: 50  },
+              { TaskID: 4, TaskName: 'Soil test approval', StartDate: new Date('04/02/2019'), Duration: 4, Progress: 50 },
+          ]
+      },
+      {
+          TaskID: 5,
+          TaskName: 'Project Estimation',
+          StartDate: new Date('04/02/2019'),
+          EndDate: new Date('04/21/2019'),
+          subtasks: [
+              { TaskID: 6, TaskName: 'Develop floor plan for estimation', StartDate: new Date('04/04/2019'), Duration: 3, Progress: 50 },
+              { TaskID: 7, TaskName: 'List materials', StartDate: new Date('04/04/2019'), Duration: 3, Progress: 50 },
+              { TaskID: 8, TaskName: 'Estimation approval', StartDate: new Date('04/04/2019'), Duration: 3, Progress: 50 }
+          ]
+      }];
+  }
+
+  getActivite(){
+    this.budgetannuelService.getOneActivite(this.activite_id).subscribe(
+      data => {
+        this.loager = false;
+        this.activite = data;
+      }, error => {
+        console.log("erreur lors du chargement de l'activité !", error);
+      }
+    )
+  }
+
+  insertJalon(){
+    const jalonFrom = new FormData();
+
+    if(this.jalon && this.JDate_debut && this.JDate_fin && this.JResponsables && this.JEmails){
+      jalonFrom.append('activite_id', this.activite_id);
+      jalonFrom.append('site', this.JSite);
+      jalonFrom.append('phase', this.JPhase);
+      jalonFrom.append('libelle', this.jalon);
+      jalonFrom.append('date_debut', this.JDate_debut!.toString());
+      jalonFrom.append('date_fin', this.JDate_fin!.toString());
+  
+      for (let i = 0; i< this.JResponsables.length; i++ ){
+        jalonFrom.append('responsables[]', this.JResponsables[i]);
+        jalonFrom.append('emails[]', this.JEmails[i]);
+      }
+  
+      console.log(jalonFrom);
+
+      this.activiteService.insertActivite(jalonFrom).subscribe(
+        data => {
+          this.closejaonmodal()
+        }, error => {
+          console.log(error);
+        }
+      )
+
+    }
+  }
+
+  getSites(){
+    this.activiteService.getSites().subscribe(
+      data => {
+        console.log('site: ', data);
+        this.sites = data;
+      }, error => {
+        console.log('Erreur lors du chargement des sites !', error);
+      }
+    )
+  }
+
+  getPhases(){
+    this.activiteService.getPhases().subscribe(
+      data => {
+        this.phases = data;
+      }, error => {
+        console.log('Erreur lors du chargement des phases !', error);
+      }
+    );
+  }
+
+  addResponsable(){
+    if(this.JEmail && this.JResponsable){
+      this.JResponsables.push(this.JResponsable);
+      this.JEmails.push(this.JEmail);
+      this.JEmail = '';
+      this.JResponsable = ''; 
+    }
+  }
+
+  jalonmodal(){
+    const modal = document.getElementById('jalonmodal');
+    if (modal != null) {
+      modal.style.display = 'block';
+    }
+  }
+
+  closejaonmodal(){
+    const modal = document.getElementById('jalonmodal');
+    if (modal != null) {
+      modal.style.display = 'none';
+    }
   }
 
   insertAno(){
@@ -89,7 +213,7 @@ export class ActiviteBudgetannuelComponent {
     }
     console.log('insert anoForm', anoForm)
 
-    this.programmservice.insertANO(anoForm).subscribe(
+    this.ano.insertANO(anoForm).subscribe(
       data => {
         console.log(data);
       }, error => {
@@ -113,19 +237,6 @@ export class ActiviteBudgetannuelComponent {
   removeFile(index: number) {
     this.files.splice(index, 1); // Supprime le fichier de la liste
   }
-
-  /**
-   * 
-   *   addDocument() {
-    if (this.titre && this.ano.documents) {
-      this.currentDocuments[this.indexDoc] = ({ doc_titre: this.titre, file: this.ano.documents});
-      console.log('current documents :', this.currentDocuments)
-      this.indexDoc += 1;
-      this.documents.nativeElement.value = '';
-      this.titre = '';
-    }
-  }
-   */
 
   addEvent(){
     if(this.event && this.date_debut && this.date_fin && this.responsable && this.email){
@@ -156,13 +267,20 @@ export class ActiviteBudgetannuelComponent {
   }
 
   onUserSelect(event: any) {
-    console.log(event.target.value);
     const selectedUserName = event.target.value;
     const selectedUser = this.users.find(user => user.name === selectedUserName);
-    console.log(selectedUser.email)
     if (selectedUser) {
       this.email = selectedUser.email;
       this.responsable = selectedUser.name;
+    }
+  }
+
+  onUserSelectJalon(event: any) {
+    const selectedUserName = event.target.value;
+    const selectedUser = this.users.find(user => user.name === selectedUserName);
+    if (selectedUser) {
+      this.JEmail = selectedUser.email;
+      this.JResponsable = selectedUser.name;
     }
   }
 

@@ -1,0 +1,26 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ActiviteService {
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  insertActivite(data: any): Observable<any> {
+    return this.http.post<any>('http://localhost:8000/api/insert/activite', data);
+  }
+
+  getPhases(): Observable<any> {
+    return this.http.get<any>('http://localhost:8000/api/activite/phases');
+  }
+
+  getSites() : Observable<any> {
+    return this.http.get<any>('http://localhost:8000/api/activite/sites');
+  }
+
+}
