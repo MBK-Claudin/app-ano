@@ -24,7 +24,10 @@ import { BudgetannuelServiceService } from '../../../services/budgetannuel-servi
 })
 export class ActiviteBudgetannuelComponent {
   @ViewChild('doc') documents: any;
-  loager = true
+  loager = true;
+  bool = true;
+  jalons:any[] = [];
+  responsables:any[] = [];
 
   phases: any[] = [];
   sites: any[] = [];
@@ -83,6 +86,7 @@ export class ActiviteBudgetannuelComponent {
     this.getusers();
     this.getPhases();
     this.getSites();
+    this.getActivite();
     this.taskSettings = {id: 'TaskID', name: 'TaskName', startDate: 'StartDate', endDate: 'EndDate', duration: 'Duration', progress: 'Progress', child: 'subtasks' };
     this.nothing = [
       {
@@ -114,10 +118,16 @@ export class ActiviteBudgetannuelComponent {
       data => {
         this.loager = false;
         this.activite = data;
+        this.jalons = data.jalons;
+        this.responsables = data.users;
       }, error => {
         console.log("erreur lors du chargement de l'activité !", error);
       }
     )
+  }
+
+  changebool(){
+    this.bool = !this.bool;
   }
 
   insertJalon(){
@@ -240,6 +250,7 @@ export class ActiviteBudgetannuelComponent {
 
   addEvent(){
     if(this.event && this.date_debut && this.date_fin && this.responsable && this.email){
+      
       this.anoList[this.indextEvent] = ({
         event: this.event,
         date_debut: this.date_debut,

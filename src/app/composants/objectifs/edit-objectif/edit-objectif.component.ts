@@ -60,8 +60,8 @@ export class EditObjectifComponent {
     submitEditObjectif(){
       this.objectifService.editObjectif(this.editObjectif).subscribe(data => {
         console.log(data)
-      })
-
+      });
+      
       this.goBack()
     }
 

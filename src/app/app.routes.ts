@@ -13,13 +13,12 @@ import { DetailsBudgetannuelComponent } from './composants/budgetannuels/details
 import { ActiviteBudgetannuelComponent } from './composants/budgetannuels/activite-budgetannuel/activite-budgetannuel.component';
 import { PlaningGanttComponent } from './composants/programmes/planing-gantt/planing-gantt.component';
 import { AnoComponent } from './composants/anos/ano/ano.component';
-import path from 'path';
-import { Component } from '@angular/core';
 import { AddAnoComponent } from './composants/anos/add-ano/add-ano.component';
+import { EditAnoComponent } from './composants/anos/edit-ano/edit-ano.component';
 
 export const routes: Routes = [
     { path: 'objectif', component: ObjectifComponent },
-    { path: 'select/objectif/:id', component: EditObjectifComponent }, 
+    { path: 'select/objectif/:id', component: EditObjectifComponent },
     { path: 'add/objectif', component: AddObjectifComponent },
     { path: 'details/objectif/:id', component: DetailsObjectifComponent },
     { path: 'programmes', component: ProgrammeComponent },
@@ -33,5 +32,6 @@ export const routes: Routes = [
     { path: 'programme/planing/:id', component: PlaningGanttComponent },
     { path: 'ano', component: AnoComponent },
     { path: 'add/ano', component: AddAnoComponent },
+    { path: 'select/ano/:id', component: EditAnoComponent },
 
 ];

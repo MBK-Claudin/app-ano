@@ -57,7 +57,7 @@ export class EditProgrammeComponent {
     this.getusers();
     this.getorganisations();
     this.getObjectif();
-    this.getselectPtogramme()
+    this.getselectPtogramme();
   }
 
   editProgramme(){
@@ -74,7 +74,7 @@ export class EditProgrammeComponent {
   getselectPtogramme(){
     this.programmeServiceService.selectProgramme(this.id).subscribe(
       data => {
-        console.log(data);
+        console.log('edit programme : ', data);
         this.programmes.id = data.id;
         this.programmes.libelle = data.libelle;
         this.programmes.date_debut = data.date_debut;
