@@ -84,6 +84,7 @@
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#ano" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">ANOs</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#site" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Sites</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#livrable" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Livrables</a>
+                                                <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#contract" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contracts</a>
                                             </div>
                                         </nav>
                                         <div class="tab-content" id="nav-tabContent_2">
@@ -101,6 +102,9 @@
                                             </div>                                            
                                             <div class="tab-pane fade" id="livrable" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-livrable [programme_id]="detailsProgramme.id"></app-livrable>
+                                            </div>
+                                            <div class="tab-pane fade" id="contract" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-contract [programme_id]="detailsProgramme.id"></app-contract>
                                             </div>
                                         </div>
                                     </div>

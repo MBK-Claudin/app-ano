@@ -11,6 +11,7 @@ import { PlaningGanttComponent } from '../planing-gantt/planing-gantt.component'
 import { AnoComponent } from '../../anos/ano/ano.component';
 import { SiteComponent } from '../../sites/site/site.component';
 import { LivrableComponent } from '../../livrables/livrable/livrable.component';
+import { ContractComponent } from '../../contracts/contract/contract.component';
 
 @Component({
   selector: 'app-details-programme',
@@ -26,6 +27,7 @@ import { LivrableComponent } from '../../livrables/livrable/livrable.component';
     AnoComponent,
     SiteComponent,
     LivrableComponent,
+    ContractComponent,
   ],
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'
