@@ -20,14 +20,18 @@ export class AnoService {
   }
   
   getSelectANO(id: any):Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/select/ano/'+id);
+    return this.http.get<any>('http://localhost:8000/api/select/edit/ano/'+id);
   }
 
-  editAno(data: any){
+  editAno(data: any): Observable<any>{
     return this.http.post<any>('http://localhost:8000/api/edit/ano', data);
   }
 
-  deleteAno(id: any){
+  deleteAno(id: any): Observable<any>{
     return this.http.delete<any>('http://localhost:8000/api/delete/ano/'+id);
+  }
+
+  getDetailAno(id: any): Observable<any>{
+    return this.http.get<any>("http://localhost:8000/api/detail/ano/"+id);
   }
 }

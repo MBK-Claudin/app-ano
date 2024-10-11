@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { error } from 'console';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @Component({
   selector: 'app-edit-programme',
@@ -15,12 +16,15 @@ import { error } from 'console';
   imports: [
     CommonModule,
     FormsModule,
+    NgxSkeletonLoaderModule,
   ],
   templateUrl: './edit-programme.component.html',
   styleUrl: './edit-programme.component.css'
 })
 export class EditProgrammeComponent {
   id: any;
+  loader = true;
+  
   programmes: Programmes = {
     id: 0,
     objectif_id: 0,
@@ -43,6 +47,7 @@ export class EditProgrammeComponent {
   selectedAncrage: string = '';
   selectedEmail: string = '';
   selectedName: string = '';
+  isAncrageDisabled: boolean = false;
 
   constructor(
     private programmeServiceService: ProgrammeServiceService,
@@ -58,6 +63,46 @@ export class EditProgrammeComponent {
     this.getorganisations();
     this.getObjectif();
     this.getselectPtogramme();
+  }
+
+  openOrgModal(){
+    const modal = document.getElementById('org_modal');
+    if(modal != null){
+      modal.style.display = 'block'
+    }
+  }
+
+  closeOrgModal(){
+    const modal = document.getElementById('org_modal');
+    if(modal != null){
+      modal.style.display = 'none'
+    }
+  }
+
+  openRespModal(){
+    const modal = document.getElementById('resp_modal');
+    if(modal != null){
+      modal.style.display = 'block'
+    }
+  }
+
+  closeRespModal(){
+    const modal = document.getElementById('resp_modal');
+    if(modal != null){
+      modal.style.display = 'none'
+    }
+  }
+
+  onOrganisationChange(event: any) {
+    const selectedValue = event.target.value;
+
+    if (selectedValue === 'Autre') {
+        this.selectedAncrage = 'Autre';
+        this.isAncrageDisabled = true;  // Désactive le champ
+    } else {
+        this.isAncrageDisabled = false; // Active le champ
+        this.selectedAncrage = '';  // Réinitialise l'ancrage si nécessaire
+    }
   }
 
   editProgramme(){
@@ -93,6 +138,8 @@ export class EditProgrammeComponent {
           this.programmes.responsable.push(this.editusers[i].name);
           this.programmes.email.push(this.editusers[i].email);
         }
+
+        this.loader = false;
       }
     )
   }

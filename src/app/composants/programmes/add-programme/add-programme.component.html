@@ -25,7 +25,7 @@
                         <div class="col-md-12 my-3">
                             <form (ngSubmit) = "insertProgrammes()">
                                 <div class="row mx-4">
-                                    <div class="col-6">
+                                    <div class="col-12">
                                         <!-- section du programme -->
                                         <div class="row">
                                             <div class="col-12">
@@ -61,88 +61,134 @@
                                             <input type="date" class="form-control" id="date_fin" name="date_fin" [(ngModel)] = "programmes.date_fin" >
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <!-- section Organisations & ancrage -->
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="heading1 margin_0">
-                                                    <h5>Organisations ({{ programmes.organisation.length }})</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                <a class="btn btn-primary" (click)="addOrganisationField()" >
-                                                    <i class="fas fa-plus"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div id="block_organisation">
-                                            <div *ngFor="let org of programmes.organisation; let i = index" style="display: none;">
-                                                <span>{{ org }} - {{ programmes.ancrage[i] }}</span>
-                                                <button type="button" class="btn btn-danger" (click)="removeOrganisationField(i)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="organisation">Libellé de l'organisation</label>
-                                                <select class="form-control" [(ngModel)]="selectedOrganisation" (change)="onOrganisationChange($event)" name="organisations[]">
-                                                    <option value="Autre">Autre</option>
-                                                    <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
-                                                </select>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                                <label for="ancrage">Ancrage</label>
-                                                <select class="form-control" [(ngModel)]="selectedAncrage" name="ancrages[]" [disabled]="isAncrageDisabled">
-                                                    <option value="Stratégique">Stratégique</option>
-                                                    <option value="Opérationnel">Opérationnel</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <!-- section Responsable & Rôle -->
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="heading1 margin_0">
-                                                    <h5>Responsables ({{ programmes.responsable.length }})</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                <a class="btn btn-primary" title="Ajouter un responsable" (click)="addUserField()">
-                                                    <i class="fas fa-plus"></i>
-                                                </a>
-                                            </div>
-                                        </div>    
-                                        <div id="block_responsables">
-                                            <!-- Champs de saisie -->
-                                            <div *ngFor="let resp of programmes.responsable; let i = index" style="display: none;">
-                                                <span>{{ resp }} - {{ programmes.email[i] }}</span>
-                                                <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="responsable">Responsables</label>
-                                                <select id="responsable" type="text" class="form-control" name="responsables[]" (change)="onUserSelect($event)" required [(ngModel)]="selectedName">
-                                                    <option *ngFor="let user of users" [value]="user.name">{{ user.name }}</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="email">E-mail</label>
-                                                <input type="email" id="email" class="form-control" name="emails[]" [(ngModel)]="selectedEmail" required readOnly >
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="form-group text-right">
                                     <button type="submit" class="btn btn-primary">Enregister</button>
                                 </div>
                             </form>
+                            <hr>
+                            <!-- Ongets add organisation & Responsables -->
+                            <div class="col-md-12 m-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <p class="mb-0 mr-2">Organisations(s)</p>
+                                            <button (click)="openOrgModal()" class="btn btn-primary ml-2" title="Ajouter un programme">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex align-items-center">
+                                            <p class="mb-0 mr-2">Responsable(s)</p>
+                                            <button (click)="openRespModal()" class="btn btn-primary ml-2" title="Ajouter un programme">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Liste des organisation & responsables -->
+                            <div class="col-md-12 m-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div *ngFor="let org of programmes.organisation; let i = index" >
+                                            <span class="mr-2">{{ (i+1) }}</span>
+                                            <span class="mr-2">{{ org }} - {{ programmes.ancrage[i] }}</span>
+                                            <button type="button" class="btn btn-danger" (click)="removeOrganisationField(i)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div *ngFor="let resp of programmes.responsable; let i = index">
+                                            <span class="mr-2">{{ (i+1) }}</span>
+                                            <span class="mr-2">{{ resp }} - {{ programmes.email[i] }}</span>
+                                            <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <ngx-skeleton-loader count="{{ 1 }}" appearance="line" *ngIf="loader" />
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="org_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Organisations</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" (click)="closeOrgModal()">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (submit)="addOrganisationField()">
+
+                    <div id="block_organisation">
+                        <div class="form-group">
+                            <label for="organisation">Libellé de l'organisation</label>
+                            <select class="form-control" [(ngModel)]="selectedOrganisation" (change)="onOrganisationChange($event)" name="organisations[]">
+                                <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ancrage">Ancrage</label>
+                            <select class="form-control" [(ngModel)]="selectedAncrage" name="ancrages[]" [disabled]="isAncrageDisabled">
+                                <option value="Autre">Autre</option>
+                                <option value="Stratégique">Stratégique</option>
+                                <option value="Opérationnel">Opérationnel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary">Ajouter Organisation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="resp_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Responsable</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" (click)="closeRespModal()">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (submit)="addUserField()">
+                    <div id="block_responsables">
+                        <!-- Champs de saisie -->
+                        <div class="form-group">
+                            <label for="responsable">Responsables</label>
+                            <select id="responsable" type="text" class="form-control" name="responsables[]" (change)="onUserSelect($event)" required [(ngModel)]="selectedName">
+                                <option *ngFor="let user of users" [value]="user.name">{{ user.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" class="form-control" name="emails[]" [(ngModel)]="selectedEmail" required readOnly >
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary">Ajouter Organisation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

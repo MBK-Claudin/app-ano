@@ -18,12 +18,12 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Recherche...">
+                            <input type="text" class="form-control" placeholder="Recherche..." [(ngModel)]="searchText" (keyup)="filterObjectifs()">
                         </div>
                         <div class="col-3 text-right">
-                            <a [routerLink]="['/add/objectif']" class="btn btn-primary" title="Ajouter un programme">
+                            <button [routerLink]="['/add/objectif']" class="btn btn-primary" title="Ajouter un programme">
                                 <i class="fas fa-plus"></i>
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <div class="table_section padding_infor_info">
@@ -44,7 +44,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of objectifs">
+                                    <tr *ngFor="let item of filteredObjectifs">
                                         <td>{{ item.secteur }}</td>
                                         <td>{{ item.objectif }}</td>
                                         <td>{{ item.date_debut}}</td>
@@ -68,13 +68,13 @@
                                         <td>{{ item.taux_execution_financier }}%</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a [routerLink]="['/details/objectif', item.id]" type="button" class="btn btn-secondary" title="Plus de détails" (click)="teste(item.id)">
+                                                <button [routerLink]="['/details/objectif', item.id]" type="button" class="btn btn-secondary" title="Plus de détails">
                                                     <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a [routerLink] = "['/select/objectif', item.id]" class="btn btn-primary" title="Modifier">
+                                                </button>
+                                                <button [routerLink] = "['/select/objectif', item.id]" class="btn btn-primary" title="Modifier">
                                                     <i class="fas fa-edit"></i>
-                                                </a>
-                                                <button class="btn btn-danger">
+                                                </button>
+                                                <button (click)="openDeleteModal(item.id)" class="btn btn-danger">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -89,5 +89,25 @@
             </div>
         </div>
         
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="deletemodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                <p>Êtes-vous sûr de vouloir sur l'objectif stratégique: <strong>{{ nameOb }}</strong>.</p>
+                <p>Cette action entraine la suppression de tous les éléments relier à {{ nameOb}} (programmes, PTBA, ANO...)</p>
+            </div>
+            <div class="modal-footer">
+                <button (click)="closeDeleteModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button (click)="deleteObjectif(idob)" type="button" class="btn btn-danger" >Supprimer</button>
+            </div>
+        </div>
     </div>
 </div>

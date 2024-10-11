@@ -43,6 +43,8 @@ export class EditObjectifComponent {
     editorganisarion:any[] = [];
     editusers: any[] = [];
 
+    isAncrageDisabled: boolean = false;
+
     constructor(
       private route: ActivatedRoute,
       private location: Location,
@@ -57,12 +59,58 @@ export class EditObjectifComponent {
       this.getusers()
     }
 
+    openOrgModal(){
+      const modal = document.getElementById('org_modal');
+      if(modal != null){
+        modal.style.display = 'block'
+      }
+    }
+
+
+    closeDeleteModal(){
+      const modal = document.getElementById('deletemodal');
+      if(modal != null){
+        modal.style.display = 'none'
+      }
+    }
+  
+    closeOrgModal(){
+      const modal = document.getElementById('org_modal');
+      if(modal != null){
+        modal.style.display = 'none'
+      }
+    }
+  
+    openRespModal(){
+      const modal = document.getElementById('resp_modal');
+      if(modal != null){
+        modal.style.display = 'block'
+      }
+    }
+  
+    closeRespModal(){
+      const modal = document.getElementById('resp_modal');
+      if(modal != null){
+        modal.style.display = 'none'
+      }
+    }
+
+    onOrganisationChange(event: any) {
+      const selectedValue = event.target.value;
+  
+      if (selectedValue === 'Autre') {
+          this.selectedAncrage = 'Autre';
+          this.isAncrageDisabled = true;  // Désactive le champ
+      } else {
+          this.isAncrageDisabled = false; // Active le champ
+          this.selectedAncrage = '';  // Réinitialise l'ancrage si nécessaire
+      }
+    }
+
     submitEditObjectif(){
       this.objectifService.editObjectif(this.editObjectif).subscribe(data => {
-        console.log(data)
+        this.goBack()
       });
-      
-      this.goBack()
     }
 
     removeOrganisationField(index: number) {

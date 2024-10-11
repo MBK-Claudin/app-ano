@@ -57,6 +57,34 @@ export class AddProgrammeComponent {
     this.getorganisations();
   }
 
+  openOrgModal(){
+    const modal = document.getElementById('org_modal');
+    if(modal != null){
+      modal.style.display = 'block'
+    }
+  }
+
+  closeOrgModal(){
+    const modal = document.getElementById('org_modal');
+    if(modal != null){
+      modal.style.display = 'none'
+    }
+  }
+
+  openRespModal(){
+    const modal = document.getElementById('resp_modal');
+    if(modal != null){
+      modal.style.display = 'block'
+    }
+  }
+
+  closeRespModal(){
+    const modal = document.getElementById('resp_modal');
+    if(modal != null){
+      modal.style.display = 'none'
+    }
+  }
+
   onOrganisationChange(event: any) {
     const selectedValue = event.target.value;
 

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AnoService } from '../../../services/ano.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { error } from 'node:console';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ano',
@@ -12,6 +13,7 @@ import { error } from 'node:console';
     CommonModule,
     RouterModule,
     NgxSkeletonLoaderModule,
+    FormsModule,
   ],
   templateUrl: './ano.component.html',
   styleUrl: './ano.component.css'
@@ -19,9 +21,13 @@ import { error } from 'node:console';
 export class AnoComponent {
 
   anos: any[] = [];
+  filterAno: any[] = [];
   loader = true;
   deleteano_id: any;
   deleteano: any;
+  nameProg: string = '';
+  idProg: any;
+  searchText: string = '';
 
   constructor(
     private anoService: AnoService,
@@ -70,10 +76,18 @@ export class AnoComponent {
       data => {
         this.loader = false
         this.anos = data;
+        this.filterAno = data;
       }, error => {
         console.log("Erreur lors du chargement des anos", error);
       }
     )
+  }
+
+  filterAnos() {
+    this.filterAno = this.anos.filter(a => {
+        const objectif = a.budget ? a.budget.toLowerCase() : '';
+        return objectif.includes(this.searchText.toLowerCase());
+    });
   }
 
 

@@ -26,4 +26,8 @@ export class ObjectifServiceService {
   editObjectif(data: any):Observable<any>{
     return this.http.put<any>('http://127.0.0.1:8000/api/edit/objectif/', data);
   }
+
+  deleteObjectif(id: any){
+    return this.http.delete<any>("http://localhost:8000/api/delete/objectif/"+id);
+  }
 }

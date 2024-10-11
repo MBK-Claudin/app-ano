@@ -15,6 +15,7 @@ import { PlaningGanttComponent } from './composants/programmes/planing-gantt/pla
 import { AnoComponent } from './composants/anos/ano/ano.component';
 import { AddAnoComponent } from './composants/anos/add-ano/add-ano.component';
 import { EditAnoComponent } from './composants/anos/edit-ano/edit-ano.component';
+import { DetailsAnoComponent } from './composants/anos/details-ano/details-ano.component';
 
 export const routes: Routes = [
     { path: 'objectif', component: ObjectifComponent },
@@ -33,5 +34,6 @@ export const routes: Routes = [
     { path: 'ano', component: AnoComponent },
     { path: 'add/ano', component: AddAnoComponent },
     { path: 'select/ano/:id', component: EditAnoComponent },
+    { path: 'edit/ano/:id', component: DetailsAnoComponent}
 
 ];

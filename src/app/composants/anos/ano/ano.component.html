@@ -19,7 +19,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Recherche...">
+                            <input type="text" class="form-control" placeholder="Recherche..." [(ngModel)]="searchText" (keyup)="filterAnos()">
                         </div>
                         <div class="col-3 text-right">
                             <button [routerLink]="['/add/ano']" class="btn btn-primary" title="Ajouter un programme">
@@ -41,7 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of anos; let n = index">
+                                    <tr *ngFor="let item of filterAno; let n = index">
                                         <td>{{ (n+1) }}</td>
                                         <td>
                                             <ng-container *ngFor="let event of item.evenements; let i = index">
@@ -61,7 +61,7 @@
                                         <td>{{ item.statut }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button class="btn btn-secondary" title="Plus de détails">
+                                                <button [routerLink]="['/edit/ano/', item.id]" class="btn btn-secondary" title="Plus de détails">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                                 <button [routerLink]="['/select/ano/', item.id]" class="btn btn-primary" title="Modifier">
@@ -94,8 +94,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Êtes-vous sûr de vouloir supprimer cette ANO  {{ deleteano_id }} ?</p><br>
-                <p>La suppression de cette ANO entraine celle des évènements accociés !</p>
+                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                <p>Êtes-vous sûr de vouloir supprimer cette ANO <strong>{{ deleteano_id }}</strong> ?</p>
+                <p>La suppression de cette ANO entraine celle des évènements, factures et paiements accociés à <strong>{{ deleteano_id }}</strong> !</p>
             </div>
             <div class="modal-footer">
                 <button type="button" (click)="closemodal()" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -104,4 +105,3 @@
         </div>
     </div>
 </div>
-

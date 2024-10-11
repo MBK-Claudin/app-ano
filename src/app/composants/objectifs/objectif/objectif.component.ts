@@ -6,7 +6,6 @@ import { ObjectifServiceService } from '../../../services/objectif-service.servi
 import { RouterModule } from '@angular/router';
 import { AddObjectifComponent } from '../add-objectif/add-objectif.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { error } from 'console';
 
 @Component({
   selector: 'app-objectif',
@@ -21,11 +20,16 @@ import { error } from 'console';
   templateUrl: './objectif.component.html',
   styleUrl: './objectif.component.css'
 })
+
 export class ObjectifComponent {
   
 
   objectifs: any[] = [];
+  filteredObjectifs: any[] = [];
   loader = true;
+  searchText: string = '';
+  nameOb: string = '';
+  idob: any;
 
   constructor(
     private objectifService: ObjectifServiceService,
@@ -35,12 +39,11 @@ export class ObjectifComponent {
     this.getobjectifs();
   }
 
-  test(){
-    alert('ok !!!!!!!!!!!!!');
-  }
-
-  teste(e: number){
-    console.log('ok !!!!!!!!!!!!!!!!!!!!!!!!',e)
+  filterObjectifs() {
+    this.filteredObjectifs = this.objectifs.filter(obj => {
+        const objectif = obj.objectif ? obj.objectif.toLowerCase() : '';
+        return objectif.includes(this.searchText.toLowerCase());
+    });
   }
 
   getobjectifs(){
@@ -48,9 +51,40 @@ export class ObjectifComponent {
       data => {
       this.loader = false;
       this.objectifs = data;
+      this.filteredObjectifs = data;
       }, error => {
         this.loader = false;
         console.error(error);
+      }
+    )
+  }
+
+  closeDeleteModal(){
+    const modal = document.getElementById('deletemodal');
+    if(modal != null){
+      modal.style.display = 'none';
+    }
+  }
+  
+  openDeleteModal(id: any){
+    const selectedObjectif = this.objectifs.find(ob => ob.id === id);
+    if (selectedObjectif) {
+      this.nameOb = selectedObjectif.objectif;
+      this.idob = selectedObjectif.id;
+      const modal = document.getElementById('deletemodal');
+      if(modal != null){
+        modal.style.display = 'block';
+      }
+    }
+  }
+
+  deleteObjectif(id: any){
+    this.objectifService.deleteObjectif(id).subscribe(
+      data => {
+        this.getobjectifs();
+        this.closeDeleteModal()
+      }, error => {
+        console.log("Erreur lors de la suppression de l'objectif", error)
       }
     )
   }
