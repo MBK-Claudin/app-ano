@@ -45,6 +45,7 @@ export class AddAnoComponent {
   indextEvent: number = 0;
   users: any[] = [];
   activites: any[] = [];
+  userid: any;
 
   constructor(
     private anoService: AnoService,
@@ -61,9 +62,10 @@ export class AddAnoComponent {
 
   insertAno(){
     const anoForm = new FormData();
+    this.userid = localStorage.getItem('user_id')?.toString();
     anoForm.append('budget', this.budget);
     anoForm.append('activite_id', this.activite_id);
-    anoForm.append('user_id', '1');
+    anoForm.append('user_id', this.userid);
 
     for (let i = 0; i < this.files.length; i++) {
       anoForm.append('documents[]', this.files[i]); // Envoie les fichiers dans un tableau

@@ -5,6 +5,7 @@ import { ProgrammeServiceService } from '../../../services/programme-service.ser
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { error } from 'console';
 import { FormsModule } from '@angular/forms';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @Component({
   selector: 'app-programme',
@@ -14,6 +15,7 @@ import { FormsModule } from '@angular/forms';
     RouterModule,
     NgxSkeletonLoaderModule,
     FormsModule,
+    NgxDocViewerModule,
   ],
   templateUrl: './programme.component.html',
   styleUrl: './programme.component.css'

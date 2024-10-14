@@ -1,0 +1,110 @@
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Organisations</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Affichage des données -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row full graph_head">
+                        <div class="col-3">
+                            <div class="heading1 margin_0">
+                                <h2>Listes des organisations</h2>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Recherche..." (keyup)="filterOrganisations()" [(ngModel)]="searchText">
+                        </div>
+                        <div class="col-3 text-right">
+                            <button (click)="openAddModal()" class="btn btn-primary" title="Ajouter un programme">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Organisation</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of filterOrganisation; let i = index">
+                                        <td>{{ i+1 }}</td>
+                                        <td>{{ item.libelle }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button  class="btn btn-secondary" title="Modifier">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button (click)="openDeleteModal(item.id)" class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ngx-skeleton-loader count="{{ 10 }}" appearance="line" *ngIf="loader" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="deletemodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                <p>Êtes-vous sûr de vouloir supprimer l'organisation : <strong>{{ nameOrg }}</strong>.</p>
+            </div>
+            <div class="modal-footer">
+                <button (click)="closeDeleteModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button (click)="deleteOrganisation(idOrg)" type="button" class="btn btn-danger" >Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="addmodal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nouveau contributeur</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span (click)="closeAddModal()" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (ngSubmit)="insertOrganisation()">
+                    <div class="form-group">
+                        <label for="organisation">Libelle de l'organisation</label>
+                        <input type="text" class="form-control" id="organisation" name="organisation" [(ngModel)]="organisation" required>
+                    </div>
+                    <!-- Fin du formulaire -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">enregistrer le contributeur</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

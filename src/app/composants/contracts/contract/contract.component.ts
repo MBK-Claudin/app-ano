@@ -62,9 +62,9 @@ export class ContractComponent {
   }
 
   getContracts(){
-    this.contractService.getContracts().subscribe(
+    this.contractService.getContracts(this.programme_id).subscribe(
       data => {
-        this.contracts = data;
+        this.contracts = data.contracts;
         console.log('contract :', data);
       }, error => {
         console.log('Erreur lors du chargement des contracts :', error)
@@ -88,15 +88,22 @@ export class ContractComponent {
   }
 
   openmodal(){
-    console.log('ok modal !!!!!!!!!!');
-    const modal = document.getElementById('addmodal');
+    const modal = document.getElementById('add_modal');
     if(modal != null){
+      console.log('ok modal !!!!!!!!!!');
       modal.style.display = "block";
     }
   }
 
+  modal(){
+    const modal = document.getElementById('newModal');
+    if(modal != null){
+      modal.style.display = 'block';
+    }
+  }
+
   closemodal(){
-    const modal = document.getElementById('addmodal');
+    const modal = document.getElementById('newModal');
     if(modal != null){
       modal.style.display = "none";
     }

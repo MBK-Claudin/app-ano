@@ -1,6 +1,6 @@
 import { BudgetAnnuel } from './../../../interfaces/budget-annuel';
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { GanttModule, TaskFieldsModel } from '@syncfusion/ej2-angular-gantt';
 import { ProgrammeServiceService } from '../../../services/programme-service.service';
 import { error } from 'console';
@@ -30,6 +30,8 @@ export class PlaningGanttComponent {
   constructor(
     private programmeService: ProgrammeServiceService,
     private router: ActivatedRoute,
+    private location: Location,
+    private cdr: ChangeDetectorRef
   ){}
 
   ngOnInit(): void {
@@ -44,6 +46,7 @@ export class PlaningGanttComponent {
     this.programmeService.planingData(this.router.snapshot.paramMap.get('id')).subscribe(
       data => {
         this.planingData = data;
+        this.cdr.detectChanges();
         
         for (let i = 0; i < this.planingData.length; i++) {
           for (let j = 0; j < this.planingData[i].composants.length; j++) {
@@ -89,6 +92,10 @@ export class PlaningGanttComponent {
         console.error(error);
       }
     );
+  }
+
+  goBack(){
+    this.location.back()
   }
   
 

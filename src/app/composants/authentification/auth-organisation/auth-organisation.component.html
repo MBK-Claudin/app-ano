@@ -1,0 +1,45 @@
+<div class="full_container">
+    <div class="container">
+        <div class="center verticle_center full_height">
+            <div class="login_section">
+                <div class="logo_login">
+                    <div class="center">
+                        <img width="210" src="assets/images/logo/eano_logo.png" alt="#" />
+                    </div>
+                </div>
+                <div class="login_form">
+                    <div class="text-center mb-5 my-auto">
+                        <h2 class="fw-bold mb-3">Organisation</h2><br>
+                    </div>
+                    <form>
+                        <fieldset>
+                            <div class="field">
+                                <label class="label_field">Organisation</label>
+                                <select name="organisation" id="organisation" [(ngModel)]="organisation">
+                                    <option [value]="o.id" *ngFor="let o of organisations">{{ o.libelle }}</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label class="label_field">Poste</label>
+                                <input list="postes" type="text" id="poste" name="poste" placeholder="Entrer votre poste..." [(ngModel)]="poste" />
+                                <datalist id="postes" *ngIf="bool">
+                                    <option value="Secrétaires Administratives">Secrétaires Administratives</option>
+                                    <option value="Coordonnateur Fiduciaire">Coordonnateur Fiduciaire/Chef de Projet</option>
+                                    <option value="Passation des Marchés">Passation des Marchés</option>
+                                    <option value="Comptablilité">Comptablilité</option>
+                                    <option value="Responsable Administratif et Financier">Responsable Administratif et Financier</option>
+                                    <option value="Secrétaire Permanant">Secrétaires Permanant</option>
+                                </datalist>
+                            </div>
+                            <div class="field margin_0">
+                                <label class="label_field hidden">hidden label</label>
+                                <button class="main_bt" type="submit">Enregistrer</button>
+                            </div>
+                        </fieldset>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

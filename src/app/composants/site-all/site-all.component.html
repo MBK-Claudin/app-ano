@@ -1,0 +1,139 @@
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Sites</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Affichage des données -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row full graph_head">
+                        <div class="col-3">
+                            <div class="heading1 margin_0">
+                                <h2>Liste des sites de déploiements</h2>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Recherche..." [(ngModel)]="searchText" (keyup)="filterSite()">
+                        </div>
+                        <div class="col-3 text-right">
+                            <button (click)="addmodal()" class="btn btn-primary" title="Ajouter un programme">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Site</th>
+                                        <th>Province</th>
+                                        <th>Département</th>
+                                        <th>Ville</th>
+                                        <th>Coordonnées GPS</th>
+                                        <th>Commentaires</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let site of filterSites">
+                                        <td>{{ site.libelle }}</td>
+                                        <td>{{ site.province }}</td>
+                                        <td>{{ site.departement }}</td>
+                                        <td>{{ site.ville }}</td>
+                                        <td>{{ site.coordonnees_gps }}</td>
+                                        <td>{{ site.commentaire }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button  class="btn btn-secondary" title="Modifier">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button (click)="openDeleteModal(site.id)" class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <ngx-skeleton-loader count="{{ 10 }}" appearance="line" *ngIf="loader" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog"  id="add_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nouveau Site de déploiement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span (click)="closeaddmodal()" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (ngSubmit)="insertSite()">
+                    <div class="form-group">
+                        <label for="site">Site</label>
+                        <input type="text" class="form-control" id="site" name="site" [(ngModel)]="site" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="province">Province</label>
+                        <input type="email" class="form-control" id="province" name="province" [(ngModel)]="province" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="departement">Département</label>
+                        <input type="text" class="form-control" id="departement" name="departement" [(ngModel)]="departement" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ville">Ville</label>
+                        <input type="text" class="form-control" id="ville" name="ville" [(ngModel)]="ville" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="coordonne">Coordonnées GPS</label>
+                        <input type="text" class="form-control" id="coordonne" name="coordonne" [(ngModel)]="coordonne" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentaire">Commentaire</label>
+                        <textarea type="text" class="form-control" name="commentaire" id="commentaire" [(ngModel)]="commentaire" required></textarea>
+                    </div>
+                    <!-- Fin du formulaire -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">enregistrer le site</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="deletemodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                <p>Êtes-vous sûr de vouloir sur le site : <strong>{{ nameSite }}</strong>.</p>
+            </div>
+            <div class="modal-footer">
+                <button (click)="closeDeleteModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button (click)="deleteSite(idSite)" type="button" class="btn btn-danger" >Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>

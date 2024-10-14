@@ -58,6 +58,18 @@ export class BudgetannuelsComponent {
   insertBudgetAnnuel(){
     //this.budgetannuel.periode = this.selectedperiode;
     this.budgetannuel.programme_id = this.programme_id;
+    // Si date_debut et date_fin sont des chaînes, les convertir en objet Date
+    const date_debut = new Date(this.budgetannuel.date_debut);
+    const date_fin = new Date(this.budgetannuel.date_fin);
+
+    // Vérification si la conversion a bien fonctionné
+    if (!isNaN(date_debut.getTime()) && !isNaN(date_fin.getTime())) {
+        this.d_periode = date_debut.getFullYear();
+        this.f_periode = date_fin.getFullYear();
+    } else {
+        console.error("Les dates ne sont pas valides.");
+    }
+
     const BudgetAnnuelForm = new FormData()
     BudgetAnnuelForm.append('programme_id', this.budgetannuel.programme_id.toString());
     BudgetAnnuelForm.append('periode', this.d_periode+'-'+this.f_periode);

@@ -162,11 +162,8 @@ export class AddProgrammeComponent {
   }
 
   onUserSelect(event: any) {
-    console.log(event.target.value);
     const selectedUserName = event.target.value;
-    console.log(selectedUserName)
     const selectedUser = this.users.find(user => user.name === selectedUserName);
-    console.log(selectedUser.email)
     if (selectedUser) {
       this.selectedEmail = selectedUser.email;
     }

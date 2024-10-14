@@ -2,61 +2,60 @@
     <div class="container-fluid">
         <div class="row column_title">
             <div class="col-md-12">
-            <div class="page_title">
-                <h2>Programme -> Fiches Programme ({{ detailsProgramme.libelle }} )</h2>
-            </div>
+                <div class="page_title">
+                    <h2>Programme -> Fiches Programme ({{ detailsProgramme.libelle }} ) <button [routerLink]="['/programme/planing/', detailsProgramme.id]" class="btn btn-link mx-4">voir le planing</button> </h2>
+                </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="!loader">
             <div class="col-md-12">
-                <div class="row">
-                    <!-- invoice section -->
-                    <div class="col-md-12">
-                        <div class="white_shd full margin_bottom_30">
-                            <div class="full">
-                                <div class="invoice_inner">
-                                    <div class="row my-3">
-                                        <div class="col-md-4">
-                                            <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                                <h4>Programme :</h4>
-                                                <p><strong>Planification :</strong><br>  
-                                                    Du: {{ detailsProgramme.date_debut }} au: {{ detailsProgramme.date_fin }} 
-                                                    <a [routerLink]="['/programme/planing/', detailsProgramme.id]" class="btn btn-secondary" title="Voir le planing">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a><br>  
-                                                    <strong>Projet : </strong>{{ detailsProgramme.libelle }}<br>  
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                                <h4>Resp. & Part. prenantes</h4>
-                                                <p><strong>Responsables :</strong><br>
-                                                    <ng-container *ngFor="let resp of responsables; let i = index">
-                                                        <span>{{ resp.name }} - {{ resp.email }}</span>
-                                                        <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
-                                                        <br>
-                                                    </ng-container>
-                                                </p>
-                                                <p><strong>Parties prenantes :</strong><br>
-                                                    <ng-container *ngIf="organisations.length > 0">
-                                                        <ng-container *ngFor="let org of organisations; let i = index">
-                                                            <span>{{ org.libelle }} - {{ org.pivot.ancrage }}</span>
-                                                            <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
-                                                            <br>
-                                                        </ng-container>
-                                                    </ng-container>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                                <h4>Progression </h4>
-                                                <p><strong>Echéance : </strong>{{ detailsProgramme.echeance }}<br> 
-                                                    <strong>Tx. ex. physique : </strong>{{ detailsProgramme.taux_execution_physique }} %<br> 
-                                                    <strong>Tx. ex. financier  : </strong>{{ detailsProgramme.taux_execution_financier }} %
-                                                </p>
-                                            </div>
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="full white_shd">
+                                <div class="full padding_infor_info">
+                                    <div class="price_table">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="display-1"><strong>Programme :</strong></th>
+                                                        <td>{{ detailsProgramme.libelle }} FCFA</td>
+                                                        <th><strong>Periode :</strong></th>
+                                                        <td>{{ detailsProgramme.periode || 0 }} FCFA</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><strong>Date de debut :</strong></th>
+                                                        <td>{{ detailsProgramme.date_debut || 'Rien à signaler' }}</td>
+                                                        <th><strong>Date de fin :</strong></th>
+                                                        <td>{{ detailsProgramme.date_fin || 'Rien à signaler' }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <hr>
+                                            <table class="table">
+                                                <tbody>
+                                                    <p>Responsable(s)</p>
+                                                    <tr *ngFor="let r of responsables">
+                                                        <th><strong>Nom & Prénom :</strong></th>
+                                                        <td>{{ r.name }}</td>
+                                                        <th><strong>Mail :</strong></th>
+                                                        <td>{{ r.email }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <hr>
+                                            <table class="table">
+                                                <tbody>
+                                                    <p>Parties prenantes</p>
+                                                    <tr *ngFor="let o of organisations">
+                                                        <th><strong>Organisation :</strong></th>
+                                                        <td>{{ o.libelle }}</td>
+                                                        <th><strong>Ancrage :</strong></th>
+                                                        <td>{{ o.pivot.ancrage }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -66,9 +65,21 @@
                 </div>
             </div>
         </div>
+        <ngx-skeleton-loader 
+            *ngIf="loader"
+            count="1" 
+            appearance="" 
+            [theme]="{
+                'background-color': '#e0e0e0',
+                'height': '200px',
+                'width': '100%',
+                'border-radius': '10px',
+                'margin': '50px auto'
+            }" >
+        </ngx-skeleton-loader>
 
         
-        <div class="row column4 graph">
+        <div class="row column4 graph" *ngIf="!loader">
             <!-- tab style 2 -->
             <div class="col-md-12">
                 <div class="white_shd full margin_bottom_30">
@@ -81,10 +92,10 @@
                                             <div class="nav nav-tabs" id="nav-tab1" role="tablist">
                                                 <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
                                                 <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#budget" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
-                                                <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#ano" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">ANOs</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#site" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Sites</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#livrable" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Livrables</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#contract" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contracts</a>
+                                                <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#anos" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">ano</a>
                                             </div>
                                         </nav>
                                         <div class="tab-content" id="nav-tabContent_2">
@@ -93,9 +104,6 @@
                                             </div>
                                             <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="nav-profile-tab">
                                                 <app-budgetannuels [programme_id]="detailsProgramme.id"></app-budgetannuels>
-                                            </div>
-                                            <div class="tab-pane fade" id="ano" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                                <app-ano></app-ano>
                                             </div>
                                             <div class="tab-pane fade" id="site" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-site [programme_id]="detailsProgramme.id"></app-site>
@@ -106,6 +114,9 @@
                                             <div class="tab-pane fade" id="contract" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-contract [programme_id]="detailsProgramme.id"></app-contract>
                                             </div>
+                                            <div class="tab-pane fade" id="anos" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-ano-programme [programme_id]="detailsProgramme.id"></app-ano-programme>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -115,5 +126,17 @@
                 </div>
             </div>
         </div>
+        <ngx-skeleton-loader 
+            *ngIf="loader"
+            count="1" 
+            appearance="" 
+            [theme]="{
+                'background-color': '#e0e0e0',
+                'height': '200px',
+                'width': '90%',
+                'border-radius': '10px',
+                'margin': '20px auto'
+            }" >
+        </ngx-skeleton-loader>
     </div>
 </div>

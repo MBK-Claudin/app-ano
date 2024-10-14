@@ -1,7 +1,7 @@
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DataServiceService } from '../../../services/data-service.service';
 import { AnoService } from '../../../services/ano.service';
@@ -18,20 +18,21 @@ import { BudgetannuelServiceService } from '../../../services/budgetannuel-servi
     FormsModule,
     GanttModule,
     NgxSkeletonLoaderModule,
+    RouterModule,
   ],
   templateUrl: './activite-budgetannuel.component.html',
   styleUrl: './activite-budgetannuel.component.css'
 })
 export class ActiviteBudgetannuelComponent {
   @ViewChild('doc') documents: any;
-  loager = true;
+  loader = true;
   bool = true;
   jalons:any[] = [];
   responsables:any[] = [];
+  anos: any[] = [];
 
   phases: any[] = [];
   sites: any[] = [];
-  taskSettings: TaskFieldsModel | undefined;
   nothing: object[] = [];
   activite: any;
 
@@ -70,6 +71,10 @@ export class ActiviteBudgetannuelComponent {
 
   JResponsables: string[] = [];
   JEmails: string[] = [];
+  deleteano: any;
+  deleteano_id: any;
+  userid: any;
+
 
   constructor(
     private router: ActivatedRoute,
@@ -79,6 +84,14 @@ export class ActiviteBudgetannuelComponent {
     private budgetannuelService: BudgetannuelServiceService,
   ){}
 
+  isano(){
+    this.bool = true;
+  }
+
+  isjalon(){
+    this.bool = false;
+  }
+
   ngOnInit(){
     this.activite_id = this.router.snapshot.paramMap.get('id');
     this.indexDoc = 0;
@@ -87,55 +100,56 @@ export class ActiviteBudgetannuelComponent {
     this.getPhases();
     this.getSites();
     this.getActivite();
-    this.taskSettings = {id: 'TaskID', name: 'TaskName', startDate: 'StartDate', endDate: 'EndDate', duration: 'Duration', progress: 'Progress', child: 'subtasks' };
-    this.nothing = [
-      {
-          TaskID: 1,
-          TaskName: 'Project Initiation',
-          StartDate: new Date('04/02/2019'),
-          EndDate: new Date('04/21/2019'),
-          subtasks: [
-              { TaskID: 2, TaskName: 'Identify Site location', StartDate: new Date('04/02/2019'), Duration: 4, Progress: 50 },
-              { TaskID: 3, TaskName: 'Perform Soil test', StartDate: new Date('04/02/2019'), Duration: 4, Progress: 50  },
-              { TaskID: 4, TaskName: 'Soil test approval', StartDate: new Date('04/02/2019'), Duration: 4, Progress: 50 },
-          ]
-      },
-      {
-          TaskID: 5,
-          TaskName: 'Project Estimation',
-          StartDate: new Date('04/02/2019'),
-          EndDate: new Date('04/21/2019'),
-          subtasks: [
-              { TaskID: 6, TaskName: 'Develop floor plan for estimation', StartDate: new Date('04/04/2019'), Duration: 3, Progress: 50 },
-              { TaskID: 7, TaskName: 'List materials', StartDate: new Date('04/04/2019'), Duration: 3, Progress: 50 },
-              { TaskID: 8, TaskName: 'Estimation approval', StartDate: new Date('04/04/2019'), Duration: 3, Progress: 50 }
-          ]
-      }];
   }
 
   getActivite(){
     this.budgetannuelService.getOneActivite(this.activite_id).subscribe(
       data => {
-        this.loager = false;
+        this.loader = false;
         this.activite = data;
-        this.jalons = data.jalons;
+        this.jalons = data.activites;
         this.responsables = data.users;
+        this.anos = data.anos;
       }, error => {
         console.log("erreur lors du chargement de l'activité !", error);
       }
     )
   }
 
-  changebool(){
-    this.bool = !this.bool;
+  openmodal(){
+    const modal = document.getElementById('sup_modal');
+    if(modal != null){
+      modal.style.display = "block";
+    }
   }
+
+  getDeletAno(id: any){
+    const selectano = this.anos.find(ano => ano.id === id);
+    if(selectano){
+      this.deleteano = selectano.budget;
+      this.deleteano_id = selectano.id;
+      this.openmodal()
+    }
+  }
+
+  deleteANO(){
+    this.ano.deleteAno(this.deleteano_id).subscribe(
+      data => {
+        this.getActivite();
+        this.closemodal();
+      }, error => {
+        console.log('Une erreur est survenu lors de la suppression !', error);
+      }
+    )
+  }
+
 
   insertJalon(){
     const jalonFrom = new FormData();
 
     if(this.jalon && this.JDate_debut && this.JDate_fin && this.JResponsables && this.JEmails){
       jalonFrom.append('activite_id', this.activite_id);
-      jalonFrom.append('site[]', this.JSite);
+      jalonFrom.append('site', this.JSite);
       jalonFrom.append('phase', this.JPhase);
       jalonFrom.append('libelle', this.jalon);
       jalonFrom.append('date_debut', this.JDate_debut!.toString());
@@ -205,9 +219,10 @@ export class ActiviteBudgetannuelComponent {
 
   insertAno(){
     const anoForm = new FormData();
+    this.userid = localStorage.getItem('user_id');
     anoForm.append('budget', this.budget);
     anoForm.append('activite_id', this.activite_id);
-    anoForm.append('user_id', '1');
+    anoForm.append('user_id', this.userid);
 
     for (let i = 0; i < this.files.length; i++) {
       anoForm.append('documents[]', this.files[i]); // Envoie les fichiers dans un tableau
@@ -226,6 +241,7 @@ export class ActiviteBudgetannuelComponent {
     this.ano.insertANO(anoForm).subscribe(
       data => {
         console.log(data);
+        this.closemodal()
       }, error => {
         console.error(error);
       }

@@ -11,8 +11,8 @@ export class ContractService {
     private http: HttpClient,
   ) { }
 
-  getContracts(): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/contracts');
+  getContracts(id: any): Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/contracts/'+id);
   }
 
   insertContracts(data: any):Observable<any>{

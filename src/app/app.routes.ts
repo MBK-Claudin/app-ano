@@ -16,24 +16,47 @@ import { AnoComponent } from './composants/anos/ano/ano.component';
 import { AddAnoComponent } from './composants/anos/add-ano/add-ano.component';
 import { EditAnoComponent } from './composants/anos/edit-ano/edit-ano.component';
 import { DetailsAnoComponent } from './composants/anos/details-ano/details-ano.component';
+import { LoginComponent } from './composants/authentification/login/login.component';
+import { MenuComponent } from './menu/menu.component';
+import { AuthOrganisationComponent } from './composants/authentification/auth-organisation/auth-organisation.component';
+import { LoginCheckComponent } from './composants/authentification/login-check/login-check.component';
+import { authGuard } from './services/auth.guard';
+import { OrganisationComponent } from './composants/organisation/organisation.component';
+import path from 'path';
+import { SiteAllComponent } from './composants/site-all/site-all.component';
+import { FactureComponent } from './composants/factures/facture/facture.component';
+import { PaiementComponent } from './composants/paiements/paiement/paiement.component';
 
 export const routes: Routes = [
-    { path: 'objectif', component: ObjectifComponent },
-    { path: 'select/objectif/:id', component: EditObjectifComponent },
-    { path: 'add/objectif', component: AddObjectifComponent },
-    { path: 'details/objectif/:id', component: DetailsObjectifComponent },
-    { path: 'programmes', component: ProgrammeComponent },
-    { path: 'add/programme', component: AddProgrammeComponent },
-    { path: 'details/programme/:id', component: DetailsProgrammeComponent },
-    { path: 'edit/programme/:id', component: EditProgrammeComponent },
-    { path: 'taches', component: TachesComponent },
-    { path: 'affectations', component: AffectationsComponent },
-    { path: 'details/budgetannuel/:id', component: DetailsBudgetannuelComponent },
-    { path: 'activité/budgetannuel/:id', component: ActiviteBudgetannuelComponent },
-    { path: 'programme/planing/:id', component: PlaningGanttComponent },
-    { path: 'ano', component: AnoComponent },
-    { path: 'add/ano', component: AddAnoComponent },
-    { path: 'select/ano/:id', component: EditAnoComponent },
-    { path: 'edit/ano/:id', component: DetailsAnoComponent}
 
+    {
+        path: '', component: MenuComponent,canActivate: [authGuard], children: [
+            { path: '', component: ObjectifComponent },
+            { path: 'objectif', component: ObjectifComponent },
+            { path: 'select/objectif/:id', component: EditObjectifComponent },
+            { path: 'add/objectif', component: AddObjectifComponent },
+            { path: 'details/objectif/:id', component: DetailsObjectifComponent },
+            { path: 'programmes', component: ProgrammeComponent },
+            { path: 'add/programme', component: AddProgrammeComponent },
+            { path: 'details/programme/:id', component: DetailsProgrammeComponent },
+            { path: 'edit/programme/:id', component: EditProgrammeComponent },
+            { path: 'taches', component: TachesComponent },
+            { path: 'affectations', component: AffectationsComponent },
+            { path: 'details/budgetannuel/:id', component: DetailsBudgetannuelComponent },
+            { path: 'activité/budgetannuel/:id', component: ActiviteBudgetannuelComponent },
+            { path: 'programme/planing/:id', component: PlaningGanttComponent },
+            { path: 'ano', component: AnoComponent },
+            { path: 'add/ano', component: AddAnoComponent },
+            { path: 'select/ano/:id', component: EditAnoComponent },
+            { path: 'edit/ano/:id', component: DetailsAnoComponent },
+            { path: 'organisations', component: OrganisationComponent },
+            { path: 'sites', component: SiteAllComponent },
+            { path: 'facture', component: FactureComponent },
+            { path: 'paiement', component: PaiementComponent },
+            { path: 'details/facture/:id', component: FactureComponent },
+        ]
+    },
+    { path: 'login', component: LoginComponent },
+    { path: 'user/organisation/:isOrg', component: AuthOrganisationComponent },
+    { path: 'login/check', component: LoginCheckComponent },
 ];

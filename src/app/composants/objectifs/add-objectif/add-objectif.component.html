@@ -46,7 +46,13 @@
                                         </div> 
                                         <div class="form-group">
                                             <label for="programme-name">Secteur :</label>
-                                            <input type="text" class="form-control" id="secteur" name="secteur" [(ngModel)] = "objectif.secteur" >
+                                            <select type="text" class="form-control" id="secteur" name="secteur" [(ngModel)] = "objectif.secteur" >
+                                                <option value="Mistère de la santé">Mistère de la santé</option>
+                                                <option value="Mistère de lintérieur">Mistère de lintérieur</option>
+                                                <option value="Mistère de l'economi numérique">Mistère de l'economi numérique</option>
+                                                <option value="Mistère des eaux forêt">Mistère des eaux forêt</option>
+                                                <option value="Mistère de l'énergie">Mistère de l'énergie</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="programme-name">Objectif :</label>

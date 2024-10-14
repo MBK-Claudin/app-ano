@@ -7,7 +7,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="!isdoc">
             <div class="col-md-12">
                 <div class="white_shd full margin_bottom_30">
                     <div class="row">
@@ -45,18 +45,18 @@
                                                         <th><strong>Événement :</strong></th>
                                                         <td>{{ e.libelle }}</td>
                                                         <th><strong>Planification :</strong></th>
-                                                        <td><strong>Du :</strong> {{ e.date_debut }} <strong>Au :</strong> {{ e.date_fin }}</td>
+                                                        <td><strong>Du : </strong> {{ e.date_debut }} <strong> Au : </strong> {{ e.date_fin }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                             <hr>
                                             <table class="table">
                                                 <tbody>
-                                                    <tr *ngFor="let e of events">
-                                                        <th><strong>Événement :</strong></th>
-                                                        <td>{{ e.libelle }}</td>
-                                                        <th><strong>Planification :</strong></th>
-                                                        <td><strong>Du :</strong> {{ e.date_debut }} <strong>Au :</strong> {{ e.date_fin }}</td>
+                                                    <tr *ngFor="let doc of documents">
+                                                        <th><strong>Titre Document :</strong></th>
+                                                        <td>{{ doc.titre }}</td>
+                                                        <th><strong>Documents :</strong></th>
+                                                        <td><button (click)="openDoc(doc.id)" class="btn btn-link">Ouvrir le document<i class="fas fa-file-pdf"></i></button></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" *ngIf="!isdoc">
             <div class="col-md-12 mx-auto">
                 <div class="white_shd full margin_bottom_30">
                     <div class="row full graph_head">
@@ -109,16 +109,31 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mx-4 text-right">
-                                    <button type="button" class="btn btn-primary me-2">Primary</button>
-                                    <button type="button" class="btn btn-secondary me-2">Secondary</button>
-                                    <button type="button" class="btn btn-success">Success</button>
-                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row justify-content-center" *ngIf="isdoc">
+            <div class="col-md-12 mx-auto">
+                <div class="row full graph_head">
+                    <div class="col-9">
+                        <div class="heading1 margin_0">
+                            <h2 class="fw-bold">{{ titredoc }}</h2>
+                        </div>
+                    </div>
+                    <div class="col-3 text-right">
+                        <button (click)="closeDoc()" class="btn btn-link">fermer</button>
+                    </div>
+                </div>
+                <div class="row full d-flex justify-content-center align-items-center">
+                    <div class="col-md-12 my-3">
+                        <ngx-doc-viewer [url]="docurl" viewer="url" style="width:100%;height: 600px;;"></ngx-doc-viewer>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+

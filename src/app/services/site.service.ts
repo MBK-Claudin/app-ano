@@ -18,4 +18,19 @@ export class SiteService {
   insertSites(data: any): Observable<any> {
     return this.http.post<any>('http://localhost:8000/api/programme/insert/site', data);
   }
+
+  insertNewSites(data: any): Observable<any> {
+    return this.http.post<any>('http://localhost:8000/api/insert/site', data);
+  }
+
+  deleteSites(id: any): Observable<any> {
+    return this.http.delete<any>('http://localhost:8000/api/delete/site/'+id);
+  }
+
+  
+  getSite(): Observable<any> {
+    return this.http.get<any>('http://localhost:8000/api/sites');
+  }
+
+  
 }

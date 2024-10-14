@@ -21,9 +21,9 @@
                             <input type="text" class="form-control" placeholder="Recherche..." (keyup)="filterProgrammes()" [(ngModel)]="searchText">
                         </div>
                         <div class="col-3 text-right">
-                            <a [routerLink]="['/add/programme']" class="btn btn-primary" title="Ajouter un programme">
+                            <button [routerLink]="['/add/programme']" class="btn btn-primary" title="Ajouter un programme">
                                 <i class="fas fa-plus"></i>
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <div class="table_section padding_infor_info">

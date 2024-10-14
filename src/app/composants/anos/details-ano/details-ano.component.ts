@@ -3,12 +3,14 @@ import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AnoService } from '../../../services/ano.service';
 import { error } from 'console';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 @Component({
   selector: 'app-details-ano',
   standalone: true,
   imports: [
     CommonModule,
+    NgxDocViewerModule,
   ],
   templateUrl: './details-ano.component.html',
   styleUrl: './details-ano.component.css'
@@ -19,6 +21,10 @@ export class DetailsAnoComponent {
   ano: any;
   events: any;
   users: any;
+  documents: any[] = [];
+  isdoc = false;
+  docurl: any;
+  titredoc: any;
 
   constructor(
     private location: Location,
@@ -37,6 +43,7 @@ export class DetailsAnoComponent {
         this.ano = data;
         this.events = data.evenements;
         this.users = data.users;
+        this.documents = data.documents;
         console.log(this.ano);
       }, error => {
         console.log('eereur :', error)
@@ -46,5 +53,18 @@ export class DetailsAnoComponent {
 
   goBack(){
     this.location.back();
+  }
+
+  closeDoc(){
+    this.isdoc = false;
+  }
+
+  openDoc(id: any){
+    const selectDoc = this.documents.find(doc => doc.id === id)
+    if(selectDoc){
+      this.docurl = selectDoc.file_url;
+      this.titredoc = selectDoc.titre;
+      this.isdoc = true;
+    }
   }
 }

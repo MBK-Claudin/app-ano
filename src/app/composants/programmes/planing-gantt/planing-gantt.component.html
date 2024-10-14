@@ -4,29 +4,16 @@
         <div class="row column_title">
             <div class="col-md-12">
                 <div class="page_title">
-                    <h2>Programme -> Planing</h2>
+                    <h2>Programme -> Planing <button (click)="goBack()" class="btn btn-link">retour</button></h2>
                 </div>
             </div>
         </div>
 
         
-        <div class="row column4 graph">
+        <div class="row column4 graph" *ngIf="Data.length > 0">
             <!-- tab style 2 -->
             <div class="col-md-12">
                 <div class="white_shd full margin_bottom_30">
-                    <div class="row full graph_head">
-                        <div class="col-md-12 text-right">
-                            <div class="dropdown_section">
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Choisissez une vue</button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Vue Gantt</a>
-                                        <a class="dropdown-item" href="#">Vue Tableau</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="full inner_elements">
                         <div class="row">
                             <div class="col-md-12">

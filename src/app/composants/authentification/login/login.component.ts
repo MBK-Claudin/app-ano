@@ -1,0 +1,28 @@
+import { Component } from '@angular/core';
+import { AuthService } from '../../../services/auth.service';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule,
+  ],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
+})
+export class LoginComponent {
+
+  constructor(
+    private authService: AuthService
+  ){}
+
+  login(){
+    window.location.href = 'http://localhost:8000/auth'
+  }
+
+  teste(){
+    window.location.href = 'https://v17.angular.io/api/router/CanActivateFn'
+  }
+
+}

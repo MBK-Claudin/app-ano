@@ -30,4 +30,8 @@ export class BudgetannuelServiceService {
   getOneActivite(id: any):Observable<any> {
     return this.http.get<any>('http://localhost:8000/api/budgetannuel/activite/'+id);
   }
+
+  deleteActivite(id: any): Observable<any>{
+    return this.http.delete<any>('http://localhost:8000/api/budgetannuel/delete/activite/'+id);
+  }
 }

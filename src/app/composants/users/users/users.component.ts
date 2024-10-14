@@ -45,9 +45,6 @@ export class UsersComponent {
     this.getOrganisations();
   }
 
-  test(){
-    alert('Ok !!!!!!!!!!!!!!!!!')
-  }
 
   insertContributeur(){
     this.contributeur.programme_id = this.programme_id;
@@ -77,14 +74,15 @@ export class UsersComponent {
   }
 
   modal(){
-    const modal = document.getElementById('edit_modal');
-
+    const modal = document.getElementById('addmodal');
+    console.log('ok modal !!!!!')
     if(modal != null){
       modal.style.display = 'block';
     }
   }
+
   closemodal(){
-    const modal = document.getElementById('edit_modal');
+    const modal = document.getElementById('addmodal');
 
     if(modal != null){
       modal.style.display = 'none';
@@ -101,6 +99,10 @@ export class UsersComponent {
         reader.readAsDataURL(file);
         this.contributeur.photo = file, file.name;
     }
+  }
+
+  teste(){
+    alert('ok !!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
   }
 
 

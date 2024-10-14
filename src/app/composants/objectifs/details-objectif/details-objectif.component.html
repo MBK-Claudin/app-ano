@@ -9,51 +9,53 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="row">
-                    <!-- invoice section -->
-                    <div class="col-md-12">
-                        <div class="white_shd full margin_bottom_30">
-                            <div class="full">
-                                <div class="invoice_inner">
-                                    <div class="row my-3">
-                                        <div class="col-md-4">
-                                            <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                                <h4>Objectif Strat.</h4>
-                                                <p><strong>Planification</strong><br>  
-                                                    {{ detailsObjectif.date_debut }}<br> 
-                                                    {{ detailsObjectif.date_fin }}<br>    
-                                                    <strong>Secteur : </strong>{{ detailsObjectif.secteur }}<br>  
-                                                    <strong>Objectif : </strong>{{ detailsObjectif.objectif }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                                <h4>Resp. & Part. prenantes</h4>
-                                                <p><strong>Responsables :</strong><br>
-                                                    <ng-container *ngFor="let resp of responsables; let i = index">
-                                                        <span>{{ resp.name }} - {{ resp.email }}</span>
-                                                        <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
-                                                        <br>
-                                                    </ng-container>
-                                                </p>
-                                                <p><strong>Parties prenantes :</strong><br>
-                                                    <ng-container *ngFor="let org of oragnisations; let i = index">
-                                                        <span>{{ org.libelle }} - {{ org.pivot.ancrage }}</span>
-                                                        <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
-                                                        <br>
-                                                    </ng-container>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                                <h4>Prograssion </h4>
-                                                <p><strong>Echéance : </strong>{{ detailsObjectif.echeance }}<br> 
-                                                    <strong>Tx. ex. physique : </strong>{{ detailsObjectif.taux_execution_physique }} %<br> 
-                                                    <strong>Tx. ex. financier  : </strong>{{ detailsObjectif.taux_execution_financier }} %
-                                                </p>
-                                            </div>
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="full white_shd">
+                                <div class="full padding_infor_info">
+                                    <div class="price_table">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="display-1"><strong>Secteur :</strong></th>
+                                                        <td>{{ detailsObjectif.secteur }} FCFA</td>
+                                                        <th><strong>Objectif Stratégique :</strong></th>
+                                                        <td>{{ detailsObjectif.objectif || 0 }} FCFA</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><strong>Date de debut :</strong></th>
+                                                        <td>{{ detailsObjectif.date_debut || 'Rien à signaler' }}</td>
+                                                        <th><strong>Date de fin :</strong></th>
+                                                        <td>{{ detailsObjectif.date_fin || 'Rien à signaler' }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <hr>
+                                            <table class="table">
+                                                <tbody>
+                                                    <p>Responsable(s)</p>
+                                                    <tr *ngFor="let r of responsables">
+                                                        <th><strong>Nom & Prénom :</strong></th>
+                                                        <td>{{ r.name }}</td>
+                                                        <th><strong>Addresse Mail :</strong></th>
+                                                        <td>{{ r.email }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <hr>
+                                            <table class="table">
+                                                <tbody>
+                                                    <p>Partie prenante(s)</p>
+                                                    <tr *ngFor="let o of oragnisations">
+                                                        <th><strong>Organisation :</strong></th>
+                                                        <td>{{ o.libelle }}</td>
+                                                        <th><strong>Type d'ancrage :</strong></th>
+                                                        <td>{{ o.pivot.ancrage }} </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -75,12 +77,12 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Recherche..." >
+                            <input type="text" class="form-control" placeholder="Recherche..." [(ngModel)]="searchText" (keyup)="filterProgramme()">
                         </div>
                         <div class="col-3 text-right">
-                            <a href="#" class="btn btn-primary" title="Ajouter un programme" >
+                            <button [routerLink]="['/add/programme']" class="btn btn-primary" title="Ajouter un programme" >
                                 <i class="fas fa-plus"></i>
-                            </a>
+                            </button>
                         </div>
                     </div>
                     <div class="table_section padding_infor_info">
@@ -100,8 +102,8 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody *ngIf="programmes.length > 0">
-                                    <tr *ngFor="let prog of programmes">
+                                <tbody *ngIf="filterProgrammes.length > 0">
+                                    <tr *ngFor="let prog of filterProgrammes">
                                         <td>{{ prog.libelle }}</td>
                                         <td>{{ prog.date_debut }}</td>
                                         <td>{{ prog.date_fin }}</td>
@@ -115,15 +117,15 @@
                                         <td>{{ prog.taux_execution_financier }} %</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="#" class="btn btn-secondary" title="Plus de détails">
+                                                <button [routerLink]="['/details/programme/', prog.id]" class="btn btn-secondary" title="Plus de détails">
                                                     <i class="fas fa-eye"></i>
-                                                </a>  
-                                                <a href="#" class="btn btn-primary" title="Modifier" >
+                                                </button>  
+                                                <button [routerLink]="['/edit/programme/', prog.id]" class="btn btn-primary" title="Modifier" >
                                                     <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-danger" title="Supprimer">
+                                                </button>
+                                                <button (click)="openDeleteModal(prog.id)" type="button" class="btn btn-danger" title="Supprimer">
                                                     <i class="fas fa-trash"></i>
-                                                </a>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -132,6 +134,26 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="deletemodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                <p>Êtes-vous sûr de vouloir sur le programme : <strong>{{ nameProg }}</strong>.</p>
+                <p>Cette action entraine la suppression de tous les éléments relier à {{ nameProg }} (PTBA, ANO, Activités/jaloons...)</p>
+            </div>
+            <div class="modal-footer">
+                <button (click)="closeDeleteModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button (click)="deleteProgramme(idProg)" type="button" class="btn btn-danger" >Supprimer</button>
             </div>
         </div>
     </div>

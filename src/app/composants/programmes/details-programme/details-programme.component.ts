@@ -12,6 +12,8 @@ import { AnoComponent } from '../../anos/ano/ano.component';
 import { SiteComponent } from '../../sites/site/site.component';
 import { LivrableComponent } from '../../livrables/livrable/livrable.component';
 import { ContractComponent } from '../../contracts/contract/contract.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { AnoProgrammeComponent } from '../../anos/ano-programme/ano-programme.component';
 
 @Component({
   selector: 'app-details-programme',
@@ -28,6 +30,9 @@ import { ContractComponent } from '../../contracts/contract/contract.component';
     SiteComponent,
     LivrableComponent,
     ContractComponent,
+    NgxSkeletonLoaderModule,
+    AnoProgrammeComponent,
+    ContractComponent,
   ],
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'
@@ -37,6 +42,7 @@ export class DetailsProgrammeComponent {
   detailsProgramme: any;
   organisations: any[] = [];
   responsables: any[] = [];
+  loader = true;
   id: any;
 
   constructor(
@@ -59,7 +65,7 @@ export class DetailsProgrammeComponent {
       this.detailsProgramme = data;
       this.organisations = data.organisations;
       this.responsables = data.users;
-      console.log(data)
+      this.loader = false;
     },error => {
       console.error(error);
     });
