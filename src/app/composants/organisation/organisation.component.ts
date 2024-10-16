@@ -42,6 +42,7 @@ export class OrganisationComponent {
         data => {
           this.getOrganisation();
           this.closeAddModal();
+          this.organisation = '';
         }, error => {
           console.error(error);
         }

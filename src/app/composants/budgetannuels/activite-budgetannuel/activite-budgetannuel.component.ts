@@ -116,7 +116,12 @@ export class ActiviteBudgetannuelComponent {
     )
   }
 
-  openmodal(){
+  removeUserField(index: number) {
+    this.JResponsables.splice(index, 1);
+    this.JEmails.splice(index, 1);
+  }
+
+  openSupAnoModal(){
     const modal = document.getElementById('sup_modal');
     if(modal != null){
       modal.style.display = "block";
@@ -128,7 +133,7 @@ export class ActiviteBudgetannuelComponent {
     if(selectano){
       this.deleteano = selectano.budget;
       this.deleteano_id = selectano.id;
-      this.openmodal()
+      this.openSupAnoModal()
     }
   }
 
@@ -164,7 +169,8 @@ export class ActiviteBudgetannuelComponent {
 
       this.activiteService.insertActivite(jalonFrom).subscribe(
         data => {
-          this.closejaonmodal()
+          this.getActivite();
+          this.closejalonmodal();
         }, error => {
           console.log(error);
         }
@@ -210,7 +216,7 @@ export class ActiviteBudgetannuelComponent {
     }
   }
 
-  closejaonmodal(){
+  closejalonmodal(){
     const modal = document.getElementById('jalonmodal');
     if (modal != null) {
       modal.style.display = 'none';
@@ -240,8 +246,8 @@ export class ActiviteBudgetannuelComponent {
 
     this.ano.insertANO(anoForm).subscribe(
       data => {
-        console.log(data);
-        this.closemodal()
+        this.getActivite();
+        this.closemodal();
       }, error => {
         console.error(error);
       }
@@ -313,14 +319,21 @@ export class ActiviteBudgetannuelComponent {
 
   modal(){
     console.log(' ok modal !')
-    const modal = document.getElementById('modal');
+    const modal = document.getElementById('add_ano_modal');
     if (modal != null) {
       modal.style.display = 'block';
     }
   }
 
   closemodal(){
-    const modal = document.getElementById('modal');
+    const modal = document.getElementById('add_ano_modal');
+    if (modal != null) {
+      modal.style.display = 'none';
+    }
+  }
+
+  closeSupAnoModal(){
+    const modal = document.getElementById('sup_modal');
     if (modal != null) {
       modal.style.display = 'none';
     }

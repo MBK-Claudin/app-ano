@@ -36,16 +36,6 @@
                                                         <th><strong>Montant Restant:</strong></th>
                                                         <td>{{ activite.montant_restant || 0 }} FCFA / {{ activite.budget_fcfa }} FCFA</td>
                                                     </tr>
-                                                    
-                                                    <tr *ngIf="responsables">
-                                                        <p><strong>Responsables:</strong></p>
-                                                        <ng-container *ngFor="let resp of responsables">
-                                                            <th><strong>Responsable:</strong></th>
-                                                            <td>{{ resp.name }}</td>
-                                                            <th><strong>Email:</strong></th>
-                                                            <td>{{ resp.email }}</td>
-                                                        </ng-container>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                             <hr>
@@ -65,15 +55,15 @@
                                         </div>
                                         <hr>
                                         <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-3">
+                                            <div class="row d-flex justify-content-between">
+                                                <div class="col-2">
                                                     <div class="d-flex align-items-center">
                                                         <button (click)="modal()" class="btn btn-link ml-2" title="Ajouter un programme">
                                                             Demande ANO
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-2">
                                                     <div class="d-flex align-items-center">
                                                         <button (click)="jalonmodal()" class="btn btn-link ml-2" title="Ajouter un programme">
                                                             Etablir une Activité/jalon
@@ -81,17 +71,31 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="col-3">
+                                                <div class="col-2">
                                                     <div class="d-flex align-items-center">
                                                         <button (click)="isano()" class="btn btn-link ml-2" title="Ajouter un programme">
                                                             Liste des ANOs
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <div class="col-3">
+                                                <div class="col-2">
                                                     <div class="d-flex align-items-center">
                                                         <button (click)="isjalon()" class="btn btn-link ml-2" title="Ajouter un programme">
                                                             Liste des activités
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="d-flex align-items-center">
+                                                        <button class="btn btn-link ml-2" title="Ajouter un programme">
+                                                            Planing(vue gantt)
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="d-flex align-items-center">
+                                                        <button class="btn btn-link ml-2" title="Ajouter un programme">
+                                                            Planing(vue tableau)
                                                         </button>
                                                     </div>
                                                 </div>
@@ -158,10 +162,10 @@
                                         <td>{{ item.statut }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button [routerLink]="['/edit/ano/', item.id]" class="btn btn-secondary" title="Plus de détails">
+                                                <button [routerLink]="['/select/ano/', item.id]" class="btn btn-secondary" title="Plus de détails">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
-                                                <button [routerLink]="['/select/ano/', item.id]" class="btn btn-primary" title="Modifier">
+                                                <button [routerLink]="['/edit/ano/', item.id]" class="btn btn-primary" title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button (click)="getDeletAno(item.id)" class="btn btn-danger" >
@@ -205,7 +209,6 @@
                                         <th>Activité</th>
                                         <th>Date Debut</th>
                                         <th>Date Fin</th>
-                                        <th>organisation & Ancrage</th>
                                         <th>Responsable</th>
                                         <th>Statut</th>
                                         <th>Ehéance</th>
@@ -219,13 +222,6 @@
                                         <td>{{ item.libelle }}</td>
                                         <td>{{ item.date_debut }}</td>
                                         <td>{{ item.date_fin}}</td>
-                                        <td>
-                                            <ng-container *ngFor="let org of item.organisations; let i = index">
-                                                <span>{{ org.libelle }} - {{ org.pivot.ancrage }}</span>
-                                                <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
-                                                <br>
-                                            </ng-container>
-                                        </td>
                                         <td>
                                             <ng-container *ngFor="let user of item.users; let i = index">
                                                 <span>{{ user.name }}</span>
@@ -261,7 +257,7 @@
     </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog"  id="modal">
+<div class="modal" tabindex="-1" role="dialog"  id="add_ano_modal">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -375,7 +371,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Nouvelle Activité</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span (click)="closejaonmodal()" aria-hidden="true">&times;</span>
+                    <span (click)="closejalonmodal()" aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -431,6 +427,13 @@
                                 <label for="email">Email</label>
                                 <input type="email" [(ngModel)]="JEmail" class="form-control" id="email" name="email" readOnly>
                             </div>
+                            <div *ngFor="let resp of JResponsables; let i = index">
+                                <span class="mr-2">{{ (i+1) }}</span>
+                                <span class="mr-2">{{ resp }} - {{ JEmails[i] }}</span>
+                                <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -448,7 +451,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Supprimer un ANO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span (click)="closemodal()" aria-hidden="true">&times;</span>
+                    <span (click)="closeSupAnoModal()" aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -457,7 +460,7 @@
                 <p>La suppression de cette ANO entraine celle des évènements, factures et paiements accociés à <strong>{{ deleteano }}</strong> !</p>
             </div>
             <div class="modal-footer">
-                <button type="button" (click)="closemodal()" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" (click)="closeSupAnoModal()" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 <button type="button" class="btn btn-danger" (click)="deleteANO()">Supprimer</button>
             </div>
         </div>

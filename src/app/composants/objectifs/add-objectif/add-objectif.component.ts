@@ -5,6 +5,8 @@ import { DataServiceService } from '../../../services/data-service.service';
 import { ObjectifsInterface } from '../../../interfaces/objectifs-interface';
 import { ObjectifServiceService } from '../../../services/objectif-service.service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-objectif',
@@ -107,6 +109,7 @@ export class AddObjectifComponent {
       },5000);
     }
   }
+
   spinnerOpen(){
     console.log('spinner !!!!!!!!!!!!!')
     this.spinner.show();

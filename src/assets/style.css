@@ -837,6 +837,16 @@ span {
     overflow: auto;
 }
 
+.btn-primary {
+    background-color: #15283c;
+    border-color: #15283c;
+}
+
+.btn-primary :hover {
+    background-color: #2e5c8d;
+    border-color: #2e5c8d;
+}
+
 .sidebar_blog_1,
 .sidebar_blog_2,
 .sidebar_blog_3 {

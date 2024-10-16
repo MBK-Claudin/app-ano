@@ -1,0 +1,4 @@
+.custom-col {
+    flex: 0 0 20%; /* Chaque colonne prend 20% de la largeur */
+    max-width: 20%;
+  }

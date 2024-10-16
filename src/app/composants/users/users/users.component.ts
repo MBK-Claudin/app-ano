@@ -5,13 +5,17 @@ import { error } from 'console';
 import { UserInterface } from '../../../interfaces/user-interface';
 import { FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { DataServiceService } from '../../../services/data-service.service';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-users',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    NgxSkeletonLoaderModule,
+    NgxSpinnerModule,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
@@ -21,6 +25,7 @@ export class UsersComponent {
   users: any[] = [];
   organisations: any[] = [];
   photoPreviewUrl: any;
+  isSpinner: boolean = false;
 
   contributeur: UserInterface = {
     id: 0,
@@ -33,11 +38,12 @@ export class UsersComponent {
     poste: '',
   }
 
-
+  loader = true;
 
   constructor(
     private userService: UserServiceService,
-    private dataService: DataServiceService
+    private dataService: DataServiceService,
+    private spinner: NgxSpinnerService,
   ){}
 
   ngOnInit(){
@@ -45,6 +51,15 @@ export class UsersComponent {
     this.getOrganisations();
   }
 
+  spinnerOpen(){
+    if(this.isSpinner){
+      this.spinner.show();
+    }else {
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 5000);
+    }
+  }
 
   insertContributeur(){
     this.contributeur.programme_id = this.programme_id;
@@ -57,10 +72,16 @@ export class UsersComponent {
     userform.append('poste', this.contributeur.poste);
     userform.append('photo', this.contributeur.photo);
     console.log(this.contributeur, userform)
+
+    this.isSpinner = true;
+    this.spinnerOpen()
     this.userService.insertContributeur(userform).subscribe(
       data => {
+        this.loader = true;
         this.getusers();
         this.closemodal();
+        this.isSpinner = false;
+        this.spinnerOpen();
       }
     );
   }
@@ -101,16 +122,11 @@ export class UsersComponent {
     }
   }
 
-  teste(){
-    alert('ok !!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-  }
-
-
   getusers(){
     this.userService.getUsers(this.programme_id).subscribe(
       data => {
         this.users = data;
-        console.log('users / programme', data)
+        this.loader = false;
       }, error => {
         console.error('Erreur users / programme', error);
       }

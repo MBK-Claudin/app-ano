@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { BudgetannuelServiceService } from '../../../services/budgetannuel-service.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { error } from 'console';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-budgetannuels',
@@ -14,6 +15,8 @@ import { error } from 'console';
     CommonModule,
     FormsModule,
     RouterModule,NgxSkeletonLoaderModule,
+    NgxSpinnerModule,
+    
   ],
   templateUrl: './budgetannuels.component.html',
   styleUrl: './budgetannuels.component.css'
@@ -21,6 +24,7 @@ import { error } from 'console';
 export class BudgetannuelsComponent {
   @Input() programme_id!: number;
   loader = true;
+  isSpinner: boolean = false;
 
   budgetannuel: BudgetAnnuel = {
     id: 0,
@@ -38,6 +42,7 @@ export class BudgetannuelsComponent {
 
   constructor(
     private budgetservice: BudgetannuelServiceService,
+    private spinner: NgxSpinnerService,
   ){}
 
   ngOnInit(){
@@ -55,14 +60,21 @@ export class BudgetannuelsComponent {
     )
   }
 
+  spinnerOpen(){
+    if(this.isSpinner){
+      this.spinner.show();
+    } else {
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 5000);
+    }
+  }
+
   insertBudgetAnnuel(){
-    //this.budgetannuel.periode = this.selectedperiode;
     this.budgetannuel.programme_id = this.programme_id;
-    // Si date_debut et date_fin sont des chaînes, les convertir en objet Date
     const date_debut = new Date(this.budgetannuel.date_debut);
     const date_fin = new Date(this.budgetannuel.date_fin);
 
-    // Vérification si la conversion a bien fonctionné
     if (!isNaN(date_debut.getTime()) && !isNaN(date_fin.getTime())) {
         this.d_periode = date_debut.getFullYear();
         this.f_periode = date_fin.getFullYear();
@@ -77,11 +89,16 @@ export class BudgetannuelsComponent {
     BudgetAnnuelForm.append('date_fin', this.budgetannuel.date_fin.toString());
     BudgetAnnuelForm.append('excel', this.budgetannuel.excel);
     console.log(BudgetAnnuelForm);
-
+    
+    this.isSpinner = true;
+    this.spinnerOpen()
+    
     this.budgetservice.insertBudgetAnnuel(BudgetAnnuelForm).subscribe(
       data => {
         this.getBudget();
         this.closemodal();
+        this.isSpinner = false;
+        this.spinnerOpen()
       }, error => {
         console.error(error);
       }
