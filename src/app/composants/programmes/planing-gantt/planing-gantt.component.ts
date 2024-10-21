@@ -42,7 +42,6 @@ export class PlaningGanttComponent {
 
 
   getDataPlaning() {
-    console.log('programme id : ', this.router.snapshot.paramMap.get('id'));
     this.programmeService.planingData(this.router.snapshot.paramMap.get('id')).subscribe(
       data => {
         this.planingData = data;

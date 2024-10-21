@@ -34,7 +34,7 @@ export class AnoProgrammeComponent {
   ){}
 
   ngOnInit(){
-
+    this.getAnoProgramme();
   }
 
 
@@ -74,11 +74,12 @@ export class AnoProgrammeComponent {
   }
 
   getAnoProgramme(){
-    this.anoService.getAnoProgramme(1).subscribe(
+    this.anoService.getAnoProgramme(this.programme_id).subscribe(
       data => {
         this.loader = false
         this.anos = data;
         this.filterAno = data;
+        console.log('ano programme : ', data)
       }, error => {
         console.log("Erreur lors du chargement des anos", error);
       }

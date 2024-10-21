@@ -17,6 +17,7 @@ import { LivrableService } from '../../../services/livrable.service';
 })
 export class LivrableComponent {
     @Input() programme_id!: number;
+
     loager = true;
     livrables: any[] = [];
     jalons: any[] = [];
@@ -49,6 +50,7 @@ export class LivrableComponent {
     ngOnInit(){
       this.getusers()
       this.getJalon()
+      this.getLivrable();
     }
 
     insertLivrable(){
@@ -80,7 +82,8 @@ export class LivrableComponent {
     getLivrable(){
       this.livrableService.getLivrable(this.programme_id).subscribe(
         data => {
-
+          this.livrables = data;
+          console.log('livrables :', this.livrables);
         }, error => {
           console.log('erreur lors du chargement des livrable', error)
         }

@@ -15,8 +15,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './site.component.css'
 })
 export class SiteComponent {
+
   @Input() programme_id!:number;
   sites: any[] = [];
+  filtersites: any[] = [];
 
   site: string = '';
   departement: string = '';
@@ -24,6 +26,7 @@ export class SiteComponent {
   province: string = '';
   coordonne: string = '';
   commentaire: string = '';
+  searchText: string = "";
 
   constructor(
     private siteService: SiteService
@@ -72,10 +75,18 @@ export class SiteComponent {
     this.siteService.getProgrammeSite(this.programme_id).subscribe(
       data => {
         this.sites = data;
+        this.filtersites = data;
       }, error => {
         console.error('Erreur lors du chargement des sites !', error);
       }
     );
+  }
+
+  filterSite() {
+    this.filtersites = this.sites.filter(site => {
+        const objectif = site.libelle ? site.libelle.toLowerCase() : '';
+        return objectif.includes(this.searchText.toLowerCase());
+    });
   }
 
 }

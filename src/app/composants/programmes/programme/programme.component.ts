@@ -21,6 +21,7 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
   styleUrl: './programme.component.css'
 })
 export class ProgrammeComponent {
+  
   programmes: any[] = [];
   loader = true;
   filterProgramme: any[] = [];

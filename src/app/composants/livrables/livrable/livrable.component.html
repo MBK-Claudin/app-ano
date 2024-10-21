@@ -21,36 +21,44 @@
                     <table class="table table-striped">
                         <thead class="thead-dark">
                             <tr>
-                                <th>Livrable</th>
                                 <th>Activité</th>
                                 <th>Phase</th>
+                                <th>Livrable</th>
                                 <th>Responsables</th>
-                                <th>Site</th>
-                                <th>Progression</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-secondary" title="Plus de détails">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a class="btn btn-primary" title="Modifier">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button class="btn btn-danger">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
+                            <tr *ngFor="let livrable of livrables">
+                                <ng-container *ngIf="livrable.livrables.length > 0">
+                                    <td>{{ livrable.libelle }}</td>
+                                    <td>{{ livrable.phase.libelle }}</td>
+                                    <td>
+                                        <ng-container *ngFor="let l of livrable.livrables">
+                                            {{ l.livrable }}
+                                        </ng-container>
+                                    </td>
+                                    <td>
+                                        <ng-container *ngFor="let l of livrable.livrables">
+                                            <ng-container *ngFor="let r of l.users">
+                                                {{ r.name }} - {{ r.email }}
+                                            </ng-container>
+                                        </ng-container>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-secondary" title="Plus de détails">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-primary" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </ng-container>
                             </tr>
                         </tbody>
                     </table>

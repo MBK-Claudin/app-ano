@@ -14,6 +14,7 @@ import { LivrableComponent } from '../../livrables/livrable/livrable.component';
 import { ContractComponent } from '../../contracts/contract/contract.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AnoProgrammeComponent } from '../../anos/ano-programme/ano-programme.component';
+import { GanttPlaningComponent } from '../gantt-planing/gantt-planing.component';
 
 @Component({
   selector: 'app-details-programme',
@@ -33,6 +34,7 @@ import { AnoProgrammeComponent } from '../../anos/ano-programme/ano-programme.co
     NgxSkeletonLoaderModule,
     AnoProgrammeComponent,
     ContractComponent,
+    GanttPlaningComponent,
   ],
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'

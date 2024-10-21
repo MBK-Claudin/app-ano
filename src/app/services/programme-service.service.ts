@@ -40,4 +40,8 @@ export class ProgrammeServiceService {
     return this.http.delete<any>("http://localhost:8000/api/delete/programme/"+id);
   }
 
+  getDataPlaning(id: any): Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/programme/planing/data/'+id);
+  }
+
 }

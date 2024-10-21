@@ -36,13 +36,15 @@ export class PtbaComponent {
     excel: new File([''], '')
   }
   budgetannuels: any[] = [];
+  Filterbudgetannuels: any[] = [];
   d_periode: any;
   f_periode: any;
 
   file: File | null = null;
   programme_id: any;
   programmes: any[] = [];
-
+  searchText: string = '';
+  
   
   constructor(
     private budgetservice: BudgetannuelServiceService,
@@ -52,6 +54,7 @@ export class PtbaComponent {
 
   ngOnInit(){
     this.getBudget()
+    this.getProgrammes();
   }
 
   getBudget(){
@@ -59,6 +62,7 @@ export class PtbaComponent {
       data => {
         this.loader = false
         this.budgetannuels = data;
+        this.Filterbudgetannuels = data;
       }, error => {
         console.error(error);
       }
@@ -75,7 +79,7 @@ export class PtbaComponent {
     }
   }
 
-  getPtogrammes(){
+  getProgrammes(){
     this.programmeService.getProgramme().subscribe(
       data => {
         this.programmes = data;
@@ -140,6 +144,13 @@ export class PtbaComponent {
     if(modal != null){
       modal.style.display = 'none';
     }
+  }
+
+  filterBugets() {
+    this.Filterbudgetannuels = this.budgetannuels.filter(budget => {
+        const objectif = budget.programme.libelle ? budget.programme.libelle.toLowerCase() : '';
+        return objectif.includes(this.searchText.toLowerCase());
+    });
   }
 
 }

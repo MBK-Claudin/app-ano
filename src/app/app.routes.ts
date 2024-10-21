@@ -27,6 +27,7 @@ import { SiteAllComponent } from './composants/site-all/site-all.component';
 import { FactureComponent } from './composants/factures/facture/facture.component';
 import { PaiementComponent } from './composants/paiements/paiement/paiement.component';
 import { PtbaComponent } from './composants/budgetannuels/ptba/ptba.component';
+import { ContractAllComponent } from './composants/contracts/contract-all/contract-all.component';
 
 export const routes: Routes = [
 
@@ -56,7 +57,7 @@ export const routes: Routes = [
             { path: 'paiement', component: PaiementComponent },
             { path: 'details/facture/:id', component: FactureComponent },
             { path: 'ptba', component: PtbaComponent },
-
+            { path: 'contracts', component: ContractAllComponent },
         ]
     },
     { path: 'login', component: LoginComponent },

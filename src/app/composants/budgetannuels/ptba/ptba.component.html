@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Recherche...">
+                            <input type="text" class="form-control" placeholder="Recherche..." (keyup)="filterBugets()" [(ngModel)]="searchText">
                         </div>
                         <div class="col-3 text-right">
                             <button class="btn btn-primary" title="Ajouter un programme" (click)="openmodal()">
@@ -51,12 +51,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of budgetannuels">
-                                        <td>
-                                            <ng-container *ngFor="let p of item">
-                                                <span>{{ p.libelle }}</span>
-                                            </ng-container>
-                                        </td>
+                                    <tr *ngFor="let item of Filterbudgetannuels">
+                                        <td>{{ item.programme.libelle}}</td>
                                         <td>{{ item.periode }}</td>
                                         <td>{{ item.date_debut }}</td>
                                         <td>{{ item.date_fin }}</td>

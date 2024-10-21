@@ -36,6 +36,6 @@ export class AnoService {
   }
 
   getAnoProgramme(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/ano/programme');
+    return this.http.get<any>('http://localhost:8000/api/ano/programme/'+id);
   }
 }

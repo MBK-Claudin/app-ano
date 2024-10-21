@@ -23,7 +23,7 @@
                     </div>
                     <div class="row full d-flex justify-content-center align-items-center">
                         <div class="col-md-12 my-3">
-                            <form (ngSubmit)="insertAno()">
+                            <form (ngSubmit)="insertAno()" enctype="multipart/form-data">
                                 <div class="row mx-4">
                                     <div class="col-6">
                                         <!--ano -->
@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="documents">Document</label>
-                                            <input #doc type="file" class="form-control" id="documents" name="documents" (change)="onFileChange($event)" accept=".pdf">
+                                            <input #doc type="file" class="form-control" id="documents[]" name="documents[]" (change)="onFileChange($event)" accept="application/pdf">
                                         </div>
                                         <ul>
                                             <li *ngFor="let file of files; let i = index">
