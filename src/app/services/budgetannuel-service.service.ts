@@ -23,6 +23,10 @@ export class BudgetannuelServiceService {
     return this.http.get<any>('http://localhost:8000/api/budgetannuels/'+id);
   }
 
+  getAllBudget():Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/all/budgetannuels/');
+  }
+
   getActivites():Observable<any> {
     return this.http.get<any>('http://localhost:8000/api/budgetannuel/activites');
   }

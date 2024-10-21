@@ -34,8 +34,6 @@
                                         <th>Programmes</th>
                                         <th>Date Debut</th>
                                         <th>Date Fin</th>
-                                        <th>organisation & Ancrage</th>
-                                        <th>Responsable</th>
                                         <th>Statut</th>
                                         <th>Ehéance</th>
                                         <th>Tx. Ex. Phys.</th>
@@ -48,24 +46,10 @@
                                         <td>{{ item.libelle }}</td>
                                         <td>{{ item.date_debut }}</td>
                                         <td>{{ item.date_fin}}</td>
-                                        <td>
-                                            <ng-container *ngFor="let org of item.organisations; let i = index">
-                                                <span>{{ org.libelle }} - {{ org.pivot.ancrage }}</span>
-                                                <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
-                                                <br>
-                                            </ng-container>
-                                        </td>
-                                        <td>
-                                            <ng-container *ngFor="let user of item.users; let i = index">
-                                                <span>{{ user.name }}</span>
-                                                <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
-                                                <br>
-                                            </ng-container>
-                                        </td>
                                         <td>{{ item.statut }}</td>
                                         <td>{{ item.echeance}}</td>
-                                        <td>{{ item.taux_execution_physique }} %</td>
-                                        <td>{{ item.taux_execution_financier }}%</td>
+                                        <td>{{ item.taux_execution_physique || 0 }} %</td>
+                                        <td>{{ item.taux_execution_financier || 0 }}%</td>
                                         <td>
                                             <div class="btn-group">
                                                 <button [routerLink]="['/details/programme/', item.id]"  class="btn btn-secondary" title="Plus de détails">

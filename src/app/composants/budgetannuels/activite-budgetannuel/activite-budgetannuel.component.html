@@ -58,43 +58,42 @@
                                             <div class="row d-flex justify-content-between">
                                                 <div class="col-2">
                                                     <div class="d-flex align-items-center">
-                                                        <button (click)="modal()" class="btn btn-link ml-2" title="Ajouter un programme">
+                                                        <button (click)="modal()" class="btn btn-link ml-2" title="Effectuer un e nouvelle demande d'ANO">
                                                             Demande ANO
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="col-2">
                                                     <div class="d-flex align-items-center">
-                                                        <button (click)="jalonmodal()" class="btn btn-link ml-2" title="Ajouter un programme">
+                                                        <button (click)="jalonmodal()" class="btn btn-link ml-2" title="Créer un enouvelle activité">
                                                             Etablir une Activité/jalon
                                                         </button>
                                                     </div>
                                                 </div>
-                                                
                                                 <div class="col-2">
                                                     <div class="d-flex align-items-center">
-                                                        <button (click)="isano()" class="btn btn-link ml-2" title="Ajouter un programme">
+                                                        <button (click)="isano()" class="btn btn-link ml-2" title="Afficher la liste des anos">
                                                             Liste des ANOs
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="col-2">
                                                     <div class="d-flex align-items-center">
-                                                        <button (click)="isjalon()" class="btn btn-link ml-2" title="Ajouter un programme">
+                                                        <button (click)="isjalon()" class="btn btn-link ml-2" title="Afficher la liste des activités">
                                                             Liste des activités
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="col-2">
                                                     <div class="d-flex align-items-center">
-                                                        <button class="btn btn-link ml-2" title="Ajouter un programme">
+                                                        <button (click)="isgant()" class="btn btn-link ml-2" title="Afficher le planing en vue gantt">
                                                             Planing(vue gantt)
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="col-2">
                                                     <div class="d-flex align-items-center">
-                                                        <button class="btn btn-link ml-2" title="Ajouter un programme">
+                                                        <button (click)="isprogress()" class="btn btn-link ml-2" title="Afficher le planing en vue Tableau">
                                                             Planing(vue tableau)
                                                         </button>
                                                     </div>
@@ -113,7 +112,7 @@
 </div>
 
 <!-- Liste ANO -->
-<div class="midde_cont" *ngIf="bool">
+<div class="midde_cont" *ngIf="isAnoList">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -186,7 +185,7 @@
 </div>
 
 <!-- Liste des actviéts -->
-<div class="midde_cont" *ngIf="!bool">
+<div class="midde_cont" *ngIf="isJalonList">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -209,11 +208,10 @@
                                         <th>Activité</th>
                                         <th>Date Debut</th>
                                         <th>Date Fin</th>
+                                        <th>Budget</th>
                                         <th>Responsable</th>
                                         <th>Statut</th>
                                         <th>Ehéance</th>
-                                        <th>Tx. Ex. Phys.</th>
-                                        <th>Tx. Ex. Fin.</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -221,7 +219,8 @@
                                     <tr *ngFor="let item of jalons">
                                         <td>{{ item.libelle }}</td>
                                         <td>{{ item.date_debut }}</td>
-                                        <td>{{ item.date_fin}}</td>
+                                        <td>{{ item.date_fin }}</td>
+                                        <td>{{ item.budget }}</td>
                                         <td>
                                             <ng-container *ngFor="let user of item.users; let i = index">
                                                 <span>{{ user.name }}</span>
@@ -231,8 +230,6 @@
                                         </td>
                                         <td>{{ item.statut }}</td>
                                         <td>{{ item.echeance}}</td>
-                                        <td>{{ item.taux_execution_physique }} %</td>
-                                        <td>{{ item.taux_execution_financier }}%</td>
                                         <td>
                                             <div class="btn-group">
                                                 <button type="button"  class="btn btn-secondary" title="Plus de détails">
@@ -251,6 +248,72 @@
                             </table>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Planing diagramme de gantt -->
+<div class="midde_cont" *ngIf="isGantt">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Planing Gantt</h2>
+                        </div>
+                    </div>
+                    
+                    <ejs-gantt [dataSource]="Data" [taskFields]="taskSettings"></ejs-gantt>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Planing diagramme de Tableau -->
+<div class="midde_cont" *ngIf="isProgressTable">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Planing Tableau</h2>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Phase</th>
+                                        <th>Activité</th>
+                                        <th>Progréssion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Parcours des phases -->
+                                    <ng-container *ngFor="let phase of DataTable">
+                                        <!-- Affichage de la phase et des activités -->
+                                        <tr *ngFor="let activity of phase.activities; let i = index">
+                                            <td *ngIf="i === 0" attr.rowspan="{{ phase.activities.length }}" >{{ phase.libelle }}</td>
+                                            <td>{{ activity.libelle }}</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 25%;" attr.aria-valuenow="{{ activity.progress }}" aria-valuemin="0" aria-valuemax="100">{{ activity.progress | number:'1.0-0' }} %</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -404,6 +467,10 @@
                             <div class="form-group">
                                 <label for="date_fin">Date de fin :</label>
                                 <input type="date" [(ngModel)]="JDate_fin" class="form-control" id="date_fin" name="date_fin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="budget">Budget :</label>
+                                <input type="number" min="100000" step="100000" [(ngModel)]="JBudget" class="form-control" id="budget" name="budget" required>
                             </div>
                         </div>
                         <div class="col-6">

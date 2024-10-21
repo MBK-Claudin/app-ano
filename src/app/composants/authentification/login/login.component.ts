@@ -21,8 +21,4 @@ export class LoginComponent {
     window.location.href = 'http://localhost:8000/auth'
   }
 
-  teste(){
-    window.location.href = 'https://v17.angular.io/api/router/CanActivateFn'
-  }
-
 }

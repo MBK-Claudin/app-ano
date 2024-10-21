@@ -34,12 +34,10 @@ export class MenuComponent {
   }
 
   getAuthUser(){
-    console.log('uid : ',this.uid);
     this.authService.getAuthUser(this.uid).subscribe(
       data => {
         this.user = data.user;
         localStorage.setItem('user_id', this.user.id);
-        console.log('auth user: ', this.user);
       }, error => {
         console.log('Erreur authentification user :', error);
       }

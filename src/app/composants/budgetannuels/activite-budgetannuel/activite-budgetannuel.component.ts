@@ -9,6 +9,7 @@ import { ActiviteService } from '../../../services/activite.service';
 import { GanttModule, TaskFieldsModel } from '@syncfusion/ej2-angular-gantt';
 import { error } from 'console';
 import { BudgetannuelServiceService } from '../../../services/budgetannuel-service.service';
+import { ObjectEncodingOptions } from 'fs';
 
 @Component({
   selector: 'app-activite-budgetannuel',
@@ -60,7 +61,7 @@ export class ActiviteBudgetannuelComponent {
   date_fin: string = '';
   responsable: string = '';
   email: string = '';
-  // jalon var
+
   jalon: string = '';
   JDate_debut: Date | null = null;
   JDate_fin: Date | null = null;
@@ -68,6 +69,7 @@ export class ActiviteBudgetannuelComponent {
   JEmail: string = '';
   JPhase: string = '';
   JSite: string = '';
+  JBudget: number = 0;
 
   JResponsables: string[] = [];
   JEmails: string[] = [];
@@ -75,7 +77,17 @@ export class ActiviteBudgetannuelComponent {
   deleteano_id: any;
   userid: any;
 
-
+  isAnoList: boolean = true;
+  isJalonList: boolean = false;
+  isGantt: boolean = false;
+  isProgressTable: boolean = false;
+  
+  taskSettings: TaskFieldsModel | undefined;
+  Data: object[] = [];
+  DataII: any[] = [];
+  ganttData: Object[] = [];
+  DataTable: any[] = [];
+  
   constructor(
     private router: ActivatedRoute,
     private data: DataServiceService,
@@ -83,14 +95,6 @@ export class ActiviteBudgetannuelComponent {
     private activiteService: ActiviteService,
     private budgetannuelService: BudgetannuelServiceService,
   ){}
-
-  isano(){
-    this.bool = true;
-  }
-
-  isjalon(){
-    this.bool = false;
-  }
 
   ngOnInit(){
     this.activite_id = this.router.snapshot.paramMap.get('id');
@@ -100,6 +104,35 @@ export class ActiviteBudgetannuelComponent {
     this.getPhases();
     this.getSites();
     this.getActivite();
+    this.taskSettings = {id: 'TaskID', name: 'TaskName', startDate: 'StartDate', endDate: 'EndDate', duration: 'Duration', progress: 'Progress', child: 'subtasks' };
+  }
+
+  isano(){
+    this.isAnoList = true;
+    this.isJalonList= false;
+    this.isGantt = false;
+    this.isProgressTable = false;
+  }
+
+  isjalon(){
+    this.isAnoList = false;
+    this.isJalonList= true;
+    this.isGantt = false;
+    this.isProgressTable = false;
+  }
+
+  isgant(){
+    this.isAnoList = false;
+    this.isJalonList= false;
+    this.isGantt = true;
+    this.isProgressTable = false;
+  }
+
+  isprogress(){
+      this.isAnoList = false;
+      this.isJalonList= false;
+      this.isGantt = false;
+      this.isProgressTable = true;
   }
 
   getActivite(){
@@ -110,10 +143,109 @@ export class ActiviteBudgetannuelComponent {
         this.jalons = data.activites;
         this.responsables = data.users;
         this.anos = data.anos;
+        this.DataII = this.groupByPhase(this.jalons);
+        this.Data = this.transformForGantt(this.DataII);
+        this.DataTable = this.transformDataTable(this.DataII);
+        console.log('Organisation des données', this.DataII);
+        console.log('Transmation des données', this.Data);
+        console.log('Tableau des données', this.DataTable);
       }, error => {
         console.log("erreur lors du chargement de l'activité !", error);
       }
     )
+  }
+
+  groupByPhase(data: any[]): any {
+    return data.reduce((acc, current) => {
+      const phaseName = current.phase.libelle;
+  
+      // Si la phase n'existe pas encore dans l'accumulateur, on la crée
+      if (!acc[phaseName]) {
+        acc[phaseName] = {
+          phase_id: current.phase.id,
+          phase_name: phaseName,
+          activities: [],
+        };
+      }
+  
+      // Ajout de l'activité à la phase correspondante
+      acc[phaseName].activities.push({
+        id: current.id,
+        libelle: current.libelle,
+        date_debut: current.date_debut,
+        date_fin: current.date_fin,
+        budget: current.budget,
+      });
+  
+      return acc;
+    }, {});
+  }
+
+  transformForGantt(groupedData: any): any[] {
+    this.ganttData = [];
+  
+    Object.keys(groupedData).forEach((phaseName, index) => {
+      const phase = groupedData[phaseName];
+  
+      // Ajouter la phase comme une tâche parent
+      this.ganttData.push({
+        TaskID: phase.phase_id,
+        TaskName: phase.phase_name,
+        StartDate: new Date(phase.activities[0].date_debut),
+        EndDate: new Date(phase.activities[phase.activities.length - 1].date_fin),
+        isParent: true,
+        subtasks: phase.activities.map((activity: { libelle: string, date_debut: string, date_fin: string, budget: string }, i: number) => ({
+          TaskID: `${phase.phase_id}-${i+1}`,
+          TaskName: activity.libelle,
+          StartDate: new Date(activity.date_debut),
+          EndDate: new Date(activity.date_fin),
+          Budget: activity.budget,
+          isParent: false,
+        })),        
+      });
+    });
+  
+    return this.ganttData;
+  }
+
+  transformDataTable(originalData: any): any[] {
+    const transformedPhases = [];
+  
+    // Parcours de chaque phase dans l'objet original
+    for (const phaseKey in originalData) {
+      if (originalData.hasOwnProperty(phaseKey)) {
+        const phase = originalData[phaseKey];
+  
+        // Création d'un objet pour la phase avec son libellé et ses activités
+        const transformedPhase = {
+          libelle: phase.phase_name,
+          activities: phase.activities.map((activity: any) => ({
+            libelle: activity.libelle,
+            date_debut: activity.date_debut,
+            date_fin: activity.date_fin,
+            progress: this.calculateProgress(activity.date_debut, activity.date_fin),
+          })),
+        };
+  
+        // Ajout de la phase transformée dans le tableau final
+        transformedPhases.push(transformedPhase);
+      }
+    }
+  
+    return transformedPhases;
+  }
+
+  calculateProgress(dateDebut: string, dateFin: string): number {
+    const startDate = new Date(dateDebut);
+    const endDate = new Date(dateFin);
+    const today = new Date();
+  
+    const totalDuration = endDate.getTime() - startDate.getTime();
+    const elapsedDuration = today.getTime() - startDate.getTime();
+  
+    if (totalDuration <= 0) return 100;  // Si la phase est terminée ou a une mauvaise configuration
+    const progress = (elapsedDuration / totalDuration) * 100;
+    return progress > 100 ? 100 : progress < 0 ? 0 : progress;  // Garde la progression entre 0 et 100
   }
 
   removeUserField(index: number) {
@@ -159,6 +291,7 @@ export class ActiviteBudgetannuelComponent {
       jalonFrom.append('libelle', this.jalon);
       jalonFrom.append('date_debut', this.JDate_debut!.toString());
       jalonFrom.append('date_fin', this.JDate_fin!.toString());
+      jalonFrom.append('budget', this.JBudget.toString());
   
       for (let i = 0; i< this.JResponsables.length; i++ ){
         jalonFrom.append('responsables[]', this.JResponsables[i]);
@@ -182,7 +315,6 @@ export class ActiviteBudgetannuelComponent {
   getSites(){
     this.activiteService.getSites().subscribe(
       data => {
-        console.log('site: ', data);
         this.sites = data;
       }, error => {
         console.log('Erreur lors du chargement des sites !', error);

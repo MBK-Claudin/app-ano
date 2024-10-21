@@ -30,12 +30,9 @@ export class LoginCheckComponent {
       params => {
         const token = params['token'];
         const user_id = params['auth'];
-        console.log('token :', token);
-        console.log('uid :', user_id);
         
         if (user_id) {
           localStorage.setItem('uid', user_id);
-          console.log(user_id);
         }
 
         if(token){

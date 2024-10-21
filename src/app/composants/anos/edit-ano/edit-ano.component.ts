@@ -47,7 +47,7 @@ export class EditAnoComponent {
   activites: any[] = [];
   id: any;
 
-  editDocumtens: any[] = [];
+  editDocuments: any[] = [];
   editevent: any[] = [];
   editResponsable: any[] = [];
   ano_id: any;
@@ -106,40 +106,56 @@ export class EditAnoComponent {
   getSelectAno(){
     this.anoService.getSelectANO(this.id).subscribe(
       async data => {
-        console.log(data);
         this.ano_id = data.id
         this.budget = data.budget;
-        this.editDocumtens = data.documents;
+        this.editDocuments = data.documents;
         this.editevent = data.evenements;
-        this.editResponsable = data.users
+        this.editResponsable = data.users;
+        console.log('data : ',data);
+        console.log('event : ', this.editevent);
+        console.log('doc : ', this.editDocuments);
 
-        for (let i = 0; i < this.editDocumtens.length; i++) {
-          this.doc_id.push(this.editDocumtens[i].id)
-          this.titres.push(this.editDocumtens[i].titre);
-          const fileRes = await fetch(this.editDocumtens[i].file_url);
-          const blob = fileRes.blob();
-          const file = new File(['blob'], this.editDocumtens[i].file_name, {type: (await blob).type})
+        for (let i = 0; i < this.editDocuments.length; i++) {
+          
+          this.titres.push(this.editDocuments[i].titre);
+          console.log(this.editDocuments[i].file_url, this.editDocuments[i].file_path, this.editDocuments[i].file_name);
 
-          this.files.push(file);
+          try {
+            const fileRes = await fetch(this.editDocuments[i].file_url);
+            if (!fileRes.ok) {
+              throw new Error(`Erreur lors de la récupération du fichier : ${fileRes.statusText}`);
+            }
+            const blob = await fileRes.blob();
+            const file = new File([blob], this.editDocuments[i].file_name, { type: blob.type });
+            this.files.push(file);
+          } catch (error) {
+            console.error("Erreur lors du téléchargement du fichier :", error);
+          }
+          
         }
 
         for (let j = 0; j < this.editevent.length; j++){
 
           this.event_id.push(this.editevent[j].id);
 
-          this.anoList[this.indextEvent] = ({
-            event: this.editevent[j].libelle,
-            date_debut: this.editevent[j].date_debut,
-            date_fin: this.editevent[j].date_fin,
-            responsable: this.editResponsable[j].name,
-            email: this.editResponsable[j].email
-          });
+          for(let k = 0; k < this.editevent[j].users.length; k++){
+            this.anoList[this.indextEvent] = ({
+              event: this.editevent[j].libelle,
+              date_debut: this.editevent[j].date_debut,
+              date_fin: this.editevent[j].date_fin,
+              responsable: this.editevent[j].users[k].name,
+              email: this.editevent[j].users[k].email,
+            });
+          }
 
           this.indextEvent += 1;
-
         }
+
+        console.log('Event : ', this.anoList);
+        console.log('Doc : ', this.files);
+        console.log('titre doc : ', this.titres)
       }, error => {
-        console.error('Erreur :', error);
+        console.error("Erreur lors de la recuperation de l'ano:", error);
       }
     )
   }
@@ -205,13 +221,11 @@ export class EditAnoComponent {
   }
 
   getActivites(){
-    console.log('merde')
     this.budgetannuelService.getActivites().subscribe(
       data => {
         this.activites = data;
-        console.log('ptba: ', this.activites);
       }, error => {
-        console.log('Erreur lors du chargement des activites !', error)
+        console.log('Erreur lors du chargement des activites !', error);
       }
     )
   }

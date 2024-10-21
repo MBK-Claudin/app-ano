@@ -1,0 +1,139 @@
+<ngx-spinner 
+    bdColor = "rgba(0, 0, 0, 0.8)" 
+    size = "default" color = "#fff" 
+    type = "ball-spin-fade" 
+    [fullScreen] = "true"
+>
+    <p style="color: white" > Cette opérations peut prendre un certain temps. Veuillez patienttez !!!</p>
+</ngx-spinner>
+
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>PTBAs</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row full graph_head">
+                        <div class="col-3">
+                            <div class="heading1 margin_0">
+                                <h2>Liste des budgets annuels</h2>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Recherche...">
+                        </div>
+                        <div class="col-3 text-right">
+                            <button class="btn btn-primary" title="Ajouter un programme" (click)="openmodal()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Programme</th>
+                                        <th>période</th>
+                                        <th>Date de debut</th>
+                                        <th>Date de fin</th>
+                                        <th>Statut</th>
+                                        <th>Budget Planifier</th>
+                                        <th>Budget Executer</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of budgetannuels">
+                                        <td>
+                                            <ng-container *ngFor="let p of item">
+                                                <span>{{ p.libelle }}</span>
+                                            </ng-container>
+                                        </td>
+                                        <td>{{ item.periode }}</td>
+                                        <td>{{ item.date_debut }}</td>
+                                        <td>{{ item.date_fin }}</td>
+                                        <td>{{ item.statut }}</td>
+                                        <td>{{ item.Budget_planifier }}</td>
+                                        <td>{{ item.Budget_executer }}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button [routerLink]="['/details/budgetannuel/', item.id]" class="btn btn-secondary" title="Plus de détails">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button class="btn btn-primary" title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ngx-skeleton-loader count="{{ 10 }}" appearance="line" *ngIf="loader" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal d'ajout -->
+<div class="modal" tabindex="-1" role="dialog" id="modal_add">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ajouter un PTBA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" (click)="closemodal()">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (ngSubmit)="insertBudgetAnnuel()">
+                    <div class="form-group">
+                        <label for="date_debut">Selectionner un programme</label>
+                        <select name="programme" id="programme" class="form-control" type="text" [(ngModel)]="programme_id">
+                            <option [value]="p.id" *ngFor="let p of programmes">{{ p.libelle }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date_debut">Date de debut</label>
+                        <input type="date" class="form-control" required id="date_debut" name="date_debut" [(ngModel)]="budgetannuel.date_debut">
+                    </div>
+                    <div class="form-group">
+                        <label for="date_fin">Date de fin</label>
+                        <input type="date" class="form-control" id="date_fin" name="date_fin" [(ngModel)]="budgetannuel.date_fin" required>
+                    </div>
+                    <hr>
+                    <!-- Section Organisations -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="heading1 margin_0">
+                                <h5>PTBA</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="excel">Sélectionner le dossier du PTBA (fichier excel)</label>
+                        <input type="file" id="excel" name="excel" accept=".xlsx, .xls" class="form-control" (change)="onFileChange($event)" required>
+                    </div>
+                    <!-- Fin du formulaire -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Enregistrer le PTBA</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
