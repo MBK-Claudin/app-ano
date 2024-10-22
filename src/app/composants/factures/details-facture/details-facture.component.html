@@ -19,22 +19,22 @@
                                             <table class="table">
                                                 <tbody>
                                                     <tr>
-                                                        <th class="display-1"><strong>Budget :</strong></th>
-                                                        <td>{{ facture.budget }} FCFA</td>
-                                                        <th><strong>Budget CNTIPPE :</strong></th>
-                                                        <td>{{ facture.budget_cntippee || 0 }} FCFA</td>
+                                                        <th class="display-1"><strong>Reférence de la Facture :</strong></th>
+                                                        <td>{{ facture.reference_facture }} FCFA</td>
+                                                        <th><strong>Type de Facture:</strong></th>
+                                                        <td>{{ facture.type_facture }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th><strong>Situation Actuelle :</strong></th>
-                                                        <td>{{ facture.situation_actuelle || 'Rien à signaler' }}</td>
-                                                        <th><strong>Situation À venir :</strong></th>
-                                                        <td>{{ facture.situation_venir || 'Rien à signaler' }}</td>
+                                                        <th><strong>Couverture :</strong></th>
+                                                        <td>{{ facture.couverture }}</td>
+                                                        <th><strong>Montant :</strong></th>
+                                                        <td>{{ facture.montant }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th><strong>Commentaire :</strong></th>
-                                                        <td>{{ facture.commentaire || 'Rien à signaler' }}</td>
-                                                        <th><strong>Statut :</strong></th>
-                                                        <td>{{ facture.statut }}</td>
+                                                        <th><strong>Date de réception :</strong></th>
+                                                        <td>{{ facture.date_reception }}</td>
+                                                        <th><strong></strong></th>
+                                                        <td></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -65,45 +65,13 @@
                     <div class="row full graph_head">
                         <div class="col-6">
                             <div class="heading1 margin_0">
-                                <h2 class="fw-bold">Traitement</h2>
+                                <h2 class="fw-bold">Suivi de la facture</h2>
                             </div>
                         </div>
                     </div>
                     <div class="row full d-flex justify-content-center align-items-center">
                         <div class="col-md-12 my-3">
-                            <form>
-                                <div class="row mx-4">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="budget_cntippee">Budget CNTIPPEE :</label>
-                                            <input type="number" min="100000" step="100000" class="form-control" id="budget_cntippee" name="budget_cntippee">
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="situation_actuelle">Situation actuelle :</label>
-                                                    <textarea class="form-control" id="situation_actuelle" name="situation_actuelle"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="situation_venir">Situation à venir :</label>
-                                                    <textarea class="form-control" id="situation_venir" name="situation_venir"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="commentaire">Commentaire :</label>
-                                            <textarea class="form-control" id="commentaire" name="commentaire" rows="4"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mx-4 text-right">
-                                    <button type="button" class="btn btn-primary me-2">Primary</button>
-                                    <button type="button" class="btn btn-secondary me-2">Secondary</button>
-                                    <button type="button" class="btn btn-success">Success</button>
-                                </div>
-                            </form>
+
                         </div>
                     </div>
                 </div>

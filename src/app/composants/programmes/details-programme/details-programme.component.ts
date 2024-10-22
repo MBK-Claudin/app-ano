@@ -15,6 +15,7 @@ import { ContractComponent } from '../../contracts/contract/contract.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AnoProgrammeComponent } from '../../anos/ano-programme/ano-programme.component';
 import { GanttPlaningComponent } from '../gantt-planing/gantt-planing.component';
+import { FactureProgrammeComponent } from '../../factures/facture-programme/facture-programme.component';
 
 @Component({
   selector: 'app-details-programme',
@@ -26,7 +27,6 @@ import { GanttPlaningComponent } from '../gantt-planing/gantt-planing.component'
     UsersComponent,
     BudgetannuelsComponent,
     AddAnoComponent,
-    PlaningGanttComponent,
     AnoComponent,
     SiteComponent,
     LivrableComponent,
@@ -35,6 +35,7 @@ import { GanttPlaningComponent } from '../gantt-planing/gantt-planing.component'
     AnoProgrammeComponent,
     ContractComponent,
     GanttPlaningComponent,
+    FactureProgrammeComponent,
   ],
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'
