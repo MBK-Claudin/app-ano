@@ -1,25 +1,25 @@
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { FactureService } from '../../../services/facture.service';
 import { error } from 'console';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-facture',
+  selector: 'app-facture-programme',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     RouterModule,
   ],
-  templateUrl: './facture.component.html',
-  styleUrl: './facture.component.css'
+  templateUrl: './facture-programme.component.html',
+  styleUrl: './facture-programme.component.css'
 })
-export class FactureComponent {
+export class FactureProgrammeComponent {
+  @Input() programme_id!: number;
 
-  factures: any [] = [];
+  factures: any[] = [];
   filterFactures: any[] = [];
 
   titres: string[] = [];
@@ -38,14 +38,13 @@ export class FactureComponent {
   choiceAno: string = '';
   choiceContract: string = '';
 
+
   constructor(
-    private factureService: FactureService,
+    private factureService: FactureService
   ){}
 
   ngOnInit(){
     this.getFactures()
-    this.getAno();
-    this.getContract();
   }
 
   insertFacture(){
@@ -83,26 +82,6 @@ export class FactureComponent {
     
   }
 
-  getAno(){
-    this.factureService.getAno().subscribe(
-      data => {
-        this.anos = data.anos;
-      }, error => {
-        console.error(error);
-      }
-    )
-  }
-
-  getContract(){
-    this.factureService.getContract().subscribe(
-      data => {
-        this.contracts = data.contracts;
-      }, error => {
-        console.log('erreur contract:', error)
-      }
-    )
-  }
-
   onAnoChange(event: any): void {
     if (event.target.checked) {
         this.isano = true;
@@ -122,32 +101,16 @@ export class FactureComponent {
       }
   }
 
+
   getFactures(){
-    this.factureService.getFactures().subscribe(
+    this.factureService.getProgrammeFactures(this.programme_id).subscribe(
       data => {
         this.factures = data;
         this.filterFactures = data;
-        console.log('contract :', data);
       }, error => {
-        console.log('Erreur lors du chargement des contracts :', error)
+        console.error('Erreur lors de la récuperation des factures !!!!!!!!!!!', error);
       }
     )
-  }
-
-
-  onFileChange(event: any) {
-    this.fileToAdd = event.target.files[0];
-    if (this.fileToAdd && this.titre) {
-      this.files.push(this.fileToAdd);
-      this.titres.push(this.titre);
-      this.fileToAdd = null;
-      this.titre = '';
-      event.target.value = '';
-    }
-  }
-
-  removeFile(index: number) {
-    this.files.splice(index, 1); // Supprime le fichier de la liste
   }
 
   modal(){
@@ -162,6 +125,21 @@ export class FactureComponent {
     if(modal != null){
       modal.style.display = "none";
     }
+  }
+
+  onFileChange(event: any) {
+    this.fileToAdd = event.target.files[0];
+    if (this.fileToAdd && this.titre) {
+      this.files.push(this.fileToAdd);
+      this.titres.push(this.titre);
+      this.fileToAdd = null;
+      this.titre = '';
+      event.target.value = '';
+    }
+  }
+
+  removeFile(index: number) {
+    this.files.splice(index, 1); // Supprime le fichier de la liste
   }
 
 }

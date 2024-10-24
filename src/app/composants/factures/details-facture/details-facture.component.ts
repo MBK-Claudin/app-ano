@@ -46,6 +46,7 @@ export class DetailsFactureComponent {
         this.documents = data.documents;
         this.ano = data.ano;
         this.contract = data.contract;
+        
       }, error => {
         console.log('error :', error);
       }

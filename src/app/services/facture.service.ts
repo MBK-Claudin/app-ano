@@ -30,4 +30,8 @@ export class FactureService {
   getOneFActure(id: any):Observable<any>{
     return this.http.get('http://localhost:8000/api/select/facture/'+id);
   }
+
+  getProgrammeFactures(id: any):Observable<any>{
+    return this.http.get('http://localhost:8000/api/programme/facture/'+id);
+  }
 }
