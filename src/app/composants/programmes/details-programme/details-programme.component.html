@@ -94,6 +94,7 @@
                                                 <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#budget" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
                                                 <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#planing" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planing</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#site" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Sites</a>
+                                                <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#plan" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Plan de transformation</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#livrable" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Livrables</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#contract" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contracts</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#anos" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Anos</a>
@@ -112,7 +113,10 @@
                                             </div>
                                             <div class="tab-pane fade" id="site" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-site [programme_id]="detailsProgramme.id"></app-site>
-                                            </div>                                            
+                                            </div>
+                                            <div class="tab-pane fade" id="plan" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-plan-transformation></app-plan-transformation>
+                                            </div>                                              
                                             <div class="tab-pane fade" id="livrable" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-livrable [programme_id]="detailsProgramme.id"></app-livrable>
                                             </div>

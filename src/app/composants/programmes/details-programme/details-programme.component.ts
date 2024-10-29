@@ -16,6 +16,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { AnoProgrammeComponent } from '../../anos/ano-programme/ano-programme.component';
 import { GanttPlaningComponent } from '../gantt-planing/gantt-planing.component';
 import { FactureProgrammeComponent } from '../../factures/facture-programme/facture-programme.component';
+import { PlanTransformationComponent } from '../plan-transformation/plan-transformation.component';
 
 @Component({
   selector: 'app-details-programme',
@@ -36,6 +37,7 @@ import { FactureProgrammeComponent } from '../../factures/facture-programme/fact
     ContractComponent,
     GanttPlaningComponent,
     FactureProgrammeComponent,
+    PlanTransformationComponent,
   ],
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'

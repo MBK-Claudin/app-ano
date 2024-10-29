@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ContractService } from '../../../services/contract.service';
 import { error } from 'console';
 import { RouterModule } from '@angular/router';
+import { BudgetannuelServiceService } from '../../../services/budgetannuel-service.service';
 
 @Component({
   selector: 'app-contract',
@@ -30,13 +31,17 @@ export class ContractComponent {
   files: File[] = [];
   fileToAdd: File | null = null;
   titre: string = "";
+  activite_id: any;
+  activites: any;
 
   constructor(
     private contractService: ContractService,
+    private budgetannuelService: BudgetannuelServiceService,
   ) {}
 
   ngOnInit(){
     this.getContracts();
+    this.getActivites();
   }
 
   insertContract(){
@@ -45,7 +50,7 @@ export class ContractComponent {
     contractForm.append('libelle', this.libelle);
     contractForm.append('description', this.description);
     contractForm.append('montant', this.montant.toString());
-    contractForm.append('programme_id', this.programme_id.toString())
+    contractForm.append('activite_id', this.activite_id);
 
     for (let i = 0; i < this.titres.length; i++){
       contractForm.append('titres[]', this.titres[i]);
@@ -54,6 +59,7 @@ export class ContractComponent {
 
     this.contractService.insertContracts(contractForm).subscribe(
       data => {
+        this.getContracts();
         this.closemodal();
       }, error => {
         console.log('Erreur :', error);
@@ -68,6 +74,17 @@ export class ContractComponent {
         console.log('contract :', data);
       }, error => {
         console.log('Erreur lors du chargement des contracts :', error)
+      }
+    )
+  }
+
+  getActivites(){
+    this.budgetannuelService.getActivites().subscribe(
+      data => {
+        this.activites = data;
+        console.log(data);
+      }, error => {
+        console.log('Erreur lors du chargement des activités du ptba : ', error)
       }
     )
   }

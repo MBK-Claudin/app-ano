@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { FactureService } from '../../../services/facture.service';
 import { error } from 'console';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-facture',
@@ -38,14 +39,19 @@ export class FactureComponent {
   choiceAno: string = '';
   choiceContract: string = '';
 
+  uid = localStorage.getItem('uid');
+  user: any;
+
   constructor(
     private factureService: FactureService,
+    private authService: AuthService,
   ){}
 
   ngOnInit(){
     this.getFactures()
     this.getAno();
     this.getContract();
+    this.getUserId();
   }
 
   insertFacture(){
@@ -55,6 +61,7 @@ export class FactureComponent {
     factureForm.append('date_reception', this.date_reception.toString());
     factureForm.append('montant', this.montant.toString());
     factureForm.append('couverture', this.couverture.toString());
+    factureForm.append('user_id', this.user);
 
     for (let i = 0; i < this.titres.length; i++){
       factureForm.append('titres[]', this.titres[i]);
@@ -83,10 +90,21 @@ export class FactureComponent {
     
   }
 
+  getUserId () {
+    this.authService.getAuthUser(this.uid).subscribe(
+      data => {
+        this.user = data.id;
+      }, error => {
+        console.log("Erreur lors de la recuperetion del'utilisateur conecter !!", error);
+      }
+    )
+  }
+
   getAno(){
     this.factureService.getAno().subscribe(
       data => {
-        this.anos = data.anos;
+        this.anos = data;
+        console.log('facture ano:', this.anos)
       }, error => {
         console.error(error);
       }
@@ -96,9 +114,10 @@ export class FactureComponent {
   getContract(){
     this.factureService.getContract().subscribe(
       data => {
-        this.contracts = data.contracts;
+        this.contracts = data;
+        console.log('factures contracts :', this.contracts);
       }, error => {
-        console.log('erreur contract:', error)
+        console.log('erreur contract:', error);
       }
     )
   }

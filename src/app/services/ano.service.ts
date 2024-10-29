@@ -32,10 +32,18 @@ export class AnoService {
   }
 
   getDetailAno(id: any): Observable<any>{
-    return this.http.get<any>("http://localhost:8000/api/detail/ano/"+id);
+    return this.http.get<any>('http://localhost:8000/api/detail/ano/'+id);
   }
 
   getAnoProgramme(id: any): Observable<any>{
     return this.http.get<any>('http://localhost:8000/api/ano/programme/'+id);
+  }
+
+  etudeAno(id: any, data: any):Observable<any>{
+    return this.http.post<any>('http://localhost:8000/api/ano/etude/'+id, data);
+  }
+
+  validerAno(id: any): Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/ano/valider/'+id);
   }
 }

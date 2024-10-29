@@ -44,4 +44,8 @@ export class ProgrammeServiceService {
     return this.http.get<any>('http://localhost:8000/api/programme/planing/data/'+id);
   }
 
+  getDataPlanTransformation(id: any){
+    return this.http.get<any>('http://localhost:8000/api/programme/planTrasnformation/'+id);
+  }
+
 }

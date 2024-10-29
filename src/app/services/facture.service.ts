@@ -20,11 +20,11 @@ export class FactureService {
   }
 
   getAno():Observable<any>{
-    return this.http.get('http://localhost:8000/api/ano')
+    return this.http.get('http://localhost:8000/api/facture/ano');
   }
 
   getContract():Observable<any>{
-    return this.http.get('http://localhost:8000/api/contracts')
+    return this.http.get('http://localhost:8000/api/facture/contract');
   }
 
   getOneFActure(id: any):Observable<any>{
@@ -33,5 +33,9 @@ export class FactureService {
 
   getProgrammeFactures(id: any):Observable<any>{
     return this.http.get('http://localhost:8000/api/programme/facture/'+id);
+  }
+
+  getEtatFacture (id: any) {
+    return this.http.get('http://localhost:8000/api/facture/etatActuel/'+id);
   }
 }

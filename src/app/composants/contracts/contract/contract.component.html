@@ -89,6 +89,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="activite">Selectionner l'activités du PTBA :</label>
+                                <select type="text" class="form-control" [(ngModel)]="activite_id" id="activite" name="activite" required>
+                                    <option [value]="a.id" *ngFor="let a of activites">{{ a.libelle | slice:0:50 }}...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="refrence_contract">Reference du contract :</label>
                                 <input type="text" class="form-control" [(ngModel)]="ref_contract" id="refrence_contract" name="refrence_contract" required>
                             </div>
