@@ -1,0 +1,159 @@
+<!-- Liste des actviéts -->
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row full graph_head">
+                        <div class="col-3">
+                            <div class="heading1 margin_0">
+                                <h2>Listes des Activité</h2>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Recherche...">
+                        </div>
+                        <div class="col-3 text-right">
+                            <button (click)="jalonmodal()" class="btn btn-primary" title="Ajouter un programme">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Activité</th>
+                                        <th>Date Debut</th>
+                                        <th>Date Fin</th>
+                                        <th>Budget</th>
+                                        <th>Responsable</th>
+                                        <th>Statut</th>
+                                        <th>Ehéance</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of jalonFilter">
+                                        <td>{{ item.libelle }}</td>
+                                        <td>{{ item.date_debut }}</td>
+                                        <td>{{ item.date_fin }}</td>
+                                        <td>{{ item.budget }}</td>
+                                        <td>
+                                            <ng-container *ngFor="let user of item.users; let i = index">
+                                                <span>{{ user.name }}</span>
+                                                <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
+                                                <br>
+                                            </ng-container>
+                                        </td>
+                                        <td>{{ item.statut }}</td>
+                                        <td>{{ item.echeance}}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button"  class="btn btn-secondary" title="Plus de détails">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-primary" title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog"  id="jalonmodal">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nouvelle Activité</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span (click)="closejalonmodal()" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (ngSubmit)="insertJalon()">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="site">Site de déploiement :</label>
+                                <select name="site" id="site"  class="form-control" [(ngModel)]="JSite" required>
+                                    <option [value]="site.id" *ngFor="let site of sites">{{site.libelle}}</option>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="phase">Phase :</label>
+                                <select name="phase" id="phase"  class="form-control" [(ngModel)]="JPhase" required>
+                                    <option [value]="phase.id" *ngFor="let phase of phases">{{phase.libelle}}</option>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="evenement">Libellé de l'activité :</label>
+                                <input type="text" [(ngModel)]="jalon" class="form-control" id="evenement" name="evenement" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="date_debut">Date de debut :</label>
+                                <input type="date" [(ngModel)]="JDate_debut" class="form-control" id="date_debut" name="date_debut" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="date_fin">Date de fin :</label>
+                                <input type="date" [(ngModel)]="JDate_fin" class="form-control" id="date_fin" name="date_fin" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="budget">Budget :</label>
+                                <input type="number" min="100000" step="100000" [(ngModel)]="JBudget" class="form-control" id="budget" name="budget" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="heading1 margin_0">
+                                        <h5>Responsables ({{JResponsables.length}})</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <button type="button" class="btn btn-primary" (click)="addResponsable()"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Nom & prénom</label>
+                                <select type="text" [(ngModel)]="JResponsable" class="form-control" id="name" name="name[]" (change)="onUserSelectJalon($event)" required>
+                                    <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" [(ngModel)]="JEmail" class="form-control" id="email" name="email" readOnly>
+                            </div>
+                            <div *ngFor="let resp of JResponsables; let i = index">
+                                <span class="mr-2">{{ (i+1) }}</span>
+                                <span class="mr-2">{{ resp }} - {{ JEmails[i] }}</span>
+                                <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">enregistrer l'ano</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,14 @@
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ObjectifServiceService } from '../../../services/objectif-service.service';
 import { Programmes } from '../../../interfaces/programmes';
 import { DataServiceService } from '../../../services/data-service.service';
 import { Location } from '@angular/common';
 import { ProgrammeServiceService } from '../../../services/programme-service.service';
+import { from } from 'rxjs';
+import { error } from 'node:console';
 
 @Component({
   selector: 'app-add-programme',
@@ -15,6 +17,7 @@ import { ProgrammeServiceService } from '../../../services/programme-service.ser
     CommonModule,
     FormsModule,
     NgxSkeletonLoaderModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './add-programme.component.html',
   styleUrl: './add-programme.component.css'
@@ -23,25 +26,41 @@ export class AddProgrammeComponent {
   loader = true;
   isUser = false;
   isOrganisation = false;
-  programmes: Programmes = {
-    id: 0,
-    objectif_id: 0,
-    libelle: '',
-    date_debut: new Date(),
-    date_fin: new Date(),
-    organisation: [],
-    ancrage: [],
-    responsable: [],
-    email: []
-  }
+
+  ancrages = [{libelle: 'Stratégique'}, {libelle: 'Opérationnel'}]
+
+  programmeForm = new FormGroup({
+    objectif_id: new FormControl('', Validators.required),
+    libelle: new FormControl('', Validators.required),
+    objectif_specifique: new FormControl('', Validators.required),
+    date_debut: new FormControl('', Validators.required),
+    date_fin: new FormControl('', Validators.required),
+  });
+
+  organisationsForm = new FormGroup({
+    libelle: new FormControl('', Validators.required),
+    ancrage: new FormControl('', Validators.required),
+  })
+
+  organisationList: {
+    libelle: string,
+    ancrage: string,
+  }[] = [];
+
+  responsablesForm = new FormGroup({
+    responsable: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+  })
+
+  responsableList: {
+    responsable: string,
+    email: string,
+  }[] = [];
 
   objectifs: any[] = [];
   users: any[] =[];
   organisations: any[] = [];
-  selectedOrganisation: string = '';
-  selectedAncrage: string = '';
   selectedEmail: string = '';
-  selectedName: string = '';
   isAncrageDisabled: boolean = false;
 
   constructor(
@@ -85,18 +104,6 @@ export class AddProgrammeComponent {
     }
   }
 
-  onOrganisationChange(event: any) {
-    const selectedValue = event.target.value;
-
-    if (selectedValue === 'Autre') {
-        this.selectedAncrage = 'Autre';
-        this.isAncrageDisabled = true;  // Désactive le champ
-    } else {
-        this.isAncrageDisabled = false; // Active le champ
-        this.selectedAncrage = '';  // Réinitialise l'ancrage si nécessaire
-    }
-  }
-
   isLoader(){
     if(this.isUser && this.isOrganisation){
       this.loader = false;
@@ -104,14 +111,41 @@ export class AddProgrammeComponent {
   }
 
   insertProgrammes(){
-    this.programmeService.insertProgramme(this.programmes).subscribe(
-      data => {
-        console.log('reponse insertion de programmes', data)
-        this.goBack()
-      }, error => {
-        console.log('erreur insertion de programmes', error);
+    const programme = new FormData()
+    if(this.programmeForm.valid){
+      const objectif_id = this.programmeForm.value.objectif_id;
+      const libelle = this.programmeForm.value.libelle;
+      const objectif_specifique = this.programmeForm.value.objectif_specifique;
+      const date_debut = this.programmeForm.value.date_debut;
+      const date_fin = this.programmeForm.value.date_fin;
+      programme.append('objectif_id', objectif_id ? objectif_id.toString() : '');
+      programme.append('objectif_specifique', objectif_specifique ? objectif_specifique.toString() : '');
+      programme.append('libelle', libelle ? libelle.toString() : '');
+      programme.append('date_debut', date_debut ? date_debut.toString() : '');
+      programme.append('date_fin', date_fin ? date_fin.toString() : '');
+
+      if(this.responsableList.length > 0){
+        for(let i=0; i < this.responsableList.length; i++){
+          programme.append('responsable[]', this.responsableList[i].responsable);
+          programme.append('email[]', this.responsableList[i].email);
+        }
       }
-    )
+
+      if(this.organisationList.length > 0){
+        for(let i=0; i < this.organisationList.length; i++){
+          programme.append('organisation[]', this.organisationList[i].libelle);
+          programme.append('ancrage[]', this.organisationList[i].ancrage);
+        }
+      }
+
+      this.programmeService.insertProgramme(programme).subscribe(
+        data =>{
+          this.goBack();
+        }, error => {
+          console.error('erreur insertion de programmes', error);
+        }
+      )
+    }
   }
 
   goBack(){
@@ -141,42 +175,46 @@ export class AddProgrammeComponent {
   }
 
   addOrganisationField() {
-    if (this.selectedOrganisation && this.selectedAncrage) {
-      this.programmes.organisation.push(this.selectedOrganisation);
-      this.programmes.ancrage.push(this.selectedAncrage);
-      // Réinitialise les sélections après l'ajout
-      this.selectedOrganisation = '';
-      this.selectedAncrage = '';
-      this.isAncrageDisabled = false;
+
+    if(this.organisationsForm.valid){
+      const newOrganisation = {
+        libelle: this.organisationsForm.value.libelle || '',
+        ancrage: this.organisationsForm.value.ancrage || ''
+      };
+      this.organisationList.push(newOrganisation);
+      this.organisationsForm.reset();
     }
   }
 
   addUserField() {
-    if (this.selectedEmail && this.selectedName) {
-      this.programmes.responsable.push(this.selectedName);
-      this.programmes.email.push(this.selectedEmail);
-      // Réinitialise les sélections après l'ajout
-      this.selectedEmail = '';
-      this.selectedName = '';
+    if(this.responsablesForm.valid){
+
+      const newResponsable = {
+        responsable: this.responsablesForm.value.responsable || '',
+        email: this.responsablesForm.value.email || '',
+      };
+
+      this.responsableList.push(newResponsable);
+      this.responsablesForm.reset();
     }
   }
 
   onUserSelect(event: any) {
     const selectedUserName = event.target.value;
     const selectedUser = this.users.find(user => user.name === selectedUserName);
+    //console.log(selectedUser);
     if (selectedUser) {
       this.selectedEmail = selectedUser.email;
+      this.responsablesForm.get('email')?.setValue(this.selectedEmail);
     }
   }
 
   removeOrganisationField(index: number) {
-    this.programmes.organisation.splice(index, 1);
-    this.programmes.ancrage.splice(index, 1);
+    this.organisationList.splice(index, 1);
   }
   
   removeUserField(index: number) {
-    this.programmes.responsable.splice(index, 1);
-    this.programmes.email.splice(index, 1);
+    this.responsableList.splice(index, 1);
   }
 
   getObjectif(){

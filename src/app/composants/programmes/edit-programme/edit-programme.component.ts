@@ -29,6 +29,7 @@ export class EditProgrammeComponent {
     id: 0,
     objectif_id: 0,
     libelle: '',
+    objectif_specifique: '',
     date_debut: new Date(),
     date_fin: new Date(),
     organisation: [],
@@ -122,6 +123,7 @@ export class EditProgrammeComponent {
         console.log('edit programme : ', data);
         this.programmes.id = data.id;
         this.programmes.libelle = data.libelle;
+        this.programmes.objectif_specifique = data.objectif_specifique;
         this.programmes.date_debut = data.date_debut;
         this.programmes.date_fin = data.date_fin;
         this.programmes.objectif_id = data.objectif_id;

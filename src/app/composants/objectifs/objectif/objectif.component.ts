@@ -52,7 +52,7 @@ export class ObjectifComponent {
 
   auth(){
     const token = this.authService.getToken();
-    console.log(token);
+    console.log(token)
   }
 
   getobjectifs(){

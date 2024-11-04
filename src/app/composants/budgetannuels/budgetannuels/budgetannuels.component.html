@@ -49,12 +49,12 @@
                                 <td>{{ item.Budget_executer }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a *ngIf="item.id" [routerLink]="['/details/budgetannuel/', item.id]" class="btn btn-secondary" title="Plus de détails">
+                                        <button [routerLink]="['/details/budgetannuel/', item.id]" class="btn btn-secondary" title="Plus de détails">
                                             <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a [routerLink]="['/details/budgetannuel/', item.id]" class="btn btn-primary" title="Modifier">
+                                        </button>
+                                        <button class="btn btn-primary" title="Modifier">
                                             <i class="fas fa-edit"></i>
-                                        </a>
+                                        </button>
                                         <button class="btn btn-danger">
                                             <i class="fas fa-trash"></i>
                                         </button>

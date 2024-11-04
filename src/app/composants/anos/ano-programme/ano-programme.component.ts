@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AnoService } from '../../../services/ano.service';
 import { RouterModule } from '@angular/router';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -13,6 +13,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     FormsModule,
     RouterModule,
     NgxSkeletonLoaderModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './ano-programme.component.html',
   styleUrl: './ano-programme.component.css'
@@ -36,7 +37,6 @@ export class AnoProgrammeComponent {
   ngOnInit(){
     this.getAnoProgramme();
   }
-
 
   closemodal(){
     const modal = document.getElementById('sup_modal');
@@ -77,8 +77,8 @@ export class AnoProgrammeComponent {
     this.anoService.getAnoProgramme(this.programme_id).subscribe(
       data => {
         this.loader = false
-        this.anos = data;
-        this.filterAno = data;
+        this.anos = data.anos;
+        this.filterAno = data.anos;
         console.log('ano programme : ', data)
       }, error => {
         console.log("Erreur lors du chargement des anos", error);
@@ -86,13 +86,11 @@ export class AnoProgrammeComponent {
     )
   }
 
-  filterAnos() {
+  filterAnos(){
     this.filterAno = this.anos.filter(a => {
         const objectif = a.budget ? a.budget.toLowerCase() : '';
         return objectif.includes(this.searchText.toLowerCase());
     });
   }
-
-
 
 }

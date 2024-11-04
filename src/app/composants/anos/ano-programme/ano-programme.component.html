@@ -13,7 +13,7 @@
                     <input type="text" class="form-control" placeholder="Recherche..." [(ngModel)]="searchText" (keyup)="filterAnos()">
                 </div>
                 <div class="col-3 text-right">
-                    <button [routerLink]="['/add/ano']" class="btn btn-primary" title="Ajouter un programme">
+                    <button [routerLink]="['/add/ano/programme/', programme_id]" class="btn btn-primary" title="Ajouter un programme">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
@@ -23,32 +23,25 @@
                     <table class="table table-striped">
                         <thead class="thead-dark">
                             <tr>
-                                <th>#</th>
-                                <th>Evenement</th>
+                                <th>Libelle ANO</th>
                                 <th>Responsables</th>
-                                <th>Budgets</th>
+                                <th>Budget</th>
+                                <th>Budget Validé</th>
                                 <th>Statut</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of filterAno; let n = index">
-                                <td>{{ (n+1) }}</td>
+                                <td>{{ item.libelle }}</td>
                                 <td>
-                                    <ng-container *ngFor="let event of item.evenements; let i = index">
-                                        <span>{{ event.libelle }}</span>
+                                    <ng-container *ngFor="let user of item.users; let i = index">
+                                        <span>{{ user.name }}</span>
                                         <br>
                                     </ng-container>
                                 </td>
-                                <td>
-                                    <ng-container *ngFor="let event of item.evenements; let i = index">
-                                        <ng-container *ngFor="let user of event.users; let i = index">
-                                            <span>{{ user.name }}</span>
-                                            <br>
-                                        </ng-container>
-                                    </ng-container>
-                                </td>
                                 <td>{{ item.budget }}</td>
+                                <td>{{ item.budget_cntippee }}</td>
                                 <td>{{ item.statut }}</td>
                                 <td>
                                     <div class="btn-group">

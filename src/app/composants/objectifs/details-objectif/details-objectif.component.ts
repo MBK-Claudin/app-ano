@@ -4,6 +4,7 @@ import { ObjectifServiceService } from '../../../services/objectif-service.servi
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProgrammeServiceService } from '../../../services/programme-service.service';
+import { ProgrammeObjectifComponent } from '../programme-objectif/programme-objectif.component';
 
 @Component({
   selector: 'app-details-objectif',
@@ -12,6 +13,7 @@ import { ProgrammeServiceService } from '../../../services/programme-service.ser
     CommonModule,
     FormsModule,
     RouterModule,
+    ProgrammeObjectifComponent,
   ],
   templateUrl: './details-objectif.component.html',
   styleUrl: './details-objectif.component.css'

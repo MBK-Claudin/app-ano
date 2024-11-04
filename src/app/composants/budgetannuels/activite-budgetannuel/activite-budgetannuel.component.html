@@ -2,533 +2,95 @@
     <div class="container-fluid">
         <div class="row column_title">
             <div class="col-md-12">
-            <div class="page_title">
-                <h2>Activité PTBA ({{ activite.libelle }})</h2>
-            </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="white_shd full margin_bottom_30">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="full white_shd">
-                                <div class="full padding_infor_info">
-                                    <div class="price_table">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th><strong>Activité:</strong></th>
-                                                        <td>{{ activite.libelle }}</td>
-                                                        <th><strong>Planification</strong>:</th>
-                                                        <td>{{ activite.date_debut }} - {{ activite.date_fin }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th><strong>Budget prévu (FCFA):</strong></th>
-                                                        <td>{{ activite.budget_fcfa || 0 }} FCFA</td>
-                                                        <th><strong>Budget prévu (USD):</strong></th>
-                                                        <td>{{ activite.budget_us || 0}} $</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th><strong>Montant Décaissé:</strong></th>
-                                                        <td>{{ activite.montant_decaisser || 0 }} FCFA / {{ activite.budget_fcfa }} FCFA</td>
-                                                        <th><strong>Montant Restant:</strong></th>
-                                                        <td>{{ activite.montant_restant || 0 }} FCFA / {{ activite.budget_fcfa }} FCFA</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <hr>
-                                            <table class="table" *ngIf="responsables">
-                                                <p>Responsable(s)</p>
-                                                <tbody>
-                                                    <tr>
-                                                        <ng-container *ngFor="let resp of responsables">
-                                                            <th><strong>Responsable:</strong></th>
-                                                            <td>{{ resp.name }}</td>
-                                                            <th><strong>Email:</strong></th>
-                                                            <td>{{ resp.email }}</td>
-                                                        </ng-container>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <hr>
-                                        <div class="col-md-12">
-                                            <div class="row d-flex justify-content-between">
-                                                <div class="col-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <button (click)="modal()" class="btn btn-link ml-2" title="Effectuer un e nouvelle demande d'ANO">
-                                                            Demande ANO
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <button (click)="jalonmodal()" class="btn btn-link ml-2" title="Créer un enouvelle activité">
-                                                            Etablir une Activité/jalon
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <button (click)="isano()" class="btn btn-link ml-2" title="Afficher la liste des anos">
-                                                            Liste des ANOs
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <button (click)="isjalon()" class="btn btn-link ml-2" title="Afficher la liste des activités">
-                                                            Liste des activités
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <button (click)="isgant()" class="btn btn-link ml-2" title="Afficher le planing en vue gantt">
-                                                            Planing(vue gantt)
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">
-                                                    <div class="d-flex align-items-center">
-                                                        <button (click)="isprogress()" class="btn btn-link ml-2" title="Afficher le planing en vue Tableau">
-                                                            Planing(vue tableau)
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="page_title">
+                    <h2>PTBA -> Tableau PTBA -> Fiche activité PTBA</h2>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Liste ANO -->
-<div class="midde_cont" *ngIf="isAnoList">
-    <div class="container-fluid">
         <div class="row">
+            <!-- invoice section -->
             <div class="col-md-12">
                 <div class="white_shd full margin_bottom_30">
-                    <div class="row full graph_head">
-                        <div class="col-3">
-                            <div class="heading1 margin_0">
-                                <h2>Listes des ANOs</h2>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Recherche..." >
-                        </div>
-                    </div>
-                    <div class="table_section padding_infor_info">
-                        <div class="table-responsive-sm">
-                            <table class="table table-striped">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Evenement</th>
-                                        <th>Responsables</th>
-                                        <th>Budgets</th>
-                                        <th>Statut</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of anos; let n = index">
-                                        <td>{{ (n+1) }}</td>
-                                        <td>
-                                            <ng-container *ngFor="let event of item.evenements; let i = index">
-                                                <span>{{ event.libelle }}</span>
-                                                <br>
-                                            </ng-container>
-                                        </td>
-                                        <td>
-                                            <ng-container *ngFor="let event of item.evenements; let i = index">
-                                                <ng-container *ngFor="let user of event.users; let i = index">
-                                                    <span>{{ user.name }}</span>
-                                                    <br>
-                                                </ng-container>
-                                            </ng-container>
-                                        </td>
-                                        <td>{{ item.budget }}</td>
-                                        <td>{{ item.statut }}</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button [routerLink]="['/select/ano/', item.id]" class="btn btn-secondary" title="Plus de détails">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button [routerLink]="['/edit/ano/', item.id]" class="btn btn-primary" title="Modifier">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button (click)="getDeletAno(item.id)" class="btn btn-danger" >
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <ngx-skeleton-loader count="{{ 10 }}" appearance="line" *ngIf="loader" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Liste des actviéts -->
-<div class="midde_cont" *ngIf="isJalonList">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="white_shd full margin_bottom_30">
-                    <div class="row full graph_head">
-                        <div class="col-3">
-                            <div class="heading1 margin_0">
-                                <h2>Listes des Activité</h2>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Recherche...">
-                        </div>
-                    </div>
-                    <div class="table_section padding_infor_info">
-                        <div class="table-responsive-sm">
-                            <table class="table table-striped">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Activité</th>
-                                        <th>Date Debut</th>
-                                        <th>Date Fin</th>
-                                        <th>Budget</th>
-                                        <th>Responsable</th>
-                                        <th>Statut</th>
-                                        <th>Ehéance</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of jalons">
-                                        <td>{{ item.libelle }}</td>
-                                        <td>{{ item.date_debut }}</td>
-                                        <td>{{ item.date_fin }}</td>
-                                        <td>{{ item.budget }}</td>
-                                        <td>
-                                            <ng-container *ngFor="let user of item.users; let i = index">
-                                                <span>{{ user.name }}</span>
-                                                <!-- Ajoutez une virgule ou un saut de ligne sauf pour le dernier élément -->
-                                                <br>
-                                            </ng-container>
-                                        </td>
-                                        <td>{{ item.statut }}</td>
-                                        <td>{{ item.echeance}}</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button"  class="btn btn-secondary" title="Plus de détails">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-primary" title="Modifier">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Planing diagramme de gantt -->
-<div class="midde_cont" *ngIf="isGantt">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="white_shd full margin_bottom_30">
-                    <div class="row full graph_head">
+                    <div class="full graph_head">
                         <div class="heading1 margin_0">
-                            <h2>Planing Gantt</h2>
+                            <h2><strong>Fiche activité PTBA :</strong> {{ activite.libelle }}</h2>
                         </div>
                     </div>
-                    
-                    <ejs-gantt height="550px" [dataSource]="Data" [taskFields]="taskSettings"></ejs-gantt>
-                    
+                    <div class="full">
+                        <div class="invoice_inner">
+                            <div class="row px-5">
+                                <div class="col-md-6">
+                                    <div class="full invoice_blog padding_infor_info padding-bottom_0">
+                                        <p><strong>Buedget :</strong><br>  
+                                            {{ activite.budget_fcfa }} FCFA<br> 
+                                            {{ activite.budget_us }} USD<br> 
+                                        </p>
+                                        <p><strong>Responsable(s) :</strong><br>
+                                            <ng-container *ngFor="let r of responsables">
+                                                {{ r.name }} ({{ r.pivot.poste }})<br> 
+                                            </ng-container>  
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="full invoice_blog padding_infor_info padding-bottom_0">
+                                        <p><strong>Comptabilité :</strong><br>  
+                                            {{ activite.montant_decaisser || 0 }} FCFA<br> 
+                                            {{ activite.montant_restant || 0}} FCFA<br> 
+                                        </p>
+                                        <p><strong>Période :</strong><br>
+                                            {{ activite.date_debut }} ({{ activite.date_fin }})<br> 
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Planing diagramme de Tableau -->
-<div class="midde_cont" *ngIf="isProgressTable">
-    <div class="container-fluid">
-        <div class="row">
+        <!-- Les onglest -->
+        <div class="row column4 graph">
+            <!-- tab style 2 -->
             <div class="col-md-12">
                 <div class="white_shd full margin_bottom_30">
-                    <div class="row full graph_head">
-                        <div class="heading1 margin_0">
-                            <h2>Planing Tableau</h2>
+                    <div class="full inner_elements">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="tab_style2">
+                                    <div class="tabbar padding_infor_info">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab1" role="tablist">
+                                                <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#responsables" role="tab" aria-controls="nav-home_s2" aria-selected="true">Responsables</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#jalon" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Liste des Activités/Jalon</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#anolist" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Liste des ANOs</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#gantt" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planing Gantt</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#tableau" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planing tableau</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content" id="nav-tabContent_2">
+                                            <div class="tab-pane fade show active" id="responsables" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <app-responsables-activitebudegtannuel [activite_id]="activite.id"></app-responsables-activitebudegtannuel>
+                                            </div>  
+                                            <div class="tab-pane fade" id="jalon" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <app-jalon-budgetannuel [activite_id]="activite.id"></app-jalon-budgetannuel>
+                                            </div> 
+                                            <div class="tab-pane fade" id="anolist" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <app-ano-budgetannuel [activite_id]="activite.id"></app-ano-budgetannuel>
+                                            </div>  
+                                            <div class="tab-pane fade" id="gantt" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <app-gantt-budgetannuel></app-gantt-budgetannuel>
+                                            </div>  
+                                            <div class="tab-pane fade" id="tableau" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <app-planing-tableau-budgetannuel></app-planing-tableau-budgetannuel>
+                                            </div>   
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="table_section padding_infor_info">
-                        <div class="table-responsive-sm">
-                            <table class="table table-striped">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Phase</th>
-                                        <th>Activité</th>
-                                        <th>Progréssion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Parcours des phases -->
-                                    <ng-container *ngFor="let phase of DataTable">
-                                        <!-- Affichage de la phase et des activités -->
-                                        <tr *ngFor="let activity of phase.activities; let i = index">
-                                            <td *ngIf="i === 0" attr.rowspan="{{ phase.activities.length }}" >{{ phase.libelle }}</td>
-                                            <td>{{ activity.libelle }}</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 25%;" attr.aria-valuenow="{{ activity.progress }}" aria-valuemin="0" aria-valuemax="100">{{ activity.progress | number:'1.0-0' }} %</div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </ng-container>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal" tabindex="-1" role="dialog"  id="add_ano_modal">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Nouvelle ANO </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span (click)="closemodal()" aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Formulaire d'ajout -->
-                <form (ngSubmit)="insertAno()">
-                    <div class="row">
-                        <div class="col-6">
-                            <!--ano -->
-                            <div class="form-group">
-                                <label for="budget">Budget :</label>
-                                <input type="number" min="100000" step="10000" [(ngModel)]="budget" class="form-control" id="budget" name="budget" required>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="heading1 margin_0">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <h5>Documents</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="titre">Titre</label>
-                                <input type="text" class="form-control" [(ngModel)]="titre" id="titre" name="titre" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="documents">Document</label>
-                                <input #doc type="file" class="form-control" id="documents" name="documents" (change)="onFileChange($event)" accept=".pdf">
-                            </div>
-                            <ul>
-                                <li *ngFor="let file of files; let i = index">
-                                    <div class="row">
-                                        <div class="col-9">{{ file.name }} - {{ titres[i] }} </div>
-                                        <div class="col-3"><button class="btn btn-danger" (click)="removeFile(i)"><i class="fas fa-trash"></i></button></div>
-                                    </div>
-                                    
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-6">
-                            <!-- event -->
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="heading1 margin_0">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <h5>Evènements </h5>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                <button type="button" class="btn btn-primary" (click)="addEvent()"><i class="fas fa-plus"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="evenement">Libellé de l'évènement :</label>
-                                <input type="text" class="form-control" [(ngModel)]="event" id="evenement" name="evenement" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="date_debut">Date de debut :</label>
-                                <input type="date" [(ngModel)]="date_debut" class="form-control" id="date_debut" name="date_debut" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="date_fin">Date de fin :</label>
-                                <input type="date" [(ngModel)]="date_fin" class="form-control" id="date_fin" name="date_fin" required>
-                            </div>
-                            <hr>
-                            <!-- Responsable event -->
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="heading1 margin_0">
-                                        <h5>Responsables</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Nom & prénom</label>
-                                <select type="text" [(ngModel)]="responsable" class="form-control" id="name" name="name[]" (change)="onUserSelect($event)" required>
-                                    <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" [(ngModel)]="email" class="form-control" id="email" name="email" readOnly>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Fin du formulaire -->
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">enregistrer l'ano</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal" tabindex="-1" role="dialog"  id="jalonmodal">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Nouvelle Activité</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span (click)="closejalonmodal()" aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Formulaire d'ajout -->
-                <form (ngSubmit)="insertJalon()">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="site">Site de déploiement :</label>
-                                <select name="site" id="site"  class="form-control" [(ngModel)]="JSite" required>
-                                    <option [value]="site.id" *ngFor="let site of sites">{{site.libelle}}</option>
-                                </select>
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <label for="phase">Phase :</label>
-                                <select name="phase" id="phase"  class="form-control" [(ngModel)]="JPhase" required>
-                                    <option [value]="phase.id" *ngFor="let phase of phases">{{phase.libelle}}</option>
-                                </select>
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <label for="evenement">Libellé de l'activité :</label>
-                                <input type="text" [(ngModel)]="jalon" class="form-control" id="evenement" name="evenement" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="date_debut">Date de debut :</label>
-                                <input type="date" [(ngModel)]="JDate_debut" class="form-control" id="date_debut" name="date_debut" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="date_fin">Date de fin :</label>
-                                <input type="date" [(ngModel)]="JDate_fin" class="form-control" id="date_fin" name="date_fin" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="budget">Budget :</label>
-                                <input type="number" min="100000" step="100000" [(ngModel)]="JBudget" class="form-control" id="budget" name="budget" required>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="heading1 margin_0">
-                                        <h5>Responsables ({{JResponsables.length}})</h5>
-                                    </div>
-                                </div>
-                                <div class="col-6 text-right">
-                                    <button type="button" class="btn btn-primary" (click)="addResponsable()"><i class="fas fa-plus"></i></button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="name">Nom & prénom</label>
-                                <select type="text" [(ngModel)]="JResponsable" class="form-control" id="name" name="name[]" (change)="onUserSelectJalon($event)" required>
-                                    <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" [(ngModel)]="JEmail" class="form-control" id="email" name="email" readOnly>
-                            </div>
-                            <div *ngFor="let resp of JResponsables; let i = index">
-                                <span class="mr-2">{{ (i+1) }}</span>
-                                <span class="mr-2">{{ resp }} - {{ JEmails[i] }}</span>
-                                <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">enregistrer l'ano</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal" tabindex="-1" role="dialog"  id="sup_modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Supprimer un ANO</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span (click)="closeSupAnoModal()" aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
-                <p>Êtes-vous sûr de vouloir supprimer cette ANO <strong>{{ deleteano }}</strong> ?</p>
-                <p>La suppression de cette ANO entraine celle des évènements, factures et paiements accociés à <strong>{{ deleteano }}</strong> !</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" (click)="closeSupAnoModal()" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-danger" (click)="deleteANO()">Supprimer</button>
             </div>
         </div>
     </div>

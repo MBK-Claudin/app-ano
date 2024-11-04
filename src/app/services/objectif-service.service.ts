@@ -30,4 +30,8 @@ export class ObjectifServiceService {
   deleteObjectif(id: any){
     return this.http.delete<any>("http://localhost:8000/api/delete/objectif/"+id);
   }
+
+  getProgrammeObjectif(id: any){
+    return this.http.get<any>("http://localhost:8000/api/objectif/programme/"+id);
+  }
 }

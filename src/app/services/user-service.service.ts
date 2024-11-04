@@ -17,4 +17,16 @@ export class UserServiceService {
   insertContributeur(data: any):Observable<any>{
     return this.http.post<any>('http://localhost:8000/api/insert/contributeur/', data);
   }
+
+  getResponsableActivitebudgetannuel(id: any):Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/user/activitebudgetannuel/'+id);
+  }
+
+  getAffectation(id: any): Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/user/affectations/'+id);
+  }
+
+  getTaches(id: any): Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/user/taches/'+id);
+  }
 }

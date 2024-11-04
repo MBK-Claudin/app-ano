@@ -29,6 +29,7 @@ import { PaiementComponent } from './composants/paiements/paiement/paiement.comp
 import { PtbaComponent } from './composants/budgetannuels/ptba/ptba.component';
 import { ContractAllComponent } from './composants/contracts/contract-all/contract-all.component';
 import { DetailsFactureComponent } from './composants/factures/details-facture/details-facture.component';
+import { AddAnoProgrammeComponent } from './composants/anos/add-ano-programme/add-ano-programme.component';
 
 export const routes: Routes = [
 
@@ -59,6 +60,7 @@ export const routes: Routes = [
             { path: 'details/facture/:id', component: DetailsFactureComponent },
             { path: 'ptba', component: PtbaComponent },
             { path: 'contracts', component: ContractAllComponent },
+            { path: 'add/ano/programme/:id', component: AddAnoProgrammeComponent },
         ]
     },
     { path: 'login', component: LoginComponent },

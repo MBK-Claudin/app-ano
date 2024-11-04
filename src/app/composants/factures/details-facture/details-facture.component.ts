@@ -31,6 +31,10 @@ export class DetailsFactureComponent {
   docurl: any;
   titredoc: any;
   etapeActuelle: string = '';
+  merde: string = 'Reçu';
+  isRecu: boolean = true;
+  isTraitement: boolean = true;
+  isTransmetre: boolean = true; 
 
   uid = localStorage.getItem('uid');
   user: any;
@@ -63,12 +67,18 @@ export class DetailsFactureComponent {
       data => {
         this.dataEtat = data;
         this.etapeActuelle = this.dataEtat.etape
-        this.etapeForm.patchValue({ etape: this.etapeActuelle });
+        // this.etapeForm.patchValue({ etape: this.etapeActuelle });
         console.log("Atat facture : ", this.etapeActuelle)
       }, error => {
         console.error("Erreur lors de la recuperation de l'etat ectuel de la facture !!!", error);
       }
     )
+  }
+
+  receptionFacture(){}
+
+  traitementFacture(){
+
   }
 
   getUserId () {
@@ -78,6 +88,20 @@ export class DetailsFactureComponent {
         //console.log(data);
       }, error => {
         console.log("Erreur lors de la recuperation dd lutilisateur connecter !!", error);
+      }
+    )
+  }
+
+  getOnefacture(){
+    this.factureService.getOneFActure(this.id).subscribe(
+      data => {
+        this.facture = data;
+        this.documents = data.documents;
+        this.documentFilter = data.documents;
+        this.ano = data.ano;
+        this.contract = data.contract;
+      }, error => {
+        console.log('error :', error);
       }
     )
   }
@@ -108,21 +132,6 @@ export class DetailsFactureComponent {
     if(modal != null){
       modal.style.display = "none";
     }
-  }
-
-  getOnefacture(){
-    this.factureService.getOneFActure(this.id).subscribe(
-      data => {
-        this.facture = data;
-        this.documents = data.documents;
-        this.documentFilter = data.documents;
-        this.ano = data.ano;
-        this.contract = data.contract;
-        
-      }, error => {
-        console.log('error :', error);
-      }
-    )
   }
 
   closeDoc(){

@@ -22,5 +22,9 @@ export class ActiviteService {
   getSites() : Observable<any> {
     return this.http.get<any>('http://localhost:8000/api/activite/sites');
   }
+  
+  getJalonActivitebudgetannuel(id: any):Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/activite/activitebudgetannuel/'+id);
+  }
 
 }

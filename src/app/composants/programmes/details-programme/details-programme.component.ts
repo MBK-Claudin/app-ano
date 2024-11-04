@@ -44,10 +44,10 @@ import { PlanTransformationComponent } from '../plan-transformation/plan-transfo
 })
 
 export class DetailsProgrammeComponent {
-  detailsProgramme: any;
+  programme: any;
   organisations: any[] = [];
   responsables: any[] = [];
-  loader = true;
+  loader: boolean = true;
   id: any;
 
   constructor(
@@ -57,6 +57,7 @@ export class DetailsProgrammeComponent {
   ){}
 
   ngOnInit(){
+    this.loader = true;
     this.id = this.router.snapshot.paramMap.get('id');
     this.getProgramme();
   }
@@ -67,7 +68,7 @@ export class DetailsProgrammeComponent {
 
   getProgramme(){
     this.programmeService.selectProgramme(this.id).subscribe(data => {
-      this.detailsProgramme = data;
+      this.programme = data;
       this.organisations = data.organisations;
       this.responsables = data.users;
       this.loader = false;

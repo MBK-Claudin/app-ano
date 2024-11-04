@@ -1,0 +1,253 @@
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+            <div class="page_title">
+                <h2>Programme -> Fiche Programme</h2>
+            </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-12 mx-auto">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row full graph_head">
+                        <div class="col-6">
+                            <div class="heading1 margin_0">
+                                <h2>Nouvelle demande d'ano pour le programme : {{ programme.libelle }}</h2>
+                            </div>
+                        </div>
+                        <div class="col-6 text-right">
+                            <button (click)="goBack()" class="btn btn-link">Retour</button>
+                        </div>
+                    </div>
+                    <div class="row full d-flex justify-content-center align-items-center">
+                        <div class="col-md-12 my-3">
+                            <form [formGroup]="anoForm" (ngSubmit)="insertAno()">
+                                <div class="row mx-4">
+                                    <div class="col-6">
+                                        <!--ano -->
+                                        <div class="heading1 margin_0">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <h5>ANO</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="libelle">Libelle de l'ano :</label>
+                                            <input type="text" class="form-control" id="libelle" name="libelle" formControlName="libelle">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="budget">Budget :</label>
+                                            <input type="number" min="100000" step="100000" class="form-control" id="budget" name="budget" formControlName="budget">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="heading1 margin_0">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <h5>Activite PTBA</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="libelle">Composantes :</label>
+                                            <select type="text" class="form-control" id="libelle" name="libelle" (change)="onComposantChange($event)">
+                                                <option [value]="compo.id" *ngFor="let compo of composantes" >{{ compo.libelle | slice:0:50 }}...</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" *ngIf="activites.length > 0"> 
+                                            <label for="libelle">Activité :</label>
+                                            <select type="text" class="form-control" id="libelle" name="libelle" formControlName="activite_id">
+                                                <option [value]="a.id" *ngFor="let a of activites">{{ a.libelle | slice:0:50 }}...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Fin du formulaire -->
+                                <div class="modal-footer">
+                                    <button type="submit" [disabled]="anoForm.invalid" class="btn btn-primary">enregistrer l'ano</button>
+                                </div>
+                            </form><hr>
+                            <div class="col-md-12 m-3">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="d-flex align-items-center">
+                                            <p class="mb-0 mr-2">Evènement(s)</p>
+                                            <button (click)="openEventModal()" class="btn btn-primary ml-2" title="Ajouter un programme">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="d-flex align-items-center">
+                                            <p class="mb-0 mr-2">Responsable(s)</p>
+                                            <button (click)="openResponsableModal()" class="btn btn-primary ml-2" title="Ajouter un programme">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="d-flex align-items-center">
+                                            <p class="mb-0 mr-2">Document(s)</p>
+                                            <button (click)="openDocModal()" class="btn btn-primary ml-2" title="Ajouter un programme">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Liste des organisation & responsables -->
+                            <div class="col-md-12 m-3">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <ng-container *ngFor="let event of eventList; let i = index" >
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <span class="mr-2">{{ (i + 1) }}</span>
+                                                    <span class="mr-2"><strong>Evenement :</strong>{{ event.libelle }} <br><strong>Du :</strong> {{ event.date_debut }} <br><strong>Au :</strong> {{ event.date_fin }}</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <button type="button" class="btn btn-danger" (click)="removeEventField(i)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div><br>
+                                        </ng-container>
+                                    </div>
+                                    <div class="col-4">
+                                        <ng-container *ngFor="let resp of responsableList; let i = index">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <span class="mr-2">{{ (i + 1) }}</span>
+                                                    <span class="mr-2"><strong>Nom complet</strong>{{ resp.responsable }}</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div><br>
+                                        </ng-container>
+                                    </div>
+                                    <div class="col-4">
+                                        <ng-container *ngFor="let file of files; let i = index">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <span class="mr-2">{{ (i + 1) }}</span>
+                                                    <span class="mr-2"><strong>Titre :</strong>{{ titres[i] }} <br><strong>Document :</strong> {{ file.name }}</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <button type="button" class="btn btn-danger" (click)="removeFile(i)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div><br>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog"  id="add_event_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Evènements</h5>
+                <button (click)="closeEventModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form [formGroup]="eventForm" (ngSubmit)="addEvent()">
+                    <div class="form-group">
+                        <label for="evenement">Libellé de l'évènement :</label>
+                        <input type="text" class="form-control" id="evenement" name="evenement" formControlName="libelle">
+                    </div>
+                    <div class="form-group">
+                        <label for="date_debut">Date de debut :</label>
+                        <input type="date"  class="form-control" id="date_debut" name="date_debut" formControlName="date_debut">
+                    </div>
+                    <div class="form-group">
+                        <label for="date_fin">Date de fin :</label>
+                        <input type="date" class="form-control" id="date_fin" name="date_fin" formControlName="date_fin">
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">Ajouter un évènement</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="add_doc_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Document</h5>
+                <button (click)="closeDocModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form>
+                    <div class="form-group">
+                        <label for="titre">Titre</label>
+                        <input type="text" class="form-control" id="titre" [(ngModel)]="titre" name="titre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="documents">Document</label>
+                        <input #doc type="file" class="form-control" id="documents" name="documents" (change)="onFileChange($event)" accept=".pdf">
+                    </div>
+                    <div class="form-group text-right" style="display: none;">
+                        <button type="submit" class="btn btn-primary">Ajouter un document</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="add_responsable_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Responsables</h5>
+                <button (click)="closeResponsableModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (ngSubmit)="addResponsable()" [formGroup]="responsableForm">
+                    <div class="form-group">
+                        <label for="name">Nom & prénom</label>
+                        <select type="text" formControlName="responsable" class="form-control" id="name" name="name[]" (change)="onUserSelect($event)">
+                            <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" formControlName="email" class="form-control" [value]="selectedEmail" id="email" name="email" readOnly>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="responsableForm.invalid" (click)="addResponsable()">Ajouter un responsable</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

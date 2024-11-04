@@ -1,0 +1,45 @@
+<!-- Planing diagramme de Tableau -->
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="row full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Planing Tableau</h2>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Phase</th>
+                                        <th>Activité</th>
+                                        <th>Progréssion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Parcours des phases -->
+                                    <ng-container *ngFor="let phase of DataTable">
+                                        <!-- Affichage de la phase et des activités -->
+                                        <tr *ngFor="let activity of phase.activities; let i = index">
+                                            <td *ngIf="i === 0" attr.rowspan="{{ phase.activities.length }}" >{{ phase.libelle }}</td>
+                                            <td>{{ activity.libelle }}</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 25%;" attr.aria-valuenow="{{ activity.progress }}" aria-valuemin="0" aria-valuemax="100">{{ activity.progress | number:'1.0-0' }} %</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

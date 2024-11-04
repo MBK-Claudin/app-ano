@@ -23,7 +23,7 @@
                     </div>
                     <div class="row full d-flex justify-content-center align-items-center">
                         <div class="col-md-12 my-3">
-                            <form (ngSubmit) = "insertProgrammes()">
+                            <form (ngSubmit) = "insertProgrammes()" [formGroup]="programmeForm">
                                 <div class="row mx-4">
                                     <div class="col-12">
                                         <!-- section du programme -->
@@ -36,7 +36,7 @@
                                         </div> 
                                         <div class="form-group">
                                             <label for="programme-name">Objectif :</label>
-                                            <select name="objectif_id" id="objectif_id" class="form-control" [(ngModel)]="programmes.objectif_id">
+                                            <select name="objectif_id" id="objectif_id" class="form-control" formControlName="objectif_id">
                                                 <option [value]="ob.id" *ngFor="let ob of objectifs">{{ ob.objectif }}</option>
                                             </select>
                                         </div>
@@ -50,20 +50,24 @@
                                         </div> 
                                         <div class="form-group">
                                             <label for="programme-name">Libellé du programme :</label>
-                                            <input type="text" class="form-control" id="objectif" name="objectif" [(ngModel)] = "programmes.libelle" >
+                                            <input type="text" class="form-control" id="libelle" name="libelle" formControlName="libelle">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="programme-objectif">Objectif spécifique :</label>
+                                            <input type="text" class="form-control" id="objectif" name="objectif" formControlName="objectif_specifique">
                                         </div>
                                         <div class="form-group">
                                             <label for="programme-start-date">Date de debut</label>
-                                            <input type="date" class="form-control" id="date_debut" name="date_debut" [(ngModel)] = "programmes.date_debut" >
+                                            <input type="date" class="form-control" id="date_debut" name="date_debut" formControlName="date_debut">
                                         </div>
                                         <div class="form-group">
                                             <label for="programme-start-date">Date de fin</label>
-                                            <input type="date" class="form-control" id="date_fin" name="date_fin" [(ngModel)] = "programmes.date_fin" >
+                                            <input type="date" class="form-control" id="date_fin" name="date_fin" formControlName="date_fin">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group text-right">
-                                    <button type="submit" class="btn btn-primary">Enregister</button>
+                                    <button type="submit" class="btn btn-primary" [disabled]="programmeForm.invalid">Enregister</button>
                                 </div>
                             </form>
                             <hr>
@@ -92,22 +96,34 @@
                             <div class="col-md-12 m-3">
                                 <div class="row">
                                     <div class="col-6">
-                                        <div *ngFor="let org of programmes.organisation; let i = index" >
-                                            <span class="mr-2">{{ (i+1) }}</span>
-                                            <span class="mr-2">{{ org }} - {{ programmes.ancrage[i] }}</span>
-                                            <button type="button" class="btn btn-danger" (click)="removeOrganisationField(i)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
+                                        <ng-container *ngFor="let org of organisationList; let i = index" >
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <span class="mr-2">{{ (i+1) }}</span>
+                                                    <span class="mr-2">{{ org.libelle }} - {{ org.ancrage }}</span>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button type="button" class="btn btn-danger" (click)="removeOrganisationField(i)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
                                     </div>
                                     <div class="col-6">
-                                        <div *ngFor="let resp of programmes.responsable; let i = index">
-                                            <span class="mr-2">{{ (i+1) }}</span>
-                                            <span class="mr-2">{{ resp }} - {{ programmes.email[i] }}</span>
-                                            <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
+                                        <ng-container *ngFor="let resp of responsableList; let i = index">
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <span class="mr-2">{{ (i+1) }}</span>
+                                                    <span class="mr-2">{{ resp.responsable }}</span>
+                                                </div>
+                                                <div class="col-3">
+                                                    <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +132,6 @@
                 </div>
             </div>
         </div>
-        <ngx-skeleton-loader count="{{ 1 }}" appearance="line" *ngIf="loader" />
     </div>
 </div>
 
@@ -131,27 +146,24 @@
             </div>
             <div class="modal-body">
                 <!-- Formulaire d'ajout -->
-                <form (submit)="addOrganisationField()">
-
+                <form (submit)="addOrganisationField()" [formGroup]="organisationsForm">
                     <div id="block_organisation">
                         <div class="form-group">
-                            <label for="organisation">Libellé de l'organisation</label>
-                            <select class="form-control" [(ngModel)]="selectedOrganisation" (change)="onOrganisationChange($event)" name="organisations[]">
+                            <label for="organisations">Libellé de l'organisation</label>
+                            <select class="form-control" id="organisations" name="organisations[]" formControlName="libelle">
                                 <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="ancrage">Ancrage</label>
-                            <select class="form-control" [(ngModel)]="selectedAncrage" name="ancrages[]" [disabled]="isAncrageDisabled">
-                                <option value="Autre">Autre</option>
-                                <option value="Stratégique">Stratégique</option>
-                                <option value="Opérationnel">Opérationnel</option>
+                            <label for="ancrages">Ancrage</label>
+                            <select class="form-control" id="ancrages" name="ancrages[]" formControlName="ancrage">
+                                <option [value]="a.libelle" *ngFor="let a of ancrages">{{ a.libelle }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <button type="submit" class="btn btn-primary">Ajouter Organisation</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="organisationsForm.invalid">Ajouter une Organisation</button>
                     </div>
                 </form>
             </div>
@@ -170,22 +182,22 @@
             </div>
             <div class="modal-body">
                 <!-- Formulaire d'ajout -->
-                <form (submit)="addUserField()">
+                <form (submit)="addUserField()" [formGroup]="responsablesForm">
                     <div id="block_responsables">
                         <!-- Champs de saisie -->
                         <div class="form-group">
                             <label for="responsable">Responsables</label>
-                            <select id="responsable" type="text" class="form-control" name="responsables[]" (change)="onUserSelect($event)" required [(ngModel)]="selectedName">
+                            <select id="responsable" type="text" class="form-control" name="responsables[]" (change)="onUserSelect($event)" formControlName="responsable">
                                 <option *ngFor="let user of users" [value]="user.name">{{ user.name }}</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="email">E-mail</label>
-                            <input type="email" id="email" class="form-control" name="emails[]" [(ngModel)]="selectedEmail" required readOnly >
+                            <input type="email" id="email" class="form-control" name="emails[]" formControlName="email" [value]="selectedEmail" readOnly >
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <button type="submit" class="btn btn-primary">Ajouter Organisation</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="responsablesForm.invalid">Ajouter Organisation</button>
                     </div>
                 </form>
             </div>

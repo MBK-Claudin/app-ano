@@ -46,4 +46,12 @@ export class AnoService {
   validerAno(id: any): Observable<any>{
     return this.http.get<any>('http://localhost:8000/api/ano/valider/'+id);
   }
+
+  getAnoActivitebudgetannuel(id: any): Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/ano/activitebudgetannuel/'+id);
+  }
+
+  getCreateData(id: any){
+    return this.http.get<any>('http://localhost:8000/api/ano/programme/composantes/activite/'+id);
+  }
 }

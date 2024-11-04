@@ -3,66 +3,62 @@
         <div class="row column_title">
             <div class="col-md-12">
                 <div class="page_title">
-                    <h2>Programme -> Fiches Programme ({{ detailsProgramme.libelle }} )</h2>
+                    <h2>Programme -> Fiche Programme </h2>
                 </div>
             </div>
         </div>
-        <div class="row" *ngIf="!loader">
+        <!-- informations sur le programme -->
+        <div class="row">
+            <!-- invoice section -->
             <div class="col-md-12">
-                <div class="white_shd full margin_bottom_30">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="full white_shd">
-                                <div class="full padding_infor_info">
-                                    <div class="price_table">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <th class="display-1"><strong>Programme :</strong></th>
-                                                        <td>{{ detailsProgramme.libelle }} FCFA</td>
-                                                        <th><strong>Periode :</strong></th>
-                                                        <td>{{ detailsProgramme.periode || 0 }} FCFA</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th><strong>Date de debut :</strong></th>
-                                                        <td>{{ detailsProgramme.date_debut || 'Rien à signaler' }}</td>
-                                                        <th><strong>Date de fin :</strong></th>
-                                                        <td>{{ detailsProgramme.date_fin || 'Rien à signaler' }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <hr>
-                                            <table class="table">
-                                                <tbody>
-                                                    <p>Responsable(s)</p>
-                                                    <tr *ngFor="let r of responsables">
-                                                        <th><strong>Nom & Prénom :</strong></th>
-                                                        <td>{{ r.name }}</td>
-                                                        <th><strong>Mail :</strong></th>
-                                                        <td>{{ r.email }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <hr>
-                                            <table class="table">
-                                                <tbody>
-                                                    <p>Parties prenantes</p>
-                                                    <tr *ngFor="let o of organisations">
-                                                        <th><strong>Organisation :</strong></th>
-                                                        <td>{{ o.libelle }}</td>
-                                                        <th><strong>Ancrage :</strong></th>
-                                                        <td>{{ o.pivot.ancrage }}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+            <div class="white_shd full margin_bottom_30">
+                <div class="full graph_head">
+                    <div class="heading1 margin_0">
+                        <h2><strong>Fiche Programme :</strong> {{ programme.libelle }}</h2>
+                    </div>
+                </div>
+                <div class="full">
+                    <div class="invoice_inner">
+                        <div class="row px-5">
+                            <div class="col-md-6">
+                                <div class="full invoice_blog padding_infor_info padding-bottom_0">
+                                    <p><strong>Secteur :</strong><br>  
+                                        {{ programme.objectif.secteur }}<br> 
+                                    </p>
+                                    <p><strong>Objectif Spécifique :</strong><br>  
+                                        {{ programme.objectif_specifique }}<br> 
+                                    </p>
+                                    <p><strong>Ancrage</strong><br>
+                                        <ng-container *ngFor="let r of responsables">
+                                            {{ r.name }} ({{ r.pivot.poste }})<br> 
+                                        </ng-container>
+                                    </p>
+                                    <p><strong>Budget :</strong><br>  
+                                        {{ programme.Budget_planifier_fcfa }} FCFA <br>
+                                        {{ programme.Budget_planifier_us }} FCFA <br>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="full invoice_blog padding_infor_info padding-bottom_0">
+                                    <p><strong>Objectif Stratégique</strong><br>  
+                                        {{ programme.objectif.secteur }}<br> 
+                                    </p>
+                                    <p><strong>Ancrage :</strong><br>
+                                        <ng-container *ngFor="let o of organisations">
+                                            {{ o.libelle }} ({{ o.pivot.ancrage }})<br> 
+                                        </ng-container>
+                                    </p>
+                                    <p><strong>Période :</strong><br>  
+                                        <strong>Du :</strong>{{ programme.date_fin }}<br> 
+                                        <strong>Au :</strong>{{ programme.date_debut }}<br>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
         <ngx-skeleton-loader 
@@ -103,31 +99,31 @@
                                         </nav>
                                         <div class="tab-content" id="nav-tabContent_2">
                                             <div class="tab-pane fade show active" id="contributeurs" role="tabpanel" aria-labelledby="nav-home-tab">
-                                                <app-users [programme_id]="detailsProgramme.id"></app-users>
+                                                <app-users [programme_id]="programme.id"></app-users>
                                             </div>
                                             <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                                <app-budgetannuels [programme_id]="detailsProgramme.id"></app-budgetannuels>
+                                                <app-budgetannuels [programme_id]="programme.id"></app-budgetannuels>
                                             </div>
                                             <div class="tab-pane fade" id="planing" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                                <app-gantt-planing [programme_id]="detailsProgramme.id"></app-gantt-planing>
+                                                <app-gantt-planing [programme_id]="programme.id"></app-gantt-planing>
                                             </div>
                                             <div class="tab-pane fade" id="site" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                                <app-site [programme_id]="detailsProgramme.id"></app-site>
+                                                <app-site [programme_id]="programme.id"></app-site>
                                             </div>
                                             <div class="tab-pane fade" id="plan" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-plan-transformation></app-plan-transformation>
                                             </div>                                              
                                             <div class="tab-pane fade" id="livrable" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                                <app-livrable [programme_id]="detailsProgramme.id"></app-livrable>
+                                                <app-livrable [programme_id]="programme.id"></app-livrable>
                                             </div>
                                             <div class="tab-pane fade" id="contract" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                                <app-contract [programme_id]="detailsProgramme.id"></app-contract>
+                                                <app-contract [programme_id]="programme.id"></app-contract>
                                             </div>
                                             <div class="tab-pane fade" id="anos" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                                <app-ano-programme [programme_id]="detailsProgramme.id"></app-ano-programme>
+                                                <app-ano-programme [programme_id]="programme.id"></app-ano-programme>
                                             </div>
                                             <div class="tab-pane fade" id="factures" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                                <app-facture-programme [programme_id]="detailsProgramme.id"></app-facture-programme>
+                                                <app-facture-programme [programme_id]="programme.id"></app-facture-programme>
                                             </div>
                                         </div>
                                     </div>

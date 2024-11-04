@@ -1,6 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataServiceService } from '../../../services/data-service.service';
 import { ObjectifsInterface } from '../../../interfaces/objectifs-interface';
 import { ObjectifServiceService } from '../../../services/objectif-service.service';
@@ -14,31 +14,45 @@ import { BrowserModule } from '@angular/platform-browser';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxSpinnerModule,
   ],
   templateUrl: './add-objectif.component.html',
   styleUrl: './add-objectif.component.css'
 })
 export class AddObjectifComponent {
-  objectif: ObjectifsInterface = {
-    id: 0,
-    secteur: '',
-    objectif: '',
-    date_debut: new Date(),
-    date_fin: new Date(),
-    organisation: [],
-    ancrage: [],
-    responsable: [],
-    email: []
-  };
+
+
+  objectifForm = new FormGroup({
+    objectif: new FormControl('', Validators.required),
+    secteur: new FormControl('', Validators.required),
+    date_debut: new FormControl('', Validators.required),
+    date_fin: new FormControl('', Validators.required),
+  });
+
+  responsableForm = new FormGroup({
+    responsable: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+  });
+
+  responsableList: {
+    responsable: string,
+    email: string,
+  }[] = [];
+
+  organisationForm = new FormGroup({
+    libelle: new FormControl('', Validators.required),
+    ancrage: new FormControl('', Validators.required),
+  });
+
+  organisationList: {
+    libelle: string,
+    ancrage: string,
+  }[] = [];
 
   users: any[] =[];
   organisations: any[] = [];
-  selectedOrganisation: string = '';
-  selectedAncrage: string = '';
   selectedEmail: string = '';
-  selectedName: string = '';
-  isAncrageDisabled: boolean = false;
   isSpinner: boolean = false;
 
   constructor(
@@ -56,16 +70,52 @@ export class AddObjectifComponent {
 
   
   insertObjectif(){
-    this.isSpinner = true;
-    this.openSpinner()
-    this.objectifService.insertObjectif(this.objectif).subscribe(
-      res => {
-        console.log('response', res);
-        this.isSpinner = false;
-        this.openSpinner()
-        this.goBack()
+    
+    if(this.objectifForm.valid){
+      this.isSpinner = true;
+      this.openSpinner();
+
+      const formObjectif = new FormData();
+      const objectif = this.objectifForm.value.objectif
+      const secteur = this.objectifForm.value.secteur
+      const date_debut = this.objectifForm.value.date_debut
+      const date_fin = this.objectifForm.value.date_fin
+
+      formObjectif.append('objectif', objectif ? objectif.toString() : '');
+      formObjectif.append('secteur', secteur ? secteur.toString() : '');
+      formObjectif.append('date_debut', date_debut ? date_debut.toString() : '');
+      formObjectif.append('date_fin', date_fin ? date_fin.toString() : '');
+
+      if(this.responsableList.length > 0){
+        for(let i = 0; i < this.responsableList.length; i++){
+          formObjectif.append('responsable[]', this.responsableList[i].responsable);
+          formObjectif.append('email[]', this.responsableList[i].email);
+        }
       }
-    );
+
+      if(this.organisationList.length > 0){
+        for(let j = 0; j < this.organisationList.length; j++){
+          formObjectif.append('organisation[]', this.organisationList[j].libelle);
+          formObjectif.append('ancrage[]', this.organisationList[j].ancrage);
+        }
+      }
+      
+      console.log(formObjectif);
+
+      this.objectifService.insertObjectif(formObjectif).subscribe(
+        data => {
+          this.isSpinner = false;
+          this.objectifForm.reset();
+          this.responsableList
+          this.openSpinner();
+          this.goBack();
+        }, error => {
+          console.log(error);
+          this.isSpinner = false;
+          this.openSpinner();
+        }
+      )
+    }
   }
 
   goBack(){
@@ -140,23 +190,24 @@ export class AddObjectifComponent {
   }
 
   addOrganisationField() {
-    if (this.selectedOrganisation && this.selectedAncrage) {
-      this.objectif.organisation.push(this.selectedOrganisation);
-      this.objectif.ancrage.push(this.selectedAncrage);
-      // Réinitialise les sélections après l'ajout
-      this.selectedOrganisation = '';
-      this.selectedAncrage = '';
-      this.isAncrageDisabled = false;
+    if(this.organisationForm.valid){
+      const organsation = {
+        libelle: this.organisationForm.value.libelle || '',
+        ancrage: this.organisationForm.value.ancrage || '',
+      }
+
+      this.organisationList.push(organsation);
     }
   }
 
   addUserField() {
-    if (this.selectedEmail && this.selectedName) {
-      this.objectif.responsable.push(this.selectedName);
-      this.objectif.email.push(this.selectedEmail);
-      // Réinitialise les sélections après l'ajout
-      this.selectedEmail = '';
-      this.selectedName = '';
+    if(this.responsableForm.valid){
+      const responsable = {
+        responsable: this.responsableForm.value.responsable || '',
+        email: this.responsableForm.value.email || ''
+      }
+
+      this.responsableList.push(responsable);
     }
   }
 
@@ -168,29 +219,20 @@ export class AddObjectifComponent {
     console.log(selectedUser.email)
     if (selectedUser) {
       this.selectedEmail = selectedUser.email;
-    }
-  }
-
-  onOrganisationChange(event: any) {
-    const selectedValue = event.target.value;
-
-    if (selectedValue === 'Autre') {
-        this.selectedAncrage = 'Autre';
-        this.isAncrageDisabled = true;  // Désactive le champ
-    } else {
-        this.isAncrageDisabled = false; // Active le champ
-        this.selectedAncrage = '';  // Réinitialise l'ancrage si nécessaire
+      this.responsableForm.get('email')?.setValue(this.selectedEmail);
     }
   }
 
   removeOrganisationField(index: number) {
-    this.objectif.organisation.splice(index, 1);
-    this.objectif.ancrage.splice(index, 1);
+    this.organisationList.splice(index, 1);
+    // this.objectif.organisation.splice(index, 1);
+    // this.objectif.ancrage.splice(index, 1);
   }
   
   removeUserField(index: number) {
-    this.objectif.responsable.splice(index, 1);
-    this.objectif.email.splice(index, 1);
+    this.responsableList.splice(index, 1)
+    // this.objectif.responsable.splice(index, 1);
+    // this.objectif.email.splice(index, 1);
   }
 
 

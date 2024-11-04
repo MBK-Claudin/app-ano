@@ -35,7 +35,11 @@ export class FactureService {
     return this.http.get('http://localhost:8000/api/programme/facture/'+id);
   }
 
-  getEtatFacture (id: any) {
-    return this.http.get('http://localhost:8000/api/facture/etatActuel/'+id);
+  getEtatFacture (id: any): Observable<any> {
+    return this.http.get<any>('http://localhost:8000/api/facture/etatActuel/'+id);
+  }
+
+  traiterFacture(idFacture: any, idService: any, user_id: any): Observable<any>{
+    return this.http.get<any>(`http://localhost:8000/api/facture/traitement/${idFacture}/${idService}/${user_id}`);
   }
 }
