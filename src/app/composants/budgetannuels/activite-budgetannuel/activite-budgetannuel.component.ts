@@ -93,15 +93,7 @@ export class ActiviteBudgetannuelComponent {
       data => {
         this.loader = false;
         this.activite = data;
-        this.jalons = data.activites;
         this.responsables = data.users;
-        this.anos = data.anos;
-        this.DataII = this.groupByPhase(this.jalons);
-        this.Data = this.transformForGantt(this.DataII);
-        this.DataTable = this.transformDataTable(this.DataII);
-        console.log('Organisation des données', this.DataII);
-        console.log('Transmation des données', this.Data);
-        console.log('Tableau des données', this.DataTable);
       }, error => {
         console.log("erreur lors du chargement de l'activité !", error);
       }

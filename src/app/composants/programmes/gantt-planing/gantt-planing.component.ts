@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { GanttModule, TaskFieldsModel } from '@syncfusion/ej2-angular-gantt';
 import { ProgrammeServiceService } from '../../../services/programme-service.service';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DataServiceService } from '../../../services/data-service.service';
+import { ActiviteService } from '../../../services/activite.service';
 
 @Component({
   selector: 'app-gantt-planing',
@@ -9,6 +12,7 @@ import { ProgrammeServiceService } from '../../../services/programme-service.ser
   imports: [
     CommonModule,
     GanttModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './gantt-planing.component.html',
   styleUrl: './gantt-planing.component.css'
@@ -16,15 +20,33 @@ import { ProgrammeServiceService } from '../../../services/programme-service.ser
 export class GanttPlaningComponent {
   @Input() programme_id!: number;
 
+  jalonForm = new FormGroup({
+    site: new FormControl('', Validators.required),
+    phase: new FormControl('', Validators.required),
+    libelle: new FormControl('', Validators.required),
+    date_debut: new FormControl('', Validators.required),
+    date_fin: new FormControl('', Validators.required),
+    responsable: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+  })
+
+  users: any[] = [];
+  phases: any[] = [];
+  sites: any[] = [];
+  JResponsable: any;
+  JEmail: any;
+
   Data: Object[] = [];
   DataII: Object[] = [];
   DataTable: Object[] = [];
   ganttData: any[] = []
-  bool: boolean = true;
+  bool: boolean = false;
   taskSettings: TaskFieldsModel | undefined;
 
   constructor(
     private programmeService: ProgrammeServiceService,
+    private data: DataServiceService,
+    private activiteService: ActiviteService,
   ){}
 
   ngOnInit() {
@@ -32,8 +54,12 @@ export class GanttPlaningComponent {
     this.taskSettings = {id: 'TaskID', name: 'TaskName', startDate: 'StartDate', endDate: 'EndDate', duration: 'Duration', progress: 'Progress', child: 'subtasks' };
   }
 
-  switchBoll(){
-    this.bool = !this.bool;
+  planingGanttView(){
+    this.bool = true;
+  }
+
+  planingTableauView(){
+    this.bool = false;
   }
 
   getDataPlaning(){
@@ -143,6 +169,70 @@ export class GanttPlaningComponent {
     if (totalDuration <= 0) return 100;  // Si la phase est terminée ou a une mauvaise configuration
     const progress = (elapsedDuration / totalDuration) * 100;
     return progress > 100 ? 100 : progress < 0 ? 0 : progress;  // Garde la progression entre 0 et 100
+  }
+
+  insertJalon(){
+    if(this.jalonForm.valid){
+      this.activiteService.insertActivite(this.jalonForm).subscribe(
+        data => {
+          this.closejalonmodal();
+          this.getDataPlaning();
+        }, error => {
+          console.log(error);
+        }
+      )
+    }
+  }
+  
+  onUserSelectJalon(event: any) {
+    const selectedUserName = event.target.value;
+    const selectedUser = this.users.find(user => user.name === selectedUserName);
+    if (selectedUser) {
+      this.JEmail = selectedUser.email;
+      this.JResponsable = selectedUser.name;
+    }
+  }
+
+  getusers(){
+    this.data.getUsers().subscribe(
+      data => {
+        this.users = data;
+      }
+    )
+  }
+
+  closejalonmodal(){
+    const modal = document.getElementById('jalonmodal');
+    if (modal != null) {
+      modal.style.display = 'none';
+    }
+  }
+
+  jalonmodal(){
+    const modal = document.getElementById('jalonmodal');
+    if (modal != null) {
+      modal.style.display = 'block';
+    }
+  }
+
+  getSites(){
+    this.activiteService.getSites().subscribe(
+      data => {
+        this.sites = data;
+      }, error => {
+        console.log('Erreur lors du chargement des sites !', error);
+      }
+    )
+  }
+
+  getPhases(){
+    this.activiteService.getPhases().subscribe(
+      data => {
+        this.phases = data;
+      }, error => {
+        console.log('Erreur lors du chargement des phases !', error);
+      }
+    );
   }
   
 

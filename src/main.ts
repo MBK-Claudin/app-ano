@@ -5,7 +5,7 @@ import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import { registerLicense } from '@syncfusion/ej2-base';
 
-registerLicense('Ngo9BigBOggjHTQxAR8/V1NDaF5cWGJCf1JpRHxbf1x0ZFxMY19bRnZPIiBoS35RckRjWX1ccXdRR2BUVkdy');
+registerLicense('Ngo9BigBOggjHTQxAR8/V1NDaF5cWWtCf1FpQHxbf1x0ZFBMYVhbRnJPIiBoS35RckRiWXpfd3VcRWldV0B2');
 
 if (environment){
   enableProdMode();

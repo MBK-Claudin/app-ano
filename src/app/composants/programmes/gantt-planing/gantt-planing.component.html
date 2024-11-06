@@ -1,25 +1,30 @@
 <div class="row justify-content-center my-3">
-    <div class="col-md-6">
-        <button (click)="switchBoll()" class="btn btn-link">Vue gantt</button>
+    <div class="col-md-6 justify-content-center">
+        <button (click)="planingGanttView()" class="btn btn-link">Vue gantt</button>
     </div>
-    <div class="col-md-6">
-        <button (click)="switchBoll()" class="btn btn-link">Vue Tableau</button>
+    <div class="col-md-6 justify-content-center">
+        <button (click)="planingTableauView()" class="btn btn-link">Vue Tableau</button>
     </div>
 </div>
 <!-- planing gantt -->
-<div class="midde_cont" *ngIf="bool && Data.length > 0">
+<div class="midde_cont" *ngIf="bool">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="white_shd full margin_bottom_30">
                     <div class="row full graph_head">
-                        <div class="heading1 margin_0">
-                            <h2>Planing Gantt</h2>
+                        <div class="col-9">
+                            <div class="heading1 margin_0">
+                                <h2>Planing Gantt</h2>
+                            </div>
+                        </div>
+                        <div class="col-3 text-right">
+                            <button (click)="jalonmodal()" class="btn btn-primary" title="Ajouter un programme">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
                     </div>
-                    
                     <ejs-gantt height="550px" [dataSource]="Data" [taskFields]="taskSettings"></ejs-gantt>
-                    
                 </div>
             </div>
         </div>
@@ -27,7 +32,7 @@
 </div>
 
 <!-- planing tableau -->
-<div class="midde_cont" *ngIf="!bool && DataTable.length > 0">
+<div class="midde_cont" *ngIf="!bool">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -50,9 +55,9 @@
                                 <tbody>
                                     <!-- Parcours des phases -->
 
-                                    <!--
                                     
-                                    <ng-container *ngFor="let phase of DataTable">
+                                    
+                                    <!-- <ng-container *ngFor="let phase of DataTable">
                                         <tr *ngFor="let activity of phase.activities; let i = index">
                                         <td *ngIf="i === 0" attr.rowspan="{{ phase.activities.length }}">{{ phase.libelle }}</td>
                                         <td>{{ activity.libelle }}</td>
@@ -65,8 +70,8 @@
                                             </div>
                                         </td>
                                         </tr>
-                                    </ng-container>
-                                    -->
+                                    </ng-container> -->
+                                    
                                     
                                 </tbody>
                             </table>
@@ -74,6 +79,76 @@
                     </div>
 
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="jalonmodal">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nouvelle Activité</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span (click)="closejalonmodal()" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (ngSubmit)="insertJalon()" [formGroup]="jalonForm">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="evenement">Libellé de l'activité :</label>
+                                <input type="text" class="form-control" id="evenement" name="evenement" formControlName="libelle">
+                            </div>
+                            <div class="form-group">
+                                <label for="date_debut">Date de debut :</label>
+                                <input type="date" class="form-control" id="date_debut" name="date_debut" formControlName="date_debut">
+                            </div>
+                            <div class="form-group">
+                                <label for="date_fin">Date de fin :</label>
+                                <input type="date" class="form-control" id="date_fin" name="date_fin" formControlName="date_fin">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="site">Site de déploiement :</label>
+                                <select name="site" id="site"  class="form-control" formControlName="site">
+                                    <option [value]="site.id" *ngFor="let site of sites">{{site.libelle}}</option>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="phase">Phase :</label>
+                                <select name="phase" id="phase"  class="form-control" formControlName="phase">
+                                    <option [value]="phase.id" *ngFor="let phase of phases">{{phase.libelle}}</option>
+                                </select>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="heading1 margin_0">
+                                        <h5>Responsable</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Nom & prénom</label>
+                                <select type="text" [value]="JResponsable" class="form-control" id="name" name="name[]" (change)="onUserSelectJalon($event)" formControlName="responsable">
+                                    <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" [value]="JEmail" class="form-control" id="email" name="email" readOnly formControlName="email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" [disabled]="jalonForm.invalid">enregistrer l'ano</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

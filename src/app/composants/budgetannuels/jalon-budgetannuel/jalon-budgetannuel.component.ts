@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonEngine } from '@angular/ssr';
 import { privateDecrypt } from 'crypto';
 import { ActiviteService } from '../../../services/activite.service';
@@ -13,6 +13,7 @@ import { DataServiceService } from '../../../services/data-service.service';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './jalon-budgetannuel.component.html',
   styleUrl: './jalon-budgetannuel.component.css'
@@ -20,23 +21,27 @@ import { DataServiceService } from '../../../services/data-service.service';
 export class JalonBudgetannuelComponent {
   @Input() activite_id!:number;
 
+  jalonForm = new FormGroup({
+    site: new FormControl('', Validators.required),
+    phase: new FormControl('', Validators.required),
+    libelle: new FormControl('', Validators.required),
+    date_debut: new FormControl('', Validators.required),
+    date_fin: new FormControl('', Validators.required),
+    budget: new FormControl('', Validators.required),
+    responsable: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+  })
+
+  JResponsable: any;
+  JEmail: any;
+
   jalons:any[] = [];
   jalonFilter: any[] = [];
   sites: any[] = [];
   users: any[] = [];
   phases: any[] = [];
 
-  jalon: string = '';
-  JDate_debut: Date | null = null;
-  JDate_fin: Date | null = null;
-  JResponsable: string = '';
-  JEmail: string = '';
-  JPhase: string = '';
-  JSite: string = '';
-  JBudget: number = 0;
 
-  JResponsables: string[] = [];
-  JEmails: string[] = [];
 
   constructor(
     private activiteService: ActiviteService,
@@ -51,33 +56,15 @@ export class JalonBudgetannuelComponent {
   }
 
   insertJalon(){
-    const jalonFrom = new FormData();
-
-    if(this.jalon && this.JDate_debut && this.JDate_fin && this.JResponsables && this.JEmails){
-      jalonFrom.append('activite_id', this.activite_id.toString());
-      jalonFrom.append('site', this.JSite);
-      jalonFrom.append('phase', this.JPhase);
-      jalonFrom.append('libelle', this.jalon);
-      jalonFrom.append('date_debut', this.JDate_debut!.toString());
-      jalonFrom.append('date_fin', this.JDate_fin!.toString());
-      jalonFrom.append('budget', this.JBudget.toString());
-  
-      for (let i = 0; i< this.JResponsables.length; i++ ){
-        jalonFrom.append('responsables[]', this.JResponsables[i]);
-        jalonFrom.append('emails[]', this.JEmails[i]);
-      }
-  
-      console.log(jalonFrom);
-
-      this.activiteService.insertActivite(jalonFrom).subscribe(
+    if(this.jalonForm.valid){
+      this.activiteService.insertActivite(this.jalonForm).subscribe(
         data => {
-          this.getJalon()
           this.closejalonmodal();
+          this.getJalon()
         }, error => {
           console.log(error);
         }
       )
-
     }
   }
 
@@ -106,19 +93,6 @@ export class JalonBudgetannuelComponent {
     }
   }
 
-  addResponsable(){
-    if(this.JEmail && this.JResponsable){
-      this.JResponsables.push(this.JResponsable);
-      this.JEmails.push(this.JEmail);
-      this.JEmail = '';
-      this.JResponsable = ''; 
-    }
-  }
-
-  removeUserField(index: number) {
-    this.JResponsables.splice(index, 1);
-    this.JEmails.splice(index, 1);
-  }
 
   getusers(){
     this.data.getUsers().subscribe(

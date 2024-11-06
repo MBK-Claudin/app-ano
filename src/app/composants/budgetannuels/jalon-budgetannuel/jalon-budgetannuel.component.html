@@ -85,72 +85,62 @@
             </div>
             <div class="modal-body">
                 <!-- Formulaire d'ajout -->
-                <form (ngSubmit)="insertJalon()">
+                <form (ngSubmit)="insertJalon()" [formGroup]="jalonForm">
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
+                                <label for="libelle">Libellé de l'activité :</label>
+                                <input type="text" class="form-control" id="libelle" name="libelle" formControlName="libelle">
+                            </div>
+                            <div class="form-group">
+                                <label for="date_debut">Date de debut :</label>
+                                <input type="date" class="form-control" id="date_debut" name="date_debut" formControlName="date_debut">
+                            </div>
+                            <div class="form-group">
+                                <label for="date_fin">Date de fin :</label>
+                                <input type="date" class="form-control" id="date_fin" name="date_fin" formControlName="date_fin">
+                            </div>
+                            <div class="form-group">
+                                <label for="budget">Budget :</label>
+                                <input type="number" min="100000" step="100000" class="form-control" id="budget" name="budget" formControlName="budget">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
                                 <label for="site">Site de déploiement :</label>
-                                <select name="site" id="site"  class="form-control" [(ngModel)]="JSite" required>
+                                <select name="site" id="site"  class="form-control" formControlName="site">
                                     <option [value]="site.id" *ngFor="let site of sites">{{site.libelle}}</option>
                                 </select>
                             </div>
                             <hr>
                             <div class="form-group">
                                 <label for="phase">Phase :</label>
-                                <select name="phase" id="phase"  class="form-control" [(ngModel)]="JPhase" required>
+                                <select name="phase" id="phase"  class="form-control" formControlName="phase">
                                     <option [value]="phase.id" *ngFor="let phase of phases">{{phase.libelle}}</option>
                                 </select>
                             </div>
                             <hr>
-                            <div class="form-group">
-                                <label for="evenement">Libellé de l'activité :</label>
-                                <input type="text" [(ngModel)]="jalon" class="form-control" id="evenement" name="evenement" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="date_debut">Date de debut :</label>
-                                <input type="date" [(ngModel)]="JDate_debut" class="form-control" id="date_debut" name="date_debut" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="date_fin">Date de fin :</label>
-                                <input type="date" [(ngModel)]="JDate_fin" class="form-control" id="date_fin" name="date_fin" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="budget">Budget :</label>
-                                <input type="number" min="100000" step="100000" [(ngModel)]="JBudget" class="form-control" id="budget" name="budget" required>
-                            </div>
-                        </div>
-                        <div class="col-6">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="heading1 margin_0">
-                                        <h5>Responsables ({{JResponsables.length}})</h5>
+                                        <h5>Responsable</h5>
                                     </div>
-                                </div>
-                                <div class="col-6 text-right">
-                                    <button type="button" class="btn btn-primary" (click)="addResponsable()"><i class="fas fa-plus"></i></button>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="name">Nom & prénom</label>
-                                <select type="text" [(ngModel)]="JResponsable" class="form-control" id="name" name="name[]" (change)="onUserSelectJalon($event)" required>
+                                <select type="text" [value]="JResponsable" class="form-control" id="name" name="name" (change)="onUserSelectJalon($event)" formControlName="responsable">
                                     <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" [(ngModel)]="JEmail" class="form-control" id="email" name="email" readOnly>
-                            </div>
-                            <div *ngFor="let resp of JResponsables; let i = index">
-                                <span class="mr-2">{{ (i+1) }}</span>
-                                <span class="mr-2">{{ resp }} - {{ JEmails[i] }}</span>
-                                <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                <input type="email" [value]="JEmail" class="form-control" id="email" name="email" readOnly formControlName="email">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">enregistrer l'ano</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="jalonForm.invalid">enregistrer l'ano</button>
                     </div>
                 </form>
             </div>
