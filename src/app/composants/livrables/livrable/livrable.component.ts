@@ -23,21 +23,21 @@ export class LivrableComponent {
     jalons: any[] = [];
 
     activite: any;
-  
+
     activite_id: any;
     users: any[] = [];
     indexDoc: number = 0;
     indextEvent: number = 0;
-  
+
     responsableList = [{
       responsable: '',
       email: '',
     }];
-  
+
     titres: string[] = [];
     files: File[] = [];
     fileToAdd: File | null = null;
-  
+
     titre: string = "";
     livrable: string = "";
     responsable: string = '';
@@ -57,7 +57,6 @@ export class LivrableComponent {
       const alivrableForm = new FormData();
       alivrableForm.append('livrable', this.livrable);
       alivrableForm.append('activite_id', this.activite_id);
-  
       for (let i = 0; i < this.files.length; i++) {
         alivrableForm.append('documents[]', this.files[i]); // Envoie les fichiers dans un tableau
         alivrableForm.append('titres[]', this.titres[i])
@@ -72,7 +71,7 @@ export class LivrableComponent {
       this.livrableService.insertLivrable(alivrableForm).subscribe(
         data => {
           this.closemodal()
-          
+
         }, error => {
           console.error('Error:', error);
         }

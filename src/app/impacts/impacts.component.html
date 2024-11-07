@@ -1,0 +1,159 @@
+
+<!-- Affichage des données -->
+<div class="row">
+  <div class="col-md-12">
+      <div class="white_shd full margin_bottom_30">
+          <div class="row full graph_head">
+              <div class="col-3">
+                  <div class="heading1 margin_0">
+                      <h2>Listes d'impacts</h2>
+                  </div>
+              </div>
+              <div class="col-6">
+                  <input type="text" class="form-control" placeholder="Recherche...">
+              </div>
+              <div class="col-3 text-right">
+                  <button  class="btn btn-primary" title="Ajouter un Impact">
+                      <i id="modale" class="fas fa-plus"></i>
+                  </button>
+              </div>
+          </div>
+          <div class="table_section padding_infor_info">
+              <div class="table-responsive-sm">
+                  <table class="table table-striped">
+                      <thead class="thead-dark">
+                          <tr>
+                            <th>Type impact</th>
+                            <th>Libelle</th>
+                            <th>Activité PTBA</th>
+                            <th>Force</th>
+                            <th>Site</th>
+                            <th>Taille</th>
+                            <th>Mitigation</th>
+                            <th>Actions</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let impact of impacts">
+                          <td>{{ impact.type_impact }}</td>
+                          <td>{{ impact.libelle_impact }}</td>
+                          <td>{{ impact.force }}</td>
+                          <td>{{ impact.site_id }}</td>
+                          <td>{{ impact.taille }}</td>
+                          <td>{{ impact.mitigation }}</td>
+                          <td>{{ impact.activite_budget_annuel_id }}</td>
+                          <td>
+                            <div class="btn-group">
+                              <button class="btn btn-secondary" title="Plus de détails">
+                                <i class="fas fa-eye"></i>
+                              </button>
+                              <button class="btn btn-primary" title="Modifier">
+                                <i class="fas fa-edit"></i>
+                              </button>
+                              <button class="btn btn-danger">
+                                <i class="fas fa-trash"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+
+
+                      </tbody>
+
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="modale">
+  <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Nouveau Livrable </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span (click)="closemodal()" aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <!-- Formulaire d'ajout -->
+              <form (ngSubmit)="insertLivrable()">
+                  <div class="row">
+                      <div class="col-6">
+                          <!--livrables -->
+                          <div class="form-group">
+                              <label for="activite">Activite :</label>
+                              <select type="text" [(ngModel)]="activite_id" class="form-control" id="activite" name="activite" required>
+                                  <option [value]="j.id" *ngFor="let j of jalons">{{ j.libelle }}</option>
+                              </select>
+                          </div>
+                          <hr>
+                          <div class="form-group">
+                              <label for="livrable">Livrable :</label>
+                              <input type="text" [(ngModel)]="livrable" class="form-control" id="livrable" name="livrable" required>
+                          </div>
+                          <hr>
+                          <!-- responsables -->
+                          <div class="row">
+                              <div class="col-6">
+                                  <div class="heading1 margin_0">
+                                      <h5>Responsables</h5>
+                                  </div>
+                              </div>
+                              <div class="col-6 text-right">
+                                  <button type="button" class="btn btn-primary" (click)="addresponsables()"><i class="fas fa-plus"></i></button>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="name">Nom & prénom</label>
+                              <select type="text" [(ngModel)]="responsable" class="form-control" id="name" name="name[]" (change)="onUserSelect($event)" required>
+                                  <option *ngFor="let user of users" [value]="user.name">{{user.name}}</option>
+                              </select>
+                          </div>
+                          <div class="form-group">
+                              <label for="email">Email</label>
+                              <input type="email" [(ngModel)]="email" class="form-control" id="email" name="email" readOnly>
+                          </div>
+                      </div>
+                      <div class="col-6">
+                          <div class="row">
+                              <div class="col-6">
+                                  <div class="heading1 margin_0">
+                                      <div class="row">
+                                          <div class="col-6">
+                                              <h5>Documents</h5>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="titre">Titre</label>
+                              <input type="text" class="form-control" [(ngModel)]="titre" id="titre" name="titre" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="documents">Document</label>
+                              <input #doc type="file" class="form-control" id="documents" name="documents" (change)="onFileChange($event)" accept=".pdf">
+                          </div>
+                          <ul>
+                              <li *ngFor="let file of files; let i = index">
+                                  <div class="row">
+                                      <div class="col-9">{{ file.name }} - {{ titres[i] }} </div>
+                                      <div class="col-3"><button class="btn btn-danger" (click)="removeFile(i)"><i class="fas fa-trash"></i></button></div>
+                                  </div>
+
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <!-- Fin du formulaire -->
+                  <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">enregistrer l'ano</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+

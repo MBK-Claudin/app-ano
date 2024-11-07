@@ -22,18 +22,18 @@
                         <div class="row px-5">
                             <div class="col-md-6">
                                 <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                    <p><strong>Secteur :</strong><br>  
-                                        {{ programme.objectif.secteur }}<br> 
+                                    <p><strong>Secteur :</strong><br>
+                                        {{ programme.objectif.secteur }}<br>
                                     </p>
-                                    <p><strong>Objectif Spécifique :</strong><br>  
-                                        {{ programme.objectif_specifique }}<br> 
+                                    <p><strong>Objectif Spécifique :</strong><br>
+                                        {{ programme.objectif_specifique }}<br>
                                     </p>
                                     <p><strong>Ancrage</strong><br>
                                         <ng-container *ngFor="let r of responsables">
-                                            {{ r.name }} ({{ r.pivot.poste }})<br> 
+                                            {{ r.name }} ({{ r.pivot.poste }})<br>
                                         </ng-container>
                                     </p>
-                                    <p><strong>Budget :</strong><br>  
+                                    <p><strong>Budget :</strong><br>
                                         {{ programme.Budget_planifier_fcfa }} FCFA <br>
                                         {{ programme.Budget_planifier_us }} FCFA <br>
                                     </p>
@@ -41,16 +41,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                    <p><strong>Objectif Stratégique</strong><br>  
-                                        {{ programme.objectif.secteur }}<br> 
+                                    <p><strong>Objectif Stratégique</strong><br>
+                                        {{ programme.objectif.secteur }}<br>
                                     </p>
                                     <p><strong>Ancrage :</strong><br>
                                         <ng-container *ngFor="let o of organisations">
-                                            {{ o.libelle }} ({{ o.pivot.ancrage }})<br> 
+                                            {{ o.libelle }} ({{ o.pivot.ancrage }})<br>
                                         </ng-container>
                                     </p>
-                                    <p><strong>Période :</strong><br>  
-                                        <strong>Du :</strong>{{ programme.date_fin }}<br> 
+                                    <p><strong>Période :</strong><br>
+                                        <strong>Du :</strong>{{ programme.date_fin }}<br>
                                         <strong>Au :</strong>{{ programme.date_debut }}<br>
                                     </p>
                                 </div>
@@ -61,10 +61,10 @@
             </div>
             </div>
         </div>
-        <ngx-skeleton-loader 
+        <ngx-skeleton-loader
             *ngIf="loader"
-            count="1" 
-            appearance="" 
+            count="1"
+            appearance=""
             [theme]="{
                 'background-color': '#e0e0e0',
                 'height': '200px',
@@ -74,7 +74,7 @@
             }" >
         </ngx-skeleton-loader>
 
-        
+
         <div class="row column4 graph" *ngIf="!loader">
             <!-- tab style 2 -->
             <div class="col-md-12">
@@ -93,6 +93,8 @@
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#plan" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Plan de transformation</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#livrable" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Livrables</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#contract" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contracts</a>
+                                                <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#compacts" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Impacts</a>
+
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#anos" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Anos</a>
                                                 <a class="nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#factures" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Factures</a>
                                             </div>
@@ -112,7 +114,7 @@
                                             </div>
                                             <div class="tab-pane fade" id="plan" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-plan-transformation></app-plan-transformation>
-                                            </div>                                              
+                                            </div>
                                             <div class="tab-pane fade" id="livrable" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-livrable [programme_id]="programme.id"></app-livrable>
                                             </div>
@@ -125,6 +127,9 @@
                                             <div class="tab-pane fade" id="factures" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-facture-programme [programme_id]="programme.id"></app-facture-programme>
                                             </div>
+                                            <div class="tab-pane fade" id="compacts" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                              <app-impacts [programme_id]="programme.id"></app-impacts>
+                                          </div>
                                         </div>
                                     </div>
                                 </div>
@@ -134,10 +139,10 @@
                 </div>
             </div>
         </div>
-        <ngx-skeleton-loader 
+        <ngx-skeleton-loader
             *ngIf="loader"
-            count="1" 
-            appearance="" 
+            count="1"
+            appearance=""
             [theme]="{
                 'background-color': '#e0e0e0',
                 'height': '200px',
