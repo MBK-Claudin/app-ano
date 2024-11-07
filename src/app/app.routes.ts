@@ -32,9 +32,9 @@ import { DetailsFactureComponent } from './composants/factures/details-facture/d
 import { AddAnoProgrammeComponent } from './composants/anos/add-ano-programme/add-ano-programme.component';
 
 export const routes: Routes = [
-
+  // canActivate: [authGuard],
     {
-        path: '', component: MenuComponent,canActivate: [authGuard], children: [
+        path: '', component: MenuComponent, children: [
             { path: '', component: ObjectifComponent },
             { path: 'objectif', component: ObjectifComponent },
             { path: 'select/objectif/:id', component: EditObjectifComponent },
