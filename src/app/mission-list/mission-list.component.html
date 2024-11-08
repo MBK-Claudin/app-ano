@@ -1,0 +1,53 @@
+<div class="missions-container">
+  <h1 class="text-success fs-4">Liste des Missions</h1>
+  <div class="col-md-6">
+    <input type="text" class="form-control" placeholder="Recherche..." (keyup)="filterProgrammes()" [(ngModel)]="searchText">
+</div>
+  <div *ngFor="let mission of missions" class="mission-card border mb-4 p-3 rounded shadow">
+    <h2 class="text-primary fs-4 fw-bold">{{ mission.libelle }}</h2>
+    <p class="text-dark fs-5 fw-bold">à propos de la mission</p>
+    <p class="fw-bold fs-5">{{ mission.description }}</p>
+    <p class="text-dark fs-5 fw-bold">objectif de la mission</p>
+    <p class=" fw-bold fs-5">{{ mission.objectif }}</p>
+
+    <div class="row mt-4">
+      <!-- Colonne pour les Activités -->
+      <div class="col-md-6">
+        <div class="activites">
+          <h3 class="text-secondary">Activités:</h3>
+          <ul class="list-unstyled">
+            <li *ngFor="let activite of mission.activite" class="text-success fs-5 border-bottom pb-2 mb-3">
+              <p class="mb-1 fw-bold text-dark"><strong>{{ activite.libelle }}</strong></p>
+              <p class="mb-1 fw-bold text-dark">Période : {{ activite.date_debut }} - {{ activite.date_fin }}</p>
+              <p class="mb-1 fw-bold text-dark">Budget : {{ activite.budget }}</p>
+              <p class="fw-bold text-dark">Statut : {{ activite.statut }}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Colonne pour les Sites et Livrables -->
+      <div class="col-md-6">
+        <div class="sites mb-4">
+          <h3 class="text-secondary">Sites:</h3>
+          <ul class="list-unstyled">
+            <li *ngFor="let site of mission.sites" class="text-success fs-5 border-bottom pb-2 mb-3">
+              <p class="mb-1 fw-bold text-dark">{{ site.libelle }} - {{ site.province }}</p>
+              <p class="text-dark fs-5 fw-bold">Coordonnées : {{ site.coordonnees_gps }}</p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="livrables">
+          <h3 class="text-secondary">Livrables:</h3>
+          <ul class="list-unstyled">
+            <li *ngFor="let livrable of mission.livrables" class="text-success fs-5 border-bottom pb-2 mb-3">
+              <p class="fw-bold mb-1"><strong>{{ livrable.libelle }}</strong></p>
+              <p class="fw-bold">Date de livraison : {{ livrable.date_livraison }}</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
