@@ -35,6 +35,7 @@ export class TachesComponent {
   anos: any[] = [];
   livrables: any[] = [];
   activites: any[] = [];
+  istaches: boolean = false;
 
   constructor(
     private UserService: UserServiceService
@@ -48,11 +49,16 @@ export class TachesComponent {
     this.userid = localStorage.getItem('user_id');
     this.UserService.getTaches(this.userid).subscribe(
       data => {
-        this.taches = data;
+        
         this.anos = data.ano;
         this.activites = data.jalon;
-        this.livrables = data.livrable
-        console.log(this.taches);
+        this.livrables = data.livrable;
+        console.log(data);
+
+        if(this.anos.length == 0 && this.activites.length === 0 && this.livrables.length){
+          this.istaches = true;
+        }
+        
       }, error => {
         console.error(error);
       }

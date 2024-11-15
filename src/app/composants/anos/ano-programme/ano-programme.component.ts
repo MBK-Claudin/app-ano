@@ -79,7 +79,6 @@ export class AnoProgrammeComponent {
         this.loader = false
         this.anos = data.anos;
         this.filterAno = data.anos;
-        console.log('ano programme : ', data)
       }, error => {
         console.log("Erreur lors du chargement des anos", error);
       }

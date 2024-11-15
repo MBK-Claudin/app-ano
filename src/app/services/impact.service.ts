@@ -6,10 +6,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ImpactService {
+
   constructor(private http: HttpClient) {}
 
-  // Méthode pour récupérer un impact spécifique par son ID
   getImpacts(id: any): Observable<any> {
-    return this.http.get<any>('http://127.0.0.1:8000/api/impacts/' + id);  // Assurez-vous que l'URL est correcte
+    return this.http.get<any>('http://localhost:8000/api/impacts/' + id);  
+  }
+
+  getAcitviteProgramme(id: any): Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/budgetannuel/activite/programme/'+id);
+  }
+
+  insertImpact(data: any): Observable<any>{
+    return this.http.post<any>('', data)
   }
 }

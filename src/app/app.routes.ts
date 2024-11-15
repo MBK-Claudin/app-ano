@@ -34,8 +34,8 @@ import { AddAnoProgrammeComponent } from './composants/anos/add-ano-programme/ad
 export const routes: Routes = [
   // canActivate: [authGuard],
     {
-        path: '', component: MenuComponent, children: [
-            { path: '', component: ObjectifComponent },
+        path: '', component: MenuComponent, canActivate: [authGuard], children: [
+            { path: '', component: TachesComponent },
             { path: 'objectif', component: ObjectifComponent },
             { path: 'select/objectif/:id', component: EditObjectifComponent },
             { path: 'add/objectif', component: AddObjectifComponent },

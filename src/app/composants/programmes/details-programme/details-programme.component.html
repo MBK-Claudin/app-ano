@@ -12,9 +12,9 @@
             <!-- invoice section -->
             <div class="col-md-12">
             <div class="white_shd full margin_bottom_30">
-                <div class="full graph_head">
+                <div class="full graph_head bg-dark">
                     <div class="heading1 margin_0">
-                        <h2 class="font-weight-bold fs-3">Fiche Programme : {{ programme.libelle }}</h2>
+                        <h2 class="font-weight-bold fs-5 text-white">Programme : {{ programme.libelle }}</h2>
                     </div>
                 </div>
                 <div class="full">
@@ -22,39 +22,38 @@
                         <div class="row px-5">
                             <div class="col-md-6">
                                 <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                    <p class="text-dark font-weight-bold fs-3">Secteur:</p>
-                                    <p class="text-primary font-weight-normal fs-4 mb-4">{{ programme.objectif.secteur }}<br>
+                                    <p class="text-dark font-weight-bold fs-5">Secteur:</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">{{ programme.objectif.secteur }}<br>
                                     </p>
-                                    <p class="text-dark font-weight-bold fs-4">Objectif Spécifique :</p>
-                                    <p class="text-primary font-weight-normal fs-4 mb-4">{{ programme.objectif_specifique }}</p>
-                                    <p class="text-dark font-weight-bold fs-4">Ancrage</p>
-                                    <p class="text-primary font-weight-normal fs-4 mb-4">
-                                       <ng-container *ngFor="let r of responsables">
-                                      {{ r.name }} ({{ r.pivot.poste }})<br>
-                                  </ng-container></p>
-                                    <p class="text-dark font-weight-bold fs-4 mb-2">Budget :</p>
-                                      <p class="text-primary font-weight-bold fs-4">
-                                       {{ programme.Budget_planifier_fcfa }} FCFA
-
+                                    <p class="text-dark font-weight-bold fs-5">Objectif Spécifique :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">{{ programme.objectif_specifique }}</p>
+                                    <p class="text-dark font-weight-bold fs-5">Ancrage</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">
+                                        <ng-container *ngFor="let r of responsables">
+                                            {{ r.name }} ({{ r.pivot.poste }})<br>
+                                        </ng-container></p>
+                                    <p class="text-dark font-weight-bold fs-5 mb-2">Budget :</p>
+                                    <p class="text-primary font-weight-bold fs-5">
+                                    {{ programme.Budget_planifier_fcfa }} FCFA
                                     </p>
-                                    <p class="text-success font-weight-bold fs-4 mb-3">
-                                     {{ programme.Budget_planifier_us }} $
+                                    <p class="text-success font-weight-bold fs-5 mb-3">
+                                    {{ programme.Budget_planifier_us }} $
                                     </p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                    <p class="text-dark font-weight-bold fs-4">Objectif Stratégique</p>
-                                        <p class="text-primary font-weight-normal fs-4 mb-4">{{ programme.objectif.secteur }}
+                                    <p class="text-dark font-weight-bold fs-5">Objectif Stratégique</p>
+                                        <p class="text-primary font-weight-normal fs-5 mb-4">{{ programme.objectif.secteur }}
                                     </p><br>
-                                    <p class="text-dark font-weight-bold fs-4">Ancrage :</p>
-                                      <p class="text-primary font-weight-normal fs-4 mb-4">
+                                    <p class="text-dark font-weight-bold fs-5">Ancrage :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">
                                         <ng-container *ngFor="let o of organisations">
                                             {{ o.libelle }} ({{ o.pivot.ancrage }})
                                         </ng-container>
                                     </p>
-                                    <p class="text-dark font-weight-bold fs-4">Période :</p>
-                                       <p class="text-primary font-weight-normal fs-4 mb-4"> <strong>Du :</strong>{{ programme.date_fin }}<br>
+                                    <p class="text-dark font-weight-bold fs-5">Période :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4"> <strong>Du :</strong>{{ programme.date_fin }}<br>
                                         <strong>Au :</strong>{{ programme.date_debut }}<br>
                                     </p>
                                 </div>
@@ -90,18 +89,16 @@
                                     <div class="tabbar padding_infor_info">
                                         <nav>
                                             <div class="nav nav-tabs" id="nav-tab1" role="tablist">
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#budget" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#planing" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planing</a>
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#sites" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Sites</a>
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#plan" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Plan de transformation</a>
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#livrable" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Livrables</a>
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#contract" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contracts</a>
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#compacts" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Impacts</a>
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#missions" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Missions</a>
-
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#anos" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Anos</a>
-                                                <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#factures" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Factures</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#budget" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#planing" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planing</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#sites" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Sites</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#livrable" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Livrables</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#contract" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contracts</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#compacts" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Impacts</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#missions" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Missions</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#anos" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Anos</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#factures" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Factures</a>
                                             </div>
                                         </nav>
                                         <div class="tab-content" id="nav-tabContent_2">
@@ -117,9 +114,6 @@
                                             <div class="tab-pane fade" id="sites" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-site [programme_id]="programme.id"></app-site>
                                             </div>
-                                            <div class="tab-pane fade" id="plan" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                                <app-plan-transformation></app-plan-transformation>
-                                            </div>
                                             <div class="tab-pane fade" id="livrable" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-livrable [programme_id]="programme.id"></app-livrable>
                                             </div>
@@ -133,16 +127,14 @@
                                                 <app-facture-programme [programme_id]="programme.id"></app-facture-programme>
                                             </div>
                                             <div class="tab-pane fade" id="compacts" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                              <app-impacts [programme_id]="programme.id"></app-impacts>
-                                          </div>
-
-                                          <div class="tab-pane fade" id="site" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                            <app-site [programme_id]="programme.id"></app-site>
-                                        </div>
-
-                                        <div class="tab-pane fade" id="missions" role="tabpanel" aria-labelledby="nav-contact-tab">
-                                          <app-mission-list ></app-mission-list>
-                                      </div>
+                                                <app-impacts [programme_id]="programme.id"></app-impacts>
+                                            </div>
+                                            <div class="tab-pane fade" id="site" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-site [programme_id]="programme.id"></app-site>
+                                            </div>
+                                            <div class="tab-pane fade" id="missions" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-mission-list ></app-mission-list>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -166,3 +158,4 @@
         </ngx-skeleton-loader>
     </div>
 </div>
+

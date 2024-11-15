@@ -42,7 +42,7 @@ import { MissionListComponent } from "../../../mission-list/mission-list.compone
     PlanTransformationComponent,
     ImpactsComponent,
     MissionListComponent
-],
+  ],
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'
 })
