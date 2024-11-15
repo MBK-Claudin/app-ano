@@ -16,32 +16,32 @@ import { error } from 'console';
 })
 export class MenuComponent {
 
-   user: any;
-  // uid = localStorage.getItem('uid');
+  user: any;
+  uid = localStorage.getItem('uid');
 
   constructor(
-    // private authService: AuthService,
+    private authService: AuthService,
     private route: Router
   ){}
 
-  // ngOnInit(){
-  //   this.getAuthUser();
-  // }
+  ngOnInit(){
+    this.getAuthUser();
+  }
 
-  // logout(){
-  //   this.authService.logout();
-  //   this.route.navigate(['/login']);
-  // }
+  logout(){
+    this.authService.logout();
+    this.route.navigate(['/login']);
+  }
 
-  // getAuthUser(){
-  //   this.authService.getAuthUser(this.uid).subscribe(
-  //     data => {
-  //       this.user = data.user;
-  //       localStorage.setItem('user_id', this.user.id);
-  //     }, error => {
-  //       console.log('Erreur authentification user :', error);
-  //     }
-  //   )
-  // }
+  getAuthUser(){
+    this.authService.getAuthUser(this.uid).subscribe(
+      data => {
+        this.user = data.user;
+        localStorage.setItem('user_id', this.user.id);
+      }, error => {
+        console.log('Erreur authentification user :', error);
+      }
+    )
+  }
 
 }

@@ -50,17 +50,26 @@ export class AddProgrammeComponent {
   responsablesForm = new FormGroup({
     responsable: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
+    role: new FormControl('', Validators.required),
+    organisation: new FormControl('', Validators.required),
+    poste: new FormControl('', Validators.required),
   })
 
   responsableList: {
     responsable: string,
     email: string,
+    role: string,
+    organisation: string,
+    poste: string,
   }[] = [];
+
+  indexResp: any;
+  indexOrg: any;
 
   objectifs: any[] = [];
   users: any[] =[];
   organisations: any[] = [];
-  selectedEmail: string = '';
+  selectedEmail: any;
   isAncrageDisabled: boolean = false;
 
   constructor(
@@ -192,6 +201,9 @@ export class AddProgrammeComponent {
       const newResponsable = {
         responsable: this.responsablesForm.value.responsable || '',
         email: this.responsablesForm.value.email || '',
+        role: this.responsablesForm.value.role || '',
+        organisation: this.responsablesForm.value.organisation || '',
+        poste: this.responsablesForm.value.poste || ''
       };
 
       this.responsableList.push(newResponsable);
@@ -202,10 +214,88 @@ export class AddProgrammeComponent {
   onUserSelect(event: any) {
     const selectedUserName = event.target.value;
     const selectedUser = this.users.find(user => user.name === selectedUserName);
-    //console.log(selectedUser);
+    console.log(selectedUser);
     if (selectedUser) {
       this.selectedEmail = selectedUser.email;
       this.responsablesForm.get('email')?.setValue(this.selectedEmail);
+
+      if (selectedUser.organisations && selectedUser.organisations.length > 0) {
+        const organisationNames = selectedUser.organisations.map((org: any) => org.libelle).join(', ');
+        const postes = selectedUser.organisations.map((org: any) => org.pivot.poste).join(', ');
+  
+        this.responsablesForm.get('organisation')?.setValue(organisationNames);
+        this.responsablesForm.get('poste')?.setValue(postes); 
+      } else {
+        this.responsablesForm.get('organisation')?.setValue('Pas d’organisation');
+        this.responsablesForm.get('poste')?.setValue('Aucun poste');
+      }
+
+    }
+  }
+
+  openEditRespModal(id: any){
+    const modal = document.getElementById('edit_resp_modal');
+
+    if(modal != null){
+      this.indexResp = id;
+
+      this.responsablesForm.patchValue({
+        responsable: this.responsableList[id].responsable,
+        email: this.responsableList[id].email,
+        role: this.responsableList[id].role
+      })
+
+      modal.style.display = 'block'
+    }
+
+  }
+
+  closeEditRespModal(){
+    const modal = document.getElementById('edit_resp_modal');
+    if(modal != null){
+      modal.style.display = 'none'
+    }
+  }
+
+  openEditOrgModal(id: any){
+    const modal = document.getElementById('edit_org_modal');
+    if(modal != null){
+      this.indexOrg = id;
+      this.organisationsForm.patchValue({
+        libelle: this.organisationList[id].libelle,
+        ancrage: this.organisationList[id].ancrage
+      })
+      modal.style.display = 'block'
+    }
+  }
+
+  closeEditOrgModal(){
+    const modal = document.getElementById('edit_org_modal');
+    if(modal != null){
+      modal.style.display = 'none'
+    }
+  }
+
+  EditResponsable(){
+    if(this.responsablesForm.valid && this.indexResp != null){ 
+
+      this.responsableList[this.indexResp].responsable = this.responsablesForm.value.responsable || '';
+      this.responsableList[this.indexResp].email = this.responsablesForm.value.email || '';
+      this.responsableList[this.indexResp].role = this.responsablesForm.value.role || '';
+
+      this.responsablesForm.reset();
+      this.closeEditRespModal();
+    }
+  }
+
+  EditOrganisation(){
+    if(this.organisationsForm.valid && this.indexOrg != null){ 
+
+      this.organisationList[this.indexOrg].ancrage = this.organisationsForm.value.ancrage || '';
+      this.organisationList[this.indexOrg].libelle = this.organisationsForm.value.libelle || '';
+      
+      this.organisationsForm.reset();
+      this.closeEditOrgModal();
     }
   }
 

@@ -37,8 +37,8 @@ export class GanttPlaningComponent {
   JEmail: any;
 
   Data: Object[] = [];
-  DataII: Object[] = [];
-  DataTable: Object[] = [];
+  DataII: any[] = [];
+  DataTable: any[] = [];
   ganttData: any[] = []
   bool: boolean = false;
   taskSettings: TaskFieldsModel | undefined;
@@ -62,115 +62,105 @@ export class GanttPlaningComponent {
     this.bool = false;
   }
 
-  getDataPlaning(){
+  getDataPlaning() {
     this.programmeService.getDataPlaning(this.programme_id).subscribe(
       data => {
-        this.DataII = this.groupByPhase(data);
-        this.Data = this.transformForGantt(this.DataII);
-        this.DataTable = this.transformDataTable(this.DataII);
-        console.log('palning data Tableau : ', this.DataTable);
-        console.log('palning data Gantt : ', this.Data);
-      }, error => {
-        console.error('Erreur lors de la récuperation des données !!!!!!', error);
+        this.DataII = data
+        this.Data = this.transformDataToGanttFormat(this.DataII);
+        this.DataTable = this.transformDataToTableFormat(this.DataII);
+      },
+      error => {
+        console.error('Error retrieving data:', error);
       }
-    )
+    );
   }
-
-  groupByPhase(data: any[]): any {
-    return data.reduce((acc, current) => {
-      current.activites.forEach((activite: any) => {
-        const phaseName = activite.phase.libelle;
   
-        // Si la phase n'existe pas encore dans l'accumulateur, on la crée
-        if (!acc[phaseName]) {
-          acc[phaseName] = {
-            phase_id: activite.phase.id,
-            phase_name: phaseName,
-            activities: [],
-          };
-        }
+  transformDataToGanttFormat(data: any[]): any[] {
+    const i = 1;
+    return data.map(phase => {
+      const currentDate = new Date();
+      const startDate = phase.activites[0]?.date_debut ? new Date(phase.activites[0]?.date_debut) : currentDate;
+      const endDate = phase.activites[0]?.date_fin ? new Date(phase.activites[0]?.date_fin) : currentDate;
+      const duration = this.calculateDuration(startDate, endDate);
+      
+      
+      const phaseData: any = {
+        TaskID: phase.id,
+        TaskName: phase.libelle,
+        StartDate: startDate,
+        EndDate: endDate,
+        Duration: duration,
+        Progress: this.getPhaseProgress(phase),
+        subtasks: phase.activites.map((activite: any) => ({
+          TaskID: `${phase.id}-${activite.id}`,
+          TaskName: activite.libelle,
+          StartDate: new Date(activite.date_debut),
+          EndDate: new Date(activite.date_fin),
+          Duration: this.calculateDuration(new Date(activite.date_debut), new Date(activite.date_fin)),
+          Progress: this.getActivityProgress(activite)
+        }))
+      };
   
-        // Ajout de l'activité à la phase correspondante
-        acc[phaseName].activities.push({
-          id: activite.id,
-          libelle: activite.libelle + '. Activité du PTBA : ' + current.libelle,
-          date_debut: activite.date_debut,
-          date_fin: activite.date_fin,
-          budget: activite.budget,
-        });
-      });
-  
-      return acc;  // Retour de l'accumulateur
-    }, {});
-  }
-
-  transformForGantt(groupedData: any): any[] {
-    this.ganttData = [];
-  
-    Object.keys(groupedData).forEach((phaseName, index) => {
-      const phase = groupedData[phaseName];
-  
-      // Ajouter la phase comme une tâche parent
-      this.ganttData.push({
-        TaskID: phase.phase_id,
-        TaskName: phase.phase_name,
-        StartDate: new Date(phase.activities[0].date_debut),
-        EndDate: new Date(phase.activities[phase.activities.length - 1].date_fin),
-        isParent: true,
-        subtasks: phase.activities.map((activity: { libelle: string, date_debut: string, date_fin: string, budget: string }, i: number) => ({
-          TaskID: `${phase.phase_id}-${i+1}`,
-          TaskName: activity.libelle,
-          StartDate: new Date(activity.date_debut),
-          EndDate: new Date(activity.date_fin),
-          Budget: activity.budget,
-          isParent: false,
-        })),        
-      });
+      return phaseData;
     });
-  
-    return this.ganttData;
   }
-
-  transformDataTable(originalData: any): any[] {
-    const transformedPhases = [];
   
-    // Parcours de chaque phase dans l'objet original
-    for (const phaseKey in originalData) {
-      if (originalData.hasOwnProperty(phaseKey)) {
-        const phase = originalData[phaseKey];
+  calculateDuration(startDate: Date, endDate: Date): number {
+    const diffTime = endDate.getTime() - startDate.getTime();
+    return Math.max(Math.ceil(diffTime / (1000 * 60 * 60 * 24)), 0); // Durée minimale de 0
+  }
   
-        // Création d'un objet pour la phase avec son libellé et ses activités
-        const transformedPhase = {
-          libelle: phase.phase_name,
-          activities: phase.activities.map((activity: any) => ({
-            libelle: activity.libelle,
-            date_debut: activity.date_debut,
-            date_fin: activity.date_fin,
-            progress: this.calculateProgress(activity.date_debut, activity.date_fin),
-          })),
-        };
-  
-        // Ajout de la phase transformée dans le tableau final
-        transformedPhases.push(transformedPhase);
-      }
+  // Placeholder methods for dynamic progress calculations
+  getPhaseProgress(phase: any): number {
+    if (!phase.activites || phase.activites.length === 0) {
+      return 0; // Retourne 0 si aucune activité n'est présente
     }
   
-    return transformedPhases;
-  }
-
-  calculateProgress(dateDebut: string, dateFin: string): number {
-    const startDate = new Date(dateDebut);
-    const endDate = new Date(dateFin);
-    const today = new Date();
+    // Calculer la progression moyenne des activités de la phase
+    const totalProgress = phase.activites.reduce((sum: number, activite: any) => {
+      return sum + this.getActivityProgress(activite);
+    }, 0);
   
-    const totalDuration = endDate.getTime() - startDate.getTime();
-    const elapsedDuration = today.getTime() - startDate.getTime();
+    const averageProgress = totalProgress / phase.activites.length;
+    return Math.round(averageProgress); // Arrondir le pourcentage
+  }  
   
-    if (totalDuration <= 0) return 100;  // Si la phase est terminée ou a une mauvaise configuration
+  getActivityProgress(activite: any): number {
+    const startDate = new Date(activite.date_debut);
+    const endDate = new Date(activite.date_fin);
+    const currentDate = new Date();
+  
+    // Si la date de début ou de fin n'existe pas, ou si la date actuelle est avant la date de début
+    if (!activite.date_debut || !activite.date_fin || currentDate < startDate) {
+      return 0;
+    }
+  
+    // Si la date actuelle est au-delà de la date de fin, considérer que l'activité est terminée
+    if (currentDate >= endDate) {
+      return 100;
+    }
+  
+    // Calculer le pourcentage d'avancement en fonction du temps écoulé
+    const totalDuration = this.calculateDuration(startDate, endDate);
+    const elapsedDuration = this.calculateDuration(startDate, currentDate);
+  
     const progress = (elapsedDuration / totalDuration) * 100;
-    return progress > 100 ? 100 : progress < 0 ? 0 : progress;  // Garde la progression entre 0 et 100
+    return Math.round(Math.min(progress, 100)); // Limiter à un maximum de 100
   }
 
+  transformDataToTableFormat(data: any[]): any[] {
+    return data.map(phase => {
+      const organizedPhase = {
+        libelle: phase.libelle,
+        activities: phase.activites.map((activity: any) => ({
+          libelle: activity.libelle,
+          progress: this.getActivityProgress(activity) // Calcul de progression basé sur l'activité
+        }))
+      };
+      return organizedPhase;
+    });
+  }
+  
   insertJalon(){
     if(this.jalonForm.valid){
       this.activiteService.insertActivite(this.jalonForm).subscribe(

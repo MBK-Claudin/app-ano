@@ -21,11 +21,11 @@
                             <div class="row px-5">
                                 <div class="col-md-6">
                                     <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                        <p><strong>Buedget :</strong><br>  
-                                            {{ activite.budget_fcfa }} FCFA<br> 
-                                            {{ activite.budget_us }} USD<br> 
-                                        </p>
-                                        <p><strong>Responsable(s) :</strong><br>
+                                        <p class="text-dark font-weight-bold fs-5">Buedget :</p>
+                                        <P class="text-primary font-weight-normal fs-5 mb-4">{{ activite.budget_fcfa }} FCFA</P>
+                                        <P class="text-primary font-weight-normal fs-5 mb-4">{{ activite.budget_us }} USD</P>
+                                        <p class="text-dark font-weight-bold fs-5">Responsable(s) :</p>
+                                        <p class="text-primary font-weight-normal fs-5 mb-4">
                                             <ng-container *ngFor="let r of responsables">
                                                 {{ r.name }} ({{ r.pivot.poste }})<br> 
                                             </ng-container>  
@@ -34,13 +34,11 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                        <p><strong>Comptabilité :</strong><br>  
-                                            Montant décaissé : {{ activite.montant_decaisser || 0 }} FCFA<br> 
-                                            Montant restant : {{ activite.montant_restant || 0}} FCFA<br> 
-                                        </p>
-                                        <p><strong>Période :</strong><br>
-                                            {{ activite.date_debut }} ({{ activite.date_fin }})<br> 
-                                        </p>
+                                        <p class="text-dark font-weight-bold fs-5">Comptabilité :</p>
+                                        <p class="text-primary font-weight-normal fs-5 mb-4">Montant décaissé : {{ activite.montant_decaisser || 0 }} FCFA</p>
+                                        <p class="text-primary font-weight-normal fs-5 mb-4">Montant restant : {{ activite.montant_restant || 0}} FCFA</p>
+                                        <p class="text-dark font-weight-bold fs-5">Période :</p>
+                                        <p class="text-primary font-weight-normal fs-5 mb-4">{{ activite.date_debut }} ({{ activite.date_fin }})</p>
                                     </div>
                                 </div>
                             </div>
@@ -64,8 +62,7 @@
                                                 <a class="nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#responsables" role="tab" aria-controls="nav-home_s2" aria-selected="true">Responsables</a>
                                                 <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#jalon" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Liste des Activités/Jalon</a>
                                                 <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#anolist" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Liste des ANOs</a>
-                                                <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#gantt" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planing Gantt</a>
-                                                <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#tableau" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planing tableau</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#gantt" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planning</a>
                                             </div>
                                         </nav>
                                         <div class="tab-content" id="nav-tabContent_2">
@@ -80,10 +77,7 @@
                                             </div>  
                                             <div class="tab-pane fade" id="gantt" role="tabpanel" aria-labelledby="nav-home-tab">
                                                 <app-gantt-budgetannuel></app-gantt-budgetannuel>
-                                            </div>  
-                                            <div class="tab-pane fade" id="tableau" role="tabpanel" aria-labelledby="nav-home-tab">
-                                                <app-planing-tableau-budgetannuel></app-planing-tableau-budgetannuel>
-                                            </div>   
+                                            </div> 
                                         </div>
                                     </div>
                                 </div>

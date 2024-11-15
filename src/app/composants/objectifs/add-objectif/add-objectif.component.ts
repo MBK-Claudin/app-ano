@@ -28,16 +28,23 @@ export class AddObjectifComponent {
     secteur: new FormControl('', Validators.required),
     date_debut: new FormControl('', Validators.required),
     date_fin: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
   });
 
   responsableForm = new FormGroup({
     responsable: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
+    role: new FormControl('', Validators.required),
+    organisation: new FormControl('', Validators.required),
+    poste: new FormControl('', Validators.required),
   });
 
   responsableList: {
     responsable: string,
     email: string,
+    role: string,
+    organisation: string,
+    poste: string,
   }[] = [];
 
   organisationForm = new FormGroup({
@@ -49,6 +56,9 @@ export class AddObjectifComponent {
     libelle: string,
     ancrage: string,
   }[] = [];
+
+  indexResp: any;
+  indexOrg: any;
 
   users: any[] =[];
   organisations: any[] = [];
@@ -76,15 +86,17 @@ export class AddObjectifComponent {
       this.openSpinner();
 
       const formObjectif = new FormData();
-      const objectif = this.objectifForm.value.objectif
-      const secteur = this.objectifForm.value.secteur
-      const date_debut = this.objectifForm.value.date_debut
-      const date_fin = this.objectifForm.value.date_fin
+      const objectif = this.objectifForm.value.objectif;
+      const secteur = this.objectifForm.value.secteur;
+      const date_debut = this.objectifForm.value.date_debut;
+      const date_fin = this.objectifForm.value.date_fin;
+      const description = this.objectifForm.value.description;
 
       formObjectif.append('objectif', objectif ? objectif.toString() : '');
       formObjectif.append('secteur', secteur ? secteur.toString() : '');
       formObjectif.append('date_debut', date_debut ? date_debut.toString() : '');
       formObjectif.append('date_fin', date_fin ? date_fin.toString() : '');
+      formObjectif.append('description', description ? description.toString() : '');
 
       if(this.responsableList.length > 0){
         for(let i = 0; i < this.responsableList.length; i++){
@@ -150,6 +162,67 @@ export class AddObjectifComponent {
     }
   }
 
+  openEditRespModal(id: any){
+    const modal = document.getElementById('edit_resp_modal');
+    if(modal != null){
+      this.indexResp = id;
+      this.responsableForm.patchValue({
+        responsable: this.responsableList[id].responsable,
+        email: this.responsableList[id].email
+      })
+      modal.style.display = 'block'
+    }
+  }
+
+  closeEditRespModal(){
+    const modal = document.getElementById('edit_resp_modal');
+    if(modal != null){
+      modal.style.display = 'none'
+    }
+  }
+
+  openEditOrgModal(id: any){
+    const modal = document.getElementById('edit_org_modal');
+    if(modal != null){
+      this.indexOrg = id;
+      this.organisationForm.patchValue({
+        libelle: this.organisationList[id].libelle,
+        ancrage: this.organisationList[id].ancrage
+      })
+      modal.style.display = 'block'
+    }
+  }
+
+  closeEditOrgModal(){
+    const modal = document.getElementById('edit_org_modal');
+    if(modal != null){
+      modal.style.display = 'none'
+    }
+  }
+
+  EditResponsable(){
+    if(this.responsableForm.valid && this.indexResp != null){ 
+
+      this.responsableList[this.indexResp].responsable = this.responsableForm.value.responsable || '';
+      this.responsableList[this.indexResp].email = this.responsableForm.value.email || '';
+      this.responsableList[this.indexResp].role = this.responsableForm.value.role || '';
+
+      this.responsableForm.reset();
+      this.closeEditRespModal();
+    }
+  }
+
+  EditOrganisation(){
+    if(this.organisationForm.valid && this.indexOrg != null){ 
+
+      this.organisationList[this.indexOrg].ancrage = this.organisationForm.value.ancrage || '';
+      this.organisationList[this.indexOrg].libelle = this.organisationForm.value.libelle || '';
+      
+      this.organisationForm.reset();
+      this.closeEditOrgModal();
+    }
+  }
+
   openSpinner(){
     if(this.isSpinner){
       this.spinner.show();
@@ -197,6 +270,7 @@ export class AddObjectifComponent {
       }
 
       this.organisationList.push(organsation);
+      this.organisationForm.reset();
     }
   }
 
@@ -204,35 +278,45 @@ export class AddObjectifComponent {
     if(this.responsableForm.valid){
       const responsable = {
         responsable: this.responsableForm.value.responsable || '',
-        email: this.responsableForm.value.email || ''
+        email: this.responsableForm.value.email || '',
+        role: this.responsableForm.value.role || '',
+        organisation: this.responsableForm.value.organisation || '',
+        poste: this.responsableForm.value.poste || ''
       }
 
       this.responsableList.push(responsable);
+      this.responsableForm.reset();
     }
   }
 
   onUserSelect(event: any) {
-    console.log(event.target.value);
+    
     const selectedUserName = event.target.value;
-    console.log(selectedUserName)
     const selectedUser = this.users.find(user => user.name === selectedUserName);
-    console.log(selectedUser.email)
+
     if (selectedUser) {
       this.selectedEmail = selectedUser.email;
       this.responsableForm.get('email')?.setValue(this.selectedEmail);
+
+      if (selectedUser.organisations && selectedUser.organisations.length > 0) {
+        const organisationNames = selectedUser.organisations.map((org: any) => org.libelle).join(', ');
+        const postes = selectedUser.organisations.map((org: any) => org.pivot.poste).join(', ');
+  
+        this.responsableForm.get('organisation')?.setValue(organisationNames);
+        this.responsableForm.get('poste')?.setValue(postes); 
+      } else {
+        this.responsableForm.get('organisation')?.setValue('Pas d’organisation');
+        this.responsableForm.get('poste')?.setValue('Aucun poste');
+      }
     }
   }
 
   removeOrganisationField(index: number) {
     this.organisationList.splice(index, 1);
-    // this.objectif.organisation.splice(index, 1);
-    // this.objectif.ancrage.splice(index, 1);
   }
   
   removeUserField(index: number) {
     this.responsableList.splice(index, 1)
-    // this.objectif.responsable.splice(index, 1);
-    // this.objectif.email.splice(index, 1);
   }
 
 

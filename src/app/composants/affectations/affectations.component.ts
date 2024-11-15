@@ -33,16 +33,13 @@ export class AffectationsComponent {
     this.userid = localStorage.getItem('user_id');
     this.userService.getAffectation(this.userid).subscribe(
       data => {
-        this.affectations = data;
-        this.programmes = data.programme;
         this.objectifs = data.objectifs;
+        this.programmes = data.programme;
         this.activites = data.activite;
 
-        if(this.programmes.length === 0 || this.objectifs.length === 0 || this.activites.length){
-          this.isAffectaion = true;
+        if(this.programmes.length === 0 && this.objectifs.length === 0 && this.activites.length === 0){
+          this.isAffectaion = true
         }
-        
-        console.log('Mes affectations : ', this.affectations);
       }, error => {
         console.log(error);
       }

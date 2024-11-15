@@ -3,7 +3,7 @@
         <div class="row column_title">
             <div class="col-md-12">
                 <div class="page_title">
-                    <h2>Objectifs Stratégiques -> Fiche Objectif Stratégique </h2>
+                    <p class="text-dark font-weight-bold fs-5">Objectifs Stratégiques -> Fiche Objectif Stratégique </p>
                 </div>
             </div>
         </div>
@@ -11,9 +11,9 @@
             <!-- invoice section -->
             <div class="col-md-12">
             <div class="white_shd full margin_bottom_30">
-                <div class="full graph_head">
+                <div class="full graph_head bg-dark">
                     <div class="heading1 margin_0">
-                        <h2><strong>Fiche Objectif Stratégique :</strong> {{ detailsObjectif.objectif }}</h2>
+                        <p class="text-white font-weight-bold fs-5 text-align-center">Fiche Objectif strategique :</p>
                     </div>
                 </div>
                 <div class="full">
@@ -21,28 +21,29 @@
                         <div class="row px-5">
                             <div class="col-md-6">
                                 <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                    <p><strong>Objectifs Stratégiques :</strong><br>  
-                                        {{ detailsObjectif.objectif }}<br> 
-                                    </p>
-                                    <p><strong>Secteur :</strong><br>  
-                                        {{ detailsObjectif.secteur }}<br> 
-                                    </p>
-                                    <p><strong>Période :</strong><br>  
-                                        <strong>Du :</strong>{{ detailsObjectif.date_fin }}<br> 
-                                        <strong>Au :</strong>{{ detailsObjectif.date_debut }}<br>
-                                    </p>
+                                    <p class="text-dark font-weight-bold fs-5">Objectifs Stratégiques :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">{{ detailsObjectif.objectif }}</p>
+                                    <p class="text-dark font-weight-bold fs-5">Secteur :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">{{ detailsObjectif.secteur }}</p>
+
+                                    <p class="text-dark font-weight-bold fs-5">Période :</p>
+                                    <p class="text-primary font-weight-normal fs-6">Du : {{ detailsObjectif.date_fin }}</p>
+                                    <p class="text-primary font-weight-normal fs-6 mb-4">Au : {{ detailsObjectif.date_debut }}</p>
+
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                    <p><strong>Responsables :</strong><br> 
+                                    <p class="text-dark font-weight-bold fs-5">Responsables :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">
                                         <ng-container *ngFor="let r of responsables">
-                                            {{ r.name }} ({{ r.pivot.poste }})<br> 
-                                        </ng-container> 
+                                            {{ r.name }} ({{ r.pivot.poste }})<br>
+                                        </ng-container>
                                     </p>
-                                    <p><strong>Ancrage :</strong><br>
+                                    <p class="text-dark font-weight-bold fs-5">Ancrage :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">
                                         <ng-container *ngFor="let o of oragnisations">
-                                            {{ o.libelle }} ({{ o.pivot.ancrage }})<br> 
+                                            {{ o.libelle }} ({{ o.pivot.ancrage }})<br>
                                         </ng-container>
                                     </p>
                                 </div>
@@ -76,3 +77,81 @@
         </div>
     </div>
 </div>
+
+<!-- <div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Objectifs Stratégiques -> Fiche Objectif Stratégique </h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            <div class="white_shd full margin_bottom_30">
+                <div class="full graph_head">
+                    <div class="heading1 margin_0">
+                        <h2><strong>Fiche Objectif Stratégique :</strong> {{ detailsObjectif.objectif }}</h2>
+                    </div>
+                </div>
+                <div class="full">
+                    <div class="invoice_inner">
+                        <div class="row px-5">
+                            <div class="col-md-6">
+                                <div class="full invoice_blog padding_infor_info padding-bottom_0">
+                                    <p class="text-dark font-weight-bold fs-5">Objectifs Stratégiques :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">{{ detailsObjectif.objectif }}</p>
+                                    <p class="text-dark font-weight-bold fs-5">Secteur :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">{{ detailsObjectif.secteur }}</p>
+                                    <p class="text-dark font-weight-bold fs-5">Période :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">{{ detailsObjectif.date_fin }} / {{ detailsObjectif.date_debut }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="full invoice_blog padding_infor_info padding-bottom_0">
+                                    <p class="text-dark font-weight-bold fs-5">Responsables :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">
+                                        <ng-container *ngFor="let r of responsables">
+                                            {{ r.name }} ({{ r.pivot.poste }})<br> 
+                                        </ng-container> 
+                                    </p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4" *ngIf="responsables.length === 0">Aucun Responsable</p>
+                                    <p class="text-dark font-weight-bold fs-5">Ancrage :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">
+                                        <ng-container *ngFor="let o of oragnisations">
+                                            {{ o.libelle }} ({{ o.pivot.ancrage }})<br> 
+                                        </ng-container>
+                                    </p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4" *ngIf="oragnisations.length === 0">Aucun ancrage</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <app-programme-objectif [objetif_id]="detailsObjectif.id"></app-programme-objectif>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="deletemodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Suppression</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                <i class="fas fa-exclamation-triangle text-warning mr-2"></i>
+                <p>Êtes-vous sûr de vouloir sur le programme : <strong>{{ nameProg }}</strong>.</p>
+                <p>Cette action entraine la suppression de tous les éléments relier à {{ nameProg }} (PTBA, ANO, Activités/jaloons...)</p>
+            </div>
+            <div class="modal-footer">
+                <button (click)="closeDeleteModal()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button (click)="deleteProgramme(idProg)" type="button" class="btn btn-danger" >Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -37,9 +37,9 @@
                                                                     <label class="custom-control-label" for="customCheck2"></label>
                                                                 </div>
                                                             </td>
-                                                            <td class="view-message dont-show">Programme <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">{{ programme.statut || 'En ratard'}}</span></td>
+                                                            <td class="view-message dont-show">Programme <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">{{ programme.statut || 'En Cours'}}</span></td>
                                                             <td class="view-message">{{ programme.libelle }}</td>
-                                                            <td class="view-message inbox-small-cells"></td>
+                                                            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
                                                             <td class="view-message text-right">{{ programme.date_debut }} {{ programme.date_fin }}</td>
                                                         </tr>
                                                         <tr class="" *ngFor="let objectif of objectifs">
@@ -49,9 +49,9 @@
                                                                     <label class="custom-control-label" for="customCheck2"></label>
                                                                 </div>
                                                             </td>
-                                                            <td class="view-message dont-show">Objectif Stratégique <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">{{ objectif.statut || 'En ratard'}}</span></td>
-                                                            <td class="view-message">{{ objectif.libelle }}</td>
-                                                            <td class="view-message inbox-small-cells"></td>
+                                                            <td class="view-message dont-show">Objectif Stratégique <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">{{ objectif.statut || 'En cours'}}</span></td>
+                                                            <td class="view-message">{{ objectif.objectif }}</td>
+                                                            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
                                                             <td class="view-message text-right">{{ objectif.date_debut }} {{ objectif.date_fin }}</td>
                                                         </tr>
                                                         <tr class="" *ngFor="let activite of activites">
@@ -61,9 +61,9 @@
                                                                     <label class="custom-control-label" for="customCheck2"></label>
                                                                 </div>
                                                             </td>
-                                                            <td class="view-message dont-show">Objectif Stratégique <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">{{ activite.statut || 'En ratard'}}</span></td>
+                                                            <td class="view-message dont-show">Objectif Stratégique <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">{{ activite.statut || 'En cours'}}</span></td>
                                                             <td class="view-message">{{ activite.libelle }}</td>
-                                                            <td class="view-message inbox-small-cells"></td>
+                                                            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
                                                             <td class="view-message text-right">{{ activite.date_debut }} {{ activite.date_fin }}</td>
                                                         </tr>
                                                     </tbody>

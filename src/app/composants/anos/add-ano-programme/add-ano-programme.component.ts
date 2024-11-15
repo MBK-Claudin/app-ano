@@ -20,6 +20,7 @@ import { DataServiceService } from '../../../services/data-service.service';
   styleUrl: './add-ano-programme.component.css'
 })
 export class AddAnoProgrammeComponent {
+  
   programme_id: any;
   programme: any;
   composantes: any[] = [];
@@ -130,6 +131,9 @@ export class AddAnoProgrammeComponent {
           formAno.append('date_debut[]', this.eventList[i].date_debut);
           formAno.append('date_fin[]', this.eventList[i].date_fin);
         }
+      }else{
+        alert("Vous devez saisir au moins un évènement !!!!");
+        return;
       }
 
       if(this.responsableList.length > 0){
@@ -137,6 +141,9 @@ export class AddAnoProgrammeComponent {
           formAno.append('responsable[]', this.responsableList[j].responsable);
           formAno.append('email[]', this.responsableList[j].email);
         }
+      }else{
+        alert("Vous devez saisir au moins un responsable !!!!");
+        return;
       }
 
       if(this.files.length > 0){
@@ -144,6 +151,9 @@ export class AddAnoProgrammeComponent {
           formAno.append('documents[]', this.files[k]);
           formAno.append('titres[]', this.titres[k]);
         }
+      }else{
+        alert("Vous devez saisir au moins un document !!!!");
+        return;
       }
 
       this.anoService.insertANO(formAno).subscribe(

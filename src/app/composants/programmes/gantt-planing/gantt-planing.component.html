@@ -1,9 +1,9 @@
 <div class="row justify-content-center my-3">
     <div class="col-md-6 justify-content-center">
-        <button (click)="planingGanttView()" class="btn btn-link">Vue gantt</button>
+        <button (click)="planingGanttView()" class="btn btn-secondary">Vue gantt</button>
     </div>
     <div class="col-md-6 justify-content-center">
-        <button (click)="planingTableauView()" class="btn btn-link">Vue Tableau</button>
+        <button (click)="planingTableauView()" class="btn btn-secondary">Vue Tableau</button>
     </div>
 </div>
 <!-- planing gantt -->
@@ -54,25 +54,36 @@
                                 </thead>
                                 <tbody>
                                     <!-- Parcours des phases -->
-
-
-
-                                    <!-- <ng-container *ngFor="let phase of DataTable">
-                                        <tr *ngFor="let activity of phase.activities; let i = index">
-                                        <td *ngIf="i === 0" attr.rowspan="{{ phase.activities.length }}">{{ phase.libelle }}</td>
+                                    <tr *ngFor="let activity of DataTable; let i = index">
                                         <td>{{ activity.libelle }}</td>
-                                        <td>
-                                            <div class="progress">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 25%;"
-                                                attr.aria-valuenow="{{ activity.progress }}" aria-valuemin="0" aria-valuemax="100">
-                                                {{ activity.progress }} %
-                                            </div>
-                                            </div>
-                                        </td>
-                                        </tr>
+                                        <ng-container *ngFor="let a of activity.activities">
+                                            <td>{{ a.libelle }}</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 25%;"
+                                                        attr.aria-valuenow="{{ activity.progress }}" aria-valuemin="0" aria-valuemax="100">
+                                                        {{ a.progress }} %
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                    <!-- <ng-container *ngFor="let phase of DataTable">
+                                        <ng-container *ngIf="phase.activities.lenght > 0">
+                                            <tr *ngFor="let activity of phase.activities; let i = index">
+                                                <td *ngIf="i === 0" attr.rowspan="{{ activity.activities.length }}">{{ phase.libelle }}</td>
+                                                <td>{{ activity.activities.libelle }}</td>
+                                                <td>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 25%;"
+                                                            attr.aria-valuenow="{{ activity.progress }}" aria-valuemin="0" aria-valuemax="100">
+                                                            {{ activity.activities.progress }} %
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
                                     </ng-container> -->
-
-
                                 </tbody>
                             </table>
                         </div>
