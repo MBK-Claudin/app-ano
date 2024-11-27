@@ -77,7 +77,34 @@ export class ImpactsComponent implements OnInit {
 
   insertImpact(){
     if(this.impactForm.valid){
-      console.log('insertion impacts !!!!!!!!');
+
+      const impact = new FormData();
+
+      const type = this.impactForm.value.type;
+      const libelle = this.impactForm.value.libelle;
+      const force = this.impactForm.value.force;
+      const taille = this.impactForm.value.taille;
+      const mitigation = this.impactForm.value.mitigation;
+      const site = this.impactForm.value.site;
+      const activite = this.impactForm.value.activite;
+
+      impact.append('type', type ? type.toString() : '');
+      impact.append('libelle', libelle ? libelle.toString() : '');
+      impact.append('force', force ? force.toString() : '');
+      impact.append('taille', taille ? taille.toString() : '');
+      impact.append('mitigation', mitigation ? mitigation.toString() : '');
+      impact.append('site', site ? site.toString() : '');
+      impact.append('activite', activite ? activite.toString() : '');
+      impact.append('programme', this.programme_id.toString());
+
+
+      this.impactService.insertImpact(impact).subscribe(
+        data => {
+          console.log(data);
+        }, error => {
+          console.log("Erreur lors de l'insertion de l'impact", error);
+        }
+      )
     }
   }
   

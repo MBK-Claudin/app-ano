@@ -28,46 +28,72 @@
                                             </div>
                                             <div class="inbox-body">
                                                 <table class="table table-inbox table-hover">
-                                                    <!-- Événements -->
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="inbox-small-cells">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input" id="selectAll">
+                                                                    <label class="custom-control-label" for="selectAll"></label>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col" class="view-message dont-show">Type</th>
+                                                            <th scope="col" class="view-message">Libellé</th>
+                                                            <th scope="col" class="view-message inbox-small-cells" style="width: 120px; text-align: center;">Statut</th>
+                                                            <th scope="col" class="view-message text-right">Période</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
                                                         <tr *ngFor="let ano of anos">
                                                             <td class="inbox-small-cells">
                                                                 <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input">
-                                                                    <label class="custom-control-label" for="customCheck{{ano.id}}"></label>
+                                                                    <input type="checkbox" class="custom-control-input" id="customCheckAno{{ano.id}}">
+                                                                    <label class="custom-control-label" for="customCheckAno{{ano.id}}"></label>
                                                                 </div>
                                                             </td>
-                                                            <td class="view-message dont-show">Traitement de demande d'ANO <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">À traiter</span></td>
-                                                            <td class="view-message">{{ano.libelle}}</td>
-                                                            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                                            <td class="view-message text-right">{{ano.budget}}</td>
+                                                            <td class="view-message dont-show">Demande d'ANO</td>
+                                                            <td class="view-message">{{ ano.libelle }}</td>
+                                                            <td class="view-message text-center">
+                                                                <span class="badge badge-warning" style="display: inline-block; width: 100px; text-align: center;">
+                                                                    À traiter
+                                                                </span>
+                                                            </td>
+                                                            <td class="view-message text-right">{{ ano.budget }}</td>
                                                         </tr>
                                                         <tr *ngFor="let activite of activites">
                                                             <td class="inbox-small-cells">
                                                                 <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input">
-                                                                    <label class="custom-control-label" for="customCheck{{activite.id}}"></label>
+                                                                    <input type="checkbox" class="custom-control-input" id="customCheckActivite{{activite.id}}">
+                                                                    <label class="custom-control-label" for="customCheckActivite{{activite.id}}"></label>
                                                                 </div>
                                                             </td>
-                                                            <td class="view-message dont-show">Traitement de demande d'ANO <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">À traiter</span></td>
-                                                            <td class="view-message">{{activite.libelle}}</td>
-                                                            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                                            <td class="view-message text-right">{{activite.date_debut}} {{activite.date_fin}}</td>
+                                                            <td class="view-message dont-show">Activité/Jalon</td>
+                                                            <td class="view-message">{{ activite.libelle }}</td>
+                                                            <td class="view-message text-center">
+                                                                <span class="badge badge-warning" style="display: inline-block; width: 100px; text-align: center;">
+                                                                    À traiter
+                                                                </span>
+                                                            </td>
+                                                            <td class="view-message text-right">{{ activite.date_debut }} {{ activite.date_fin }}</td>
                                                         </tr>
                                                         <tr *ngFor="let livrable of livrables">
                                                             <td class="inbox-small-cells">
                                                                 <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input">
-                                                                    <label class="custom-control-label" for="customCheck{{livrable.id}}"></label>
+                                                                    <input type="checkbox" class="custom-control-input" id="customCheckLivrable{{livrable.id}}">
+                                                                    <label class="custom-control-label" for="customCheckLivrable{{livrable.id}}"></label>
                                                                 </div>
                                                             </td>
-                                                            <td class="view-message dont-show">Traitement de demande d'ANO <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">À traiter</span></td>
-                                                            <td class="view-message">{{livrable.libelle}}</td>
-                                                            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                                            <td class="view-message text-right">{{livrable.budget}}</td>
+                                                            <td class="view-message dont-show">Livrable</td>
+                                                            <td class="view-message">{{ livrable.libelle }}</td>
+                                                            <td class="view-message text-center">
+                                                                <span class="badge badge-warning" style="display: inline-block; width: 100px; text-align: center;">
+                                                                    À traiter
+                                                                </span>
+                                                            </td>
+                                                            <td class="view-message text-right">{{ livrable.budget }}</td>
                                                         </tr>
                                                     </tbody>
-                                                </table>                                                
+                                                </table>
+                                                
                                                 <div class="alert alert-primary" role="alert" *ngIf="istaches">
                                                     Aucune Tâches !!!
                                                 </div> 

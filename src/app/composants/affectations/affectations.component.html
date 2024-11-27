@@ -27,47 +27,73 @@
                                                 </form>
                                             </div>
                                             <div class="inbox-body">
-
-                                                <table class="table table-inbox table-hover" >
+                                                <table class="table table-inbox table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="inbox-small-cells">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input" id="selectAll">
+                                                                    <label class="custom-control-label" for="selectAll"></label>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col" class="view-message dont-show">Type</th>
+                                                            <th scope="col" class="view-message">Libellé</th>
+                                                            <th scope="col" class="view-message inbox-small-cells" style="width: 120px; text-align: center;">Statut</th>
+                                                            <th scope="col" class="view-message text-right">Période</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
-                                                        <tr class="" *ngFor="let programme of programmes">
+                                                        <tr *ngFor="let programme of programmes">
                                                             <td class="inbox-small-cells">
                                                                 <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                                    <label class="custom-control-label" for="customCheck2"></label>
+                                                                    <input type="checkbox" class="custom-control-input" id="customCheckProgramme{{programme.id}}">
+                                                                    <label class="custom-control-label" for="customCheckProgramme{{programme.id}}"></label>
                                                                 </div>
                                                             </td>
-                                                            <td class="view-message dont-show">Programme <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">{{ programme.statut || 'En Cours'}}</span></td>
+                                                            <td class="view-message dont-show">Programme</td>
                                                             <td class="view-message">{{ programme.libelle }}</td>
-                                                            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                                            <td class="view-message text-right">{{ programme.date_debut }} {{ programme.date_fin }}</td>
+                                                            <td class="view-message text-center">
+                                                                <span class="badge badge-warning" style="width: 100px; display: inline-block; text-align: center;">
+                                                                    {{ programme.statut || 'En cours' }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="view-message text-right">{{ programme.date_debut }} - {{ programme.date_fin }}</td>
                                                         </tr>
-                                                        <tr class="" *ngFor="let objectif of objectifs">
+                                                        <tr *ngFor="let objectif of objectifs">
                                                             <td class="inbox-small-cells">
                                                                 <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                                    <label class="custom-control-label" for="customCheck2"></label>
+                                                                    <input type="checkbox" class="custom-control-input" id="customCheckObjectif{{objectif.id}}">
+                                                                    <label class="custom-control-label" for="customCheckObjectif{{objectif.id}}"></label>
                                                                 </div>
                                                             </td>
-                                                            <td class="view-message dont-show">Objectif Stratégique <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">{{ objectif.statut || 'En cours'}}</span></td>
+                                                            <td class="view-message dont-show">Objectif Stratégique</td>
                                                             <td class="view-message">{{ objectif.objectif }}</td>
-                                                            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                                            <td class="view-message text-right">{{ objectif.date_debut }} {{ objectif.date_fin }}</td>
+                                                            <td class="view-message text-center">
+                                                                <span class="badge badge-warning" style="width: 100px; display: inline-block; text-align: center;">
+                                                                    {{ objectif.statut || 'En cours' }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="view-message text-right">{{ objectif.date_debut }} - {{ objectif.date_fin }}</td>
                                                         </tr>
-                                                        <tr class="" *ngFor="let activite of activites">
+                                                        <tr *ngFor="let activite of activites">
                                                             <td class="inbox-small-cells">
                                                                 <div class="custom-control custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                                                    <label class="custom-control-label" for="customCheck2"></label>
+                                                                    <input type="checkbox" class="custom-control-input" id="customCheckActivite{{activite.id}}">
+                                                                    <label class="custom-control-label" for="customCheckActivite{{activite.id}}"></label>
                                                                 </div>
                                                             </td>
-                                                            <td class="view-message dont-show">Objectif Stratégique <span class="badge badge-warning pull-right" style="width: 100px; display: inline-block; text-align: center;">{{ activite.statut || 'En cours'}}</span></td>
+                                                            <td class="view-message dont-show">Activité</td>
                                                             <td class="view-message">{{ activite.libelle }}</td>
-                                                            <td class="view-message inbox-small-cells"><i class="fa fa-paperclip"></i></td>
-                                                            <td class="view-message text-right">{{ activite.date_debut }} {{ activite.date_fin }}</td>
+                                                            <td class="view-message text-center">
+                                                                <span class="badge badge-warning" style="width: 100px; display: inline-block; text-align: center;">
+                                                                    {{ activite.statut || 'En cours' }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="view-message text-right">{{ activite.date_debut }} - {{ activite.date_fin }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
+                                                
                                                 <div class="alert alert-primary" role="alert" *ngIf="isAffectaion">
                                                     Aucune affectation !!
                                                 </div>

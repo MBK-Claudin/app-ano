@@ -76,7 +76,7 @@
           </div>
           <div class="modal-body">
               <!-- Formulaire d'ajout -->
-              <form [formGroup]="impactForm">
+              <form [formGroup]="impactForm" (ngSubmit)="insertImpact()">
                   <div class="row">
                     <div class="col-6">
                         <div class="form-group">
