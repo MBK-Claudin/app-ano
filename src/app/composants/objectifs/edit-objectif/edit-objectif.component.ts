@@ -2,7 +2,7 @@ import { ObjectifServiceService } from './../../../services/objectif-service.ser
 import { CommonModule } from '@angular/common';
 import { ObjectifsInterface } from './../../../interfaces/objectifs-interface';
 import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DataServiceService } from '../../../services/data-service.service';
@@ -13,26 +13,51 @@ import { DataServiceService } from '../../../services/data-service.service';
   imports: [
     CommonModule,
     FormsModule,
-
+    ReactiveFormsModule,
   ],
   templateUrl: './edit-objectif.component.html',
   styleUrl: './edit-objectif.component.css'
 })
 export class EditObjectifComponent {
     id: any;
-    editObjectif: ObjectifsInterface = {
-      id: 0,
-      secteur: '',
-      objectif: '',
-      date_debut: new Date(),
-      date_fin: new Date(),
-      organisation: [],
-      ancrage: [],
-      responsable: [],
-      email: []
-    };
 
-    
+    objectifForm = new FormGroup({
+      objectif: new FormControl('', Validators.required),
+      secteur: new FormControl('', Validators.required),
+      date_debut: new FormControl('', Validators.required),
+      date_fin: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+    });
+  
+    responsableForm = new FormGroup({
+      responsable: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      role: new FormControl('', Validators.required),
+      organisation: new FormControl('', Validators.required),
+      poste: new FormControl('', Validators.required),
+    });
+  
+    responsableList: {
+      responsable: string,
+      email: string,
+      role: string,
+      organisation: string,
+      poste: string,
+    }[] = [];
+  
+    organisationForm = new FormGroup({
+      libelle: new FormControl('', Validators.required),
+      ancrage: new FormControl('', Validators.required),
+    });
+  
+    organisationList: {
+      libelle: string,
+      ancrage: string,
+    }[] = [];
+  
+    indexResp: any;
+    indexOrg: any;
+
     selectedOrganisation: string = '';
     selectedAncrage: string = '';
     selectedEmail: string = '';
@@ -95,51 +120,45 @@ export class EditObjectifComponent {
       }
     }
 
-    onOrganisationChange(event: any) {
-      const selectedValue = event.target.value;
-  
-      if (selectedValue === 'Autre') {
-          this.selectedAncrage = 'Autre';
-          this.isAncrageDisabled = true;  // Désactive le champ
-      } else {
-          this.isAncrageDisabled = false; // Active le champ
-          this.selectedAncrage = '';  // Réinitialise l'ancrage si nécessaire
-      }
-    }
-
     submitEditObjectif(){
-      this.objectifService.editObjectif(this.editObjectif).subscribe(data => {
-        this.goBack()
-      });
+      alert("objectif edit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      // this.objectifService.editObjectif(this.editObjectif).subscribe(data => {
+      //   this.goBack()
+      // });
     }
 
     removeOrganisationField(index: number) {
-      this.editObjectif.organisation.splice(index, 1);
-      this.editObjectif.ancrage.splice(index, 1);
+      this.organisationList.splice(index, 1);
     }
     
     removeUserField(index: number) {
-      this.editObjectif.responsable.splice(index, 1);
-      this.editObjectif.email.splice(index, 1);
+      this.responsableList.splice(index, 1);
     }
 
     addOrganisationField() {
-      if (this.selectedOrganisation && this.selectedAncrage) {
-        this.editObjectif.organisation.push(this.selectedOrganisation);
-        this.editObjectif.ancrage.push(this.selectedAncrage);
-        // Réinitialise les sélections après l'ajout
-        this.selectedOrganisation = '';
-        this.selectedAncrage = '';
+      if(this.organisationForm.valid){
+        const organsation = {
+          libelle: this.organisationForm.value.libelle || '',
+          ancrage: this.organisationForm.value.ancrage || '',
+        }
+  
+        this.organisationList.push(organsation);
+        this.organisationForm.reset();
       }
     }
   
     addUserField() {
-      if (this.selectedEmail && this.selectedName) {
-        this.editObjectif.responsable.push(this.selectedName);
-        this.editObjectif.email.push(this.selectedEmail);
-        // Réinitialise les sélections après l'ajout
-        this.selectedEmail = '';
-        this.selectedName = '';
+      if(this.responsableForm.valid){
+        const responsable = {
+          responsable: this.responsableForm.value.responsable || '',
+          email: this.responsableForm.value.email || '',
+          role: this.responsableForm.value.role || '',
+          organisation: this.responsableForm.value.organisation || '',
+          poste: this.responsableForm.value.poste || ''
+        }
+  
+        this.responsableList.push(responsable);
+        this.responsableForm.reset();
       }
     }
 
@@ -153,25 +172,97 @@ export class EditObjectifComponent {
       }
     }
 
+    openEditRespModal(id: any){
+      const modal = document.getElementById('edit_resp_modal');
+      if(modal != null){
+        this.indexResp = id;
+        this.responsableForm.patchValue({
+          responsable: this.responsableList[id].responsable,
+          email: this.responsableList[id].email
+        })
+        modal.style.display = 'block'
+      }
+    }
+
+    openEditOrgModal(id: any){
+      const modal = document.getElementById('edit_org_modal');
+      if(modal != null){
+        this.indexOrg = id;
+        this.organisationForm.patchValue({
+          libelle: this.organisationList[id].libelle,
+          ancrage: this.organisationList[id].ancrage
+        })
+        modal.style.display = 'block'
+      }
+    }
+
+    closeEditRespModal(){
+      const modal = document.getElementById('edit_resp_modal');
+      if(modal != null){
+        modal.style.display = 'none'
+      }
+    }
+
+    EditResponsable(){
+      if(this.responsableForm.valid && this.indexResp != null){ 
+  
+        this.responsableList[this.indexResp].responsable = this.responsableForm.value.responsable || '';
+        this.responsableList[this.indexResp].email = this.responsableForm.value.email || '';
+        this.responsableList[this.indexResp].role = this.responsableForm.value.role || '';
+  
+        this.responsableForm.reset();
+        this.closeEditRespModal();
+      }
+    }
+
+    EditOrganisation(){
+      if(this.organisationForm.valid && this.indexOrg != null){ 
+  
+        this.organisationList[this.indexOrg].ancrage = this.organisationForm.value.ancrage || '';
+        this.organisationList[this.indexOrg].libelle = this.organisationForm.value.libelle || '';
+        
+        this.organisationForm.reset();
+        this.closeEditOrgModal();
+      }
+    }
+
+    closeEditOrgModal(){
+      const modal = document.getElementById('edit_org_modal');
+      if(modal != null){
+        modal.style.display = 'none'
+      }
+    }
+
     getSelectObjectif(){
-      this.objectifService.selectObjectif(this.id).subscribe(
+      this.objectifService.selectEditObjectif(this.id).subscribe(
         data => {
           this.editorganisarion = data.organisations;
           this.editusers = data.users;
-          this.editObjectif.id = data.id;
-          this.editObjectif.secteur = data.secteur;
-          this.editObjectif.objectif = data.objectif;
-          this.editObjectif.date_debut = data.date_debut;
-          this.editObjectif.date_fin = data.date_fin;
+          this.objectifForm.get('secteur')?.setValue(data.secteur);
+          this.objectifForm.get('objectif')?.setValue(data.objectif);
+          this.objectifForm.get('description')?.setValue(data.description);
+          this.objectifForm.get('date_debut')?.setValue(data.date_debut);
+          this.objectifForm.get('date_fin')?.setValue(data.date_fin);
 
           for(let i = 0; i < this.editusers.length; i++){
-            this.editObjectif.responsable.push(this.editusers[i].name);
-            this.editObjectif.email.push(this.editusers[i].email);
+            const resp = {
+              responsable: this.editusers[i].name,
+              email: this.editusers[i].email,
+              role: this.editusers[i].name,
+              organisation: this.editusers[i].name,
+              poste: this.editusers[i].name,
+            }
+
+            this.responsableList.push(resp);
           }
 
           for(let i = 0; i < this.editorganisarion.length; i++){
-            this.editObjectif.organisation.push(this.editorganisarion[i].libelle);
-            this.editObjectif.ancrage.push(this.editorganisarion[i].pivot.ancrage);
+            const org = {
+              libelle: this.editorganisarion[i].libelle,
+              ancrage: this.editorganisarion[i].pivot.ancrage,
+            }
+
+            this.organisationList.push(org);
           }
         }
       )

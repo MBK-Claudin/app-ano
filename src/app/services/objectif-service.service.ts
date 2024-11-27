@@ -19,8 +19,12 @@ export class ObjectifServiceService {
     return this.http.post<any>('http://127.0.0.1:8000/api/insert/objectif/', data);
   }
 
+  selectEditObjectif(id: any):Observable<any>{
+    return this.http.get<any>('http://127.0.0.1:8000/api/select/edit/objectif/'+id);
+  }
+
   selectObjectif(id: any):Observable<any>{
-    return this.http.get<any>('http://127.0.0.1:8000/api/select/objectif/'+id);
+    return this.http.get<any>('http://127.0.0.1:8000/api/select/edit/objectif/'+id);
   }
 
   editObjectif(data: any):Observable<any>{

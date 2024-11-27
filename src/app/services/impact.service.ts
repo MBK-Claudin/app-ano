@@ -18,6 +18,6 @@ export class ImpactService {
   }
 
   insertImpact(data: any): Observable<any>{
-    return this.http.post<any>('', data)
+    return this.http.post<any>('http://localhost:8000/api/impacts/insert/', data);
   }
 }

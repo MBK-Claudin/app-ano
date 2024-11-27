@@ -22,80 +22,176 @@
                     </div>
                     <div class="row full d-flex justify-content-center align-items-center">
                         <div class="col-md-12 my-3">
-                            <form (ngSubmit)="submitEditObjectif()">
+                            <form (ngSubmit)="submitEditObjectif()" [formGroup]="objectifForm">
                                 <div class="row mx-4">
-                                    <div class="col-12">
-                                        <!-- section du programme -->
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="heading1 margin_0">
-                                                    <h5>Objectif Stratégique</h5>
-                                                </div>
-                                            </div>
-                                        </div> 
+                                    <div class="col-6">
                                         <div class="form-group">
                                             <label for="programme-name">Secteur :</label>
-                                            <input type="text" class="form-control" id="secteur" name="secteur" [(ngModel)] = "editObjectif.secteur" [value]="editObjectif.secteur">
+                                            <select name="secteur" id="secteur" class="form-control" formControlName="secteur">
+                                                <option value="Mistère de la santé">Santé</option>
+                                                <option value="Mistère de l'economi numérique">Economie numérique</option>
+                                                <option value="Mistère des eaux forêt">Eaux forêt</option>
+                                                <option value="Mistère de l'énergie">Energie</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="programme-name">Objectif :</label>
-                                            <input type="text" class="form-control" id="objectif" name="objectif" [(ngModel)] = "editObjectif.objectif" [value]="editObjectif.objectif">
+                                            <input type="text" class="form-control" id="objectif" name="objectif" formControlName="objectif">
                                         </div>
+                                    </div>
+                                    <div class="col-6">
                                         <div class="form-group">
                                             <label for="programme-start-date">Date de debut</label>
-                                            <input type="date" class="form-control" id="date_debut" name="date_debut" [(ngModel)] = "editObjectif.date_debut" [value]="editObjectif.date_debut">
+                                            <input type="date" class="form-control" id="date_debut" name="date_debut" formControlName="date_debut">
                                         </div>
                                         <div class="form-group">
                                             <label for="programme-start-date">Date de fin</label>
-                                            <input type="date" class="form-control" id="date_fin" name="date_fin" [(ngModel)] = "editObjectif.date_fin" [value]="editObjectif.date_fin">
+                                            <input type="date" class="form-control" id="date_fin" name="date_fin" formControlName="date_fin">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group text-right">
-                                    <button type="submit" class="btn btn-primary">Mèttre à jour</button>
+                                <div class="row mx-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold fs-5" for="description">Description</label>
+                                        <textarea name="description" id="description" rows="4" class="form-control" formControlName="description"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row mx-4">
+                                    <div class="form-group text-right">
+                                        <button type="submit" class="btn btn-primary">Sauvegrader les modification</button>
+                                    </div>
                                 </div>
                             </form>
-                            <hr>
-                            <!-- ongjet des organisations et responsables-->
-                            <div class="col-md-12 my-3">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="d-flex align-items-center">
-                                            <p class="mb-0 mr-2">Organisations(s)</p>
-                                            <button (click)="openOrgModal()" class="btn btn-primary ml-2" title="Ajouter un programme">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="d-flex align-items-center">
-                                            <p class="mb-0 mr-2">Responsable(s)</p>
-                                            <button (click)="openRespModal()" class="btn btn-primary ml-2" title="Ajouter un programme">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Liste des organisations et responsables existants-->
-                            <div class="col-md-12 my3">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div *ngFor="let org of editObjectif.organisation; let i = index" >
-                                            <span class="mr-2">{{ (i+1) }}</span>
-                                            <span class="mr-2">{{ org }} - {{ editObjectif.ancrage[i] }}</span>
-                                            <button type="button" class="btn btn-danger" (click)="removeOrganisationField(i)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div *ngFor="let resp of editObjectif.responsable; let i = index">
-                                            <span class="mr-2">{{ (i+1) }}</span>
-                                            <span class="mr-2">{{ resp }} - {{ editObjectif.email[i] }}</span>
-                                            <button type="button" class="btn btn-danger" (click)="removeUserField(i)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onglets contributeur & ancrage-->
+        <div class="row column4 graph">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full inner_elements">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="tab_style2">
+                                    <div class="tabbar padding_infor_info">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab1" role="tablist">
+                                                <a class="fs-6 nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
+                                                <a class="fs-6 nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#ancrage" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Ancrages</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content" id="nav-tabContent_2">
+                                            <div class="tab-pane fade show active" id="contributeurs" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <!-- Liste des contributeirs -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="white_shd full margin_bottom_30">
+                                                            <div class="full graph_head">
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="heading1 margin_0">
+                                                                            <h2>Liste des Contributeurs</h2>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6 text-right">
+                                                                        <button (click)="openRespModal()" class="btn btn-primary" title="Ajouter un contributeur">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="table_section padding_infor_info">
+                                                                <div class="table-responsive-sm">
+                                                                    <table class="table table-striped">
+                                                                        <thead class="thead-dark">
+                                                                            <tr>
+                                                                                <th>#</th>
+                                                                                <th>Nom Complet</th>
+                                                                                <th>E-mail</th>
+                                                                                <th>Actions</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr *ngFor="let item of responsableList; let i = index">
+                                                                                <td>{{ i + 1 }}</td>
+                                                                                <td>{{ item.responsable }}</td>
+                                                                                <td>{{ item.email }}</td>
+                                                                                <td>
+                                                                                    <div class="btn-group">
+                                                                                        <button (click)="openEditRespModal(i)" class="btn btn-primary" title="Modifier">
+                                                                                            <i class="fas fa-edit"></i>
+                                                                                        </button>
+                                                                                        <button (click)="removeUserField(i)" class="btn btn-danger">
+                                                                                            <i class="fas fa-trash"></i>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="ancrage" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                <!-- Liste des ancrages -->
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="white_shd full margin_bottom_30">
+                                                            <div class="full graph_head">
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="heading1 margin_0">
+                                                                            <h2>Liste des Ancrages</h2>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6 text-right">
+                                                                        <button (click)="openOrgModal()" class="btn btn-primary" title="Ajouter un ancrage">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="table_section padding_infor_info">
+                                                                <div class="table-responsive-sm">
+                                                                    <table class="table table-striped">
+                                                                        <thead class="thead-dark">
+                                                                            <tr>
+                                                                                <th>#</th>
+                                                                                <th>Organisation</th>
+                                                                                <th>Type d'ancrage</th>
+                                                                                <th>Actions</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr *ngFor="let item of organisationList; let i = index">
+                                                                                <td>{{ i + 1 }}</td>
+                                                                                <td>{{ item.libelle }}</td>
+                                                                                <td>{{ item.ancrage }}</td>
+                                                                                <td>
+                                                                                    <div class="btn-group">
+                                                                                        <button (click)="openEditOrgModal(i)" class="btn btn-primary" title="Modifier">
+                                                                                            <i class="fas fa-edit"></i>
+                                                                                        </button>
+                                                                                        <button (click)="removeOrganisationField(i)" class="btn btn-danger">
+                                                                                            <i class="fas fa-trash"></i>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -131,7 +227,7 @@
                     <div id="block_organisation">
                         <div class="form-group">
                             <label for="organisation">Libellé de l'organisation</label>
-                            <select class="form-control" [(ngModel)]="selectedOrganisation" (change)="onOrganisationChange($event)" name="organisations[]">
+                            <select class="form-control" [(ngModel)]="selectedOrganisation" name="organisations[]">
                                 <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
                             </select>
                         </div>
@@ -188,6 +284,86 @@
                     </div>
                     <div class="form-group text-right">
                         <button type="submit" class="btn btn-primary">Ajouter Organisation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="edit_org_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white">Modifier un ancrage</h5>
+                <button (click)="closeEditOrgModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (submit)="EditOrganisation()" [formGroup]="organisationForm">
+                    <div id="block_organisation">
+                        <div class="form-group">
+                            <label class="font-weight-bold fs-5" for="Editorganisation">Libellé de l'organisation</label>
+                            <select class="form-control" formControlName="libelle" name="Editorganisation" id="Editorganisation">
+                                <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="font-weight-bold fs-5" for="editAncrage">Ancrage</label>
+                            <select class="form-control" formControlName="ancrage" name="Editancrage" id="Editancrage">
+                                <option value="Stratégique">Stratégique</option>
+                                <option value="Opérationnel">Opérationnel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="organisationForm.invalid">modifier l'ancrage</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="edit_resp_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white">Modifier un responsable</h5>
+                <button (click)="closeEditRespModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (submit)="EditResponsable()" [formGroup]="responsableForm">
+                    <div id="block_responsables">
+                        <!-- Champs de saisie -->
+                        <div class="form-group">
+                            <label class="font-weight-bold fs-5" for="responsable">Responsables</label>
+                            <select id="responsable" type="text" class="form-control" name="responsables[]" (change)="onUserSelect($event)" required formControlName="responsable">
+                                <option *ngFor="let user of users" [value]="user.name">{{ user.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold fs-5" for="email">E-mail</label>
+                            <input type="email" id="email" class="form-control" name="emails[]" [value]="selectedEmail" formControlName="email" readOnly>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold fs-5" for="role">Rôle :</label>
+                            <select type="text" name="role" id="role" class="form-control" formControlName="role">
+                                <option value="Coordonnateur Général">Coordonnateur Général</option>
+                                <option value="Coordonnateur Technique">Coordonnateur Technique</option>
+                                <option value="Référent Métier">Référent Métier</option>
+                                <option value="Référent Technique">Référent Technique</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="responsableForm.invalid">Modifier le contributeur</button>
                     </div>
                 </form>
             </div>

@@ -102,6 +102,9 @@ export class AddObjectifComponent {
         for(let i = 0; i < this.responsableList.length; i++){
           formObjectif.append('responsable[]', this.responsableList[i].responsable);
           formObjectif.append('email[]', this.responsableList[i].email);
+          formObjectif.append('role[]', this.responsableList[i].role);
+          formObjectif.append('userOrganisation[]', this.responsableList[i].organisation);
+          formObjectif.append('poste[]', this.responsableList[i].poste);
         }
       }
 
@@ -200,6 +203,23 @@ export class AddObjectifComponent {
     }
   }
 
+  openNewUserModal(){
+    this.closeRespModal();
+
+    const modal = document.getElementById('new_resp_modal');
+    if(modal != null){
+      modal.style.display = 'block'
+    }
+
+  }
+
+  closeNewUserModal(){
+    const modal = document.getElementById('new_resp_modal');
+    if(modal != null){
+      modal.style.display = 'none'
+    }
+  }
+
   EditResponsable(){
     if(this.responsableForm.valid && this.indexResp != null){ 
 
@@ -275,6 +295,21 @@ export class AddObjectifComponent {
   }
 
   addUserField() {
+    if(this.responsableForm.valid){
+      const responsable = {
+        responsable: this.responsableForm.value.responsable || '',
+        email: this.responsableForm.value.email || '',
+        role: this.responsableForm.value.role || '',
+        organisation: this.responsableForm.value.organisation || '',
+        poste: this.responsableForm.value.poste || ''
+      }
+
+      this.responsableList.push(responsable);
+      this.responsableForm.reset();
+    }
+  }
+
+  addNewUserField() {
     if(this.responsableForm.valid){
       const responsable = {
         responsable: this.responsableForm.value.responsable || '',

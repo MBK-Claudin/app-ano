@@ -17,6 +17,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- Formulaire principal -->
         <div class="row justify-content-center">
             <div class="col-md-12 mx-auto">
@@ -41,11 +42,10 @@
                                         <div class="form-group">
                                             <label class="font-weight-bold fs-5" for="programme-name">Secteur :</label>
                                             <select type="text" class="form-control" id="secteur" name="secteur" formControlName="secteur" >
-                                                <option value="Mistère de la santé">Mistère de la santé</option>
-                                                <option value="Mistère de lintérieur">Mistère de lintérieur</option>
-                                                <option value="Mistère de l'economi numérique">Mistère de l'economi numérique</option>
-                                                <option value="Mistère des eaux forêt">Mistère des eaux forêt</option>
-                                                <option value="Mistère de l'énergie">Mistère de l'énergie</option>
+                                                <option value="Mistère de la santé">Santé</option>
+                                                <option value="Mistère de l'economi numérique">Economie numérique</option>
+                                                <option value="Mistère des eaux forêt">Eaux forêt</option>
+                                                <option value="Mistère de l'énergie">Energie</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -327,7 +327,62 @@
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <button type="submit" class="btn btn-primary" [disabled]="responsableForm.invalid">Ajouter Organisation</button>
+                        <button type="submit" class="btn btn-secondary">Autre Contributeur</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="responsableForm.invalid">Ajouter un contributeur</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="new_resp_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white">Ajouter un responsable</h5>
+                <button (click)="closeNewUserModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-white" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (submit)="addNewUserField()" [formGroup]="responsableForm">
+                    <div class="form-group">
+                        <label class="font-weight-bold fs-5" for="responsable">Responsables</label>
+                        <input type="text" id="responsable" class="form-control" name="responsable" formControlName="responsable">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold fs-5" for="email">E-mail</label>
+                        <input type="email" id="email" class="form-control" name="email" formControlName="email">
+                    </div>
+                    <div class="form-group">
+                        <label class="font-weight-bold fs-5" for="role">Rôle :</label>
+                        <select type="text" name="role" id="role" class="form-control" formControlName="role">
+                            <option value="Coordonnateur Général">Coordonnateur Général</option>
+                            <option value="Coordonnateur Technique">Coordonnateur Technique</option>
+                            <option value="Référent Métier">Référent Métier</option>
+                            <option value="Référent Technique">Référent Technique</option>
+                        </select>
+                    </div><hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="heading1 margin_0">
+                                <h5>Organisation</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="organisation">Libellé de l'organisation</label>
+                        <select class="form-control" id="organisation" name="organisation" formControlName="organisation">
+                            <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="poste">Poste</label>
+                        <input type="text" class="form-control" id="poste" name="poste" formControlName="poste">
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="responsableForm.invalid">Ajouter le contributeur</button>
                     </div>
                 </form>
             </div>
@@ -370,7 +425,7 @@
                         </div>
                     </div>
                     <div class="form-group text-right">
-                        <button type="submit" class="btn btn-primary" [disabled]="responsableForm.invalid">Ajouter Organisation</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="responsableForm.invalid">Modifier le contributeur</button>
                     </div>
                 </form>
             </div>

@@ -24,6 +24,10 @@ export class ProgrammeServiceService {
     return this.http.get<any>('http://localhost:8000/api/select/programme/'+id);
   }
 
+  selectEditProgramme(id: any):Observable<any>{
+    return this.http.get<any>('http://localhost:8000/api/select/edit/programme/'+id);
+  }
+
   editProgramme(data: any):Observable<any>{
     return this.http.put<any>('http://localhost:8000/api/edit/programme/', data);
   }

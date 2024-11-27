@@ -35,6 +35,7 @@ export class AddProgrammeComponent {
     objectif_specifique: new FormControl('', Validators.required),
     date_debut: new FormControl('', Validators.required),
     date_fin: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required)
   });
 
   organisationsForm = new FormGroup({
