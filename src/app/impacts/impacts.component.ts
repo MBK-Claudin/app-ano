@@ -25,6 +25,8 @@ export class ImpactsComponent implements OnInit {
   impactFilter: any[] = [];
   activite: any[] = [];
   sites: any;
+  searchText: any = '';
+
 
   impactForm = new FormGroup({
     type: new FormControl('', Validators.required),
@@ -47,16 +49,44 @@ export class ImpactsComponent implements OnInit {
     this.getActiviteBudgetAnnuel();
   }
 
-  getImpacts() {
-    this.impactService.getImpacts(this.programme_id).subscribe(
-      data => {
-        this.impacts = data;
-      },
-      error => {
-        console.log('Erreur lors du chargement des impacts', error);
-      }
-    );
+
+  getImpacts(): void {
+    if (this.programme_id) {
+      this.impactService.getImpacts(this.programme_id).subscribe(
+        (data) => {
+          // Assurez-vous que data est un tableau
+          if (Array.isArray(data)) {
+            this.impacts = data.reverse();
+            this.impactFilter = [...this.impacts];
+            console.log('Missions chargées :', this.impacts);
+          } else {
+            console.error('Données incorrectes reçues :', data);
+          }
+        },
+        (error) => {
+          console.error('Erreur lors de la récupération des missions', error);
+        }
+      );
+    } else {
+      console.error('programme_id is not defined');
+    }
   }
+
+
+
+  filterimpact() {
+    if (this.searchText === '') {
+      // Si la recherche est vide, afficher toutes les missions
+      this.impactFilter = [...this.impacts];  // Affiche toutes les missions
+    } else {
+      // Si une recherche est effectuée, filtrer les missions
+      this.impactFilter = this.impacts.filter(impact => {
+        const libelle = impact.libelle ? impact.libelle.toLowerCase() : '';
+        return libelle.includes(this.searchText.toLowerCase());
+      });
+    }
+  }
+
 
   openmodal(){
     const modal = document.getElementById('modale');
@@ -87,14 +117,16 @@ export class ImpactsComponent implements OnInit {
       const mitigation = this.impactForm.value.mitigation;
       const site = this.impactForm.value.site;
       const activite = this.impactForm.value.activite;
+      const programme = this.programme_id;
+
 
       impact.append('type', type ? type.toString() : '');
       impact.append('libelle', libelle ? libelle.toString() : '');
       impact.append('force', force ? force.toString() : '');
       impact.append('taille', taille ? taille.toString() : '');
       impact.append('mitigation', mitigation ? mitigation.toString() : '');
-      impact.append('site', site ? site.toString() : '');
-      impact.append('activite', activite ? activite.toString() : '');
+      impact.append('site', site ? parseInt(site).toString() : '');
+      impact.append('activite', activite ? parseInt(activite).toString() : '');
       impact.append('programme', this.programme_id.toString());
 
 
@@ -107,7 +139,7 @@ export class ImpactsComponent implements OnInit {
       )
     }
   }
-  
+
   getActiviteBudgetAnnuel(){
     this.impactService.getAcitviteProgramme(this.programme_id).subscribe(
       data => {

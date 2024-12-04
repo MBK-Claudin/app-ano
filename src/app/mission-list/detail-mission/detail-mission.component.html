@@ -1,0 +1,12 @@
+<div *ngIf="loading" class="text-center">
+  <p>Chargement des détails...</p>
+</div>
+
+<div *ngIf="!loading" class="mission-details">
+  <h2>Détails de la Mission</h2>
+  <p><strong>Libellé :</strong> {{ mission?.libelle }}</p>
+  <p><strong>Objectif :</strong> {{ mission?.objectif }}</p>
+  <p><strong>Site :</strong> {{ mission?.site_id }}</p>
+  <p><strong>Responsable :</strong> {{ mission?.user_id }}</p>
+
+</div>
