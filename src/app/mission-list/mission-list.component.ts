@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { MissionService } from '../services/mission.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { SiteService } from '../services/site.service';
 import { ActiviteService } from '../services/activite.service';
 import { UserServiceService } from '../services/user-service.service';
+import { DetailMissionComponent } from '../detail-mission/detail-mission.component';
 
 @Component({
   selector: 'app-mission-list',
@@ -24,11 +25,12 @@ import { UserServiceService } from '../services/user-service.service';
     FormsModule,
     NgxDocViewerModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
 ],
 })
 export class MissionListComponent implements OnInit {
-  @Input() programme_id!: number;
+  readonly programme_id = input.required<number>();
 
   missions: any[] = [];
   filterMission: any;
@@ -37,6 +39,8 @@ export class MissionListComponent implements OnInit {
   users: any[] = [];
   activite: any[] = [];
   successMessage: string | null = null;
+  loading: boolean = false;
+
 
   // Formulaire pour la création d'une mission
   missionForm = new FormGroup({
@@ -67,17 +71,22 @@ item: any;
     this.loadMissions();
   }
 
+
   // Charger les missions existantes
 // mission-list.component.ts
 
 loadMissions(): void {
-  if (this.programme_id) {
-    this.missionService.getMissions(this.programme_id).subscribe(
+  const programme_id = this.programme_id();
+  if (programme_id) {
+    this.loading = true;
+    this.missionService.getMissions(programme_id).subscribe(
       (data) => {
         // Assurez-vous que data est un tableau
         if (Array.isArray(data)) {
           this.missions = data.reverse();
           this.filterMission = [...this.missions];
+          this.loading = false;
+
           console.log('Missions chargées :', this.missions);
         } else {
           console.error('Données incorrectes reçues :', data);
@@ -177,7 +186,7 @@ loadMissions(): void {
       const statut = this.missionForm.value.statut;
       const site = this.missionForm.value.site;
       const activite = this.missionForm.value.activite;
-      const programme = this.programme_id;
+      const programme = this.programme_id();
 
       mission.append('objectif', objectif ? objectif.toString() : '');
       mission.append('libelle', libelle ? libelle.toString() : '');
@@ -187,7 +196,7 @@ loadMissions(): void {
       mission.append('activite', activite ? parseInt(activite).toString() : '');
       mission.append('user', user ? parseInt(user).toString() : '');
       mission.append('site', site ? parseInt(site).toString() : '');
-      mission.append('programme', this.programme_id.toString());
+      mission.append('programme', this.programme_id().toString());
 
       // Envoi de la requête pour créer une mission
       this.missionService.createMission(mission).subscribe(
