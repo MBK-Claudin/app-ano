@@ -12,10 +12,10 @@ export class LivrableService {
   ) { }
 
   insertLivrable(data: any): Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/livrable', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/livrable', data);
   }
 
   getLivrable(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/livrable/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/livrable/'+id);
   }
 }

@@ -1,7 +1,7 @@
-<ngx-spinner 
-    bdColor = "rgba(0, 0, 0, 0.8)" 
-    size = "default" color = "#fff" 
-    type = "ball-spin-fade" 
+<ngx-spinner
+    bdColor = "rgba(0, 0, 0, 0.8)"
+    size = "default" color = "#fff"
+    type = "ball-spin-fade"
     [fullScreen] = "true"
 >
     <p style="color: white" > Cette opérations peut prendre un certain temps. Veuillez patienttez !!!</p>
@@ -84,7 +84,7 @@
                 <!-- Formulaire d'ajout -->
                 <form (ngSubmit)="insertBudgetAnnuel()">
                     <div class="form-group">
-                        <label for="date_debut">Daate de debut</label>
+                        <label for="date_debut">Date de debut</label>
                         <input type="date" class="form-control" required id="date_debut" name="date_debut" [(ngModel)]="budgetannuel.date_debut">
                     </div>
                     <div class="form-group">

@@ -11,22 +11,25 @@ export class UserServiceService {
   ) { }
 
   getUsers(id: any):Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/users/programme/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/users/programme/'+id);
   }
 
+  getUser():Observable<any>{
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/users');
+  }
   insertContributeur(data: any):Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/contributeur/', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/contributeur/', data);
   }
 
   getResponsableActivitebudgetannuel(id: any):Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/user/activitebudgetannuel/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/user/activitebudgetannuel/'+id);
   }
 
   getAffectation(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/user/affectations/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/user/affectations/'+id);
   }
 
   getTaches(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/user/taches/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/user/taches/'+id);
   }
 }

@@ -19,18 +19,9 @@ import { DataServiceService } from '../../../services/data-service.service';
   styleUrl: './jalon-budgetannuel.component.css'
 })
 export class JalonBudgetannuelComponent {
-  @Input() activite_id!:number;
+  @Input() id!:number;
+  statut!:'en cours';
 
-  jalonForm = new FormGroup({
-    site: new FormControl('', Validators.required),
-    phase: new FormControl('', Validators.required),
-    libelle: new FormControl('', Validators.required),
-    date_debut: new FormControl('', Validators.required),
-    date_fin: new FormControl('', Validators.required),
-    budget: new FormControl('', Validators.required),
-    responsable: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
-  })
 
   JResponsable: any;
   JEmail: any;
@@ -40,6 +31,7 @@ export class JalonBudgetannuelComponent {
   sites: any[] = [];
   users: any[] = [];
   phases: any[] = [];
+  activite_id: any []=[];
 
 
 
@@ -53,11 +45,51 @@ export class JalonBudgetannuelComponent {
     this.getusers();
     this.getSites();
     this.getPhases();
+
+    console.log('voici lidentifiant recherché',this.id.toString())
   }
+
+  jalonForm = new FormGroup({
+    site: new FormControl('', Validators.required),
+    phase: new FormControl('', Validators.required),
+    libelle: new FormControl('', Validators.required),
+    date_debut: new FormControl('', Validators.required),
+    date_fin: new FormControl('', Validators.required),
+    budget: new FormControl('', Validators.required),
+    responsable: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+    activite_id: new FormControl(this.id) ,
+    statut:new FormControl(this.statut)
+
+      })
 
   insertJalon(){
     if(this.jalonForm.valid){
-      this.activiteService.insertActivite(this.jalonForm).subscribe(
+      const activite = new FormData();
+
+      const site = this.jalonForm.value.site;
+      const phase = this.jalonForm.value.phase;
+      const libelle = this.jalonForm.value.libelle;
+      const responsable = this.jalonForm.value.responsable;
+      const date_debut = this.jalonForm.value.date_debut;
+      const date_fin = this.jalonForm.value.date_fin;
+      const budget = this.jalonForm.value.budget;
+      const email = this.jalonForm.value.email;
+
+
+
+      activite.append('site', site ? site.toString() : '');
+      activite.append('phase', phase ? phase.toString() : '');
+      activite.append('responsable', responsable ? responsable.toString() : '');
+      activite.append('libelle', libelle ? libelle.toString() : '');
+      activite.append('date_debut', date_debut ? date_debut.toString() : '');
+      activite.append('date_fin', date_fin ? date_fin.toString() : '');
+      activite.append('budget', budget ? budget.toString() : '');
+      activite.append('email', email ? email.toString():'');
+      activite.append('activite_id', this.id.toString());
+      activite.append('statut', this.statut)
+
+      this.activiteService.insertActivite(activite).subscribe(
         data => {
           this.closejalonmodal();
           this.getJalon()
@@ -65,13 +97,16 @@ export class JalonBudgetannuelComponent {
           console.log(error);
         }
       )
+    }else{
+      console.log(this.jalonForm)
     }
   }
 
   getJalon(){
-    this.activiteService.getJalonActivitebudgetannuel(this.activite_id).subscribe(
+    this.activiteService.getJalonActivitebudgetannuel(this.id).subscribe(
       data => {
         this.jalons = data;
+        console.log(this.jalons )
         this.jalonFilter = data;
       }, error => {
         console.error("Erreur lors de la recuperation des jalons !!", error);
@@ -125,10 +160,17 @@ export class JalonBudgetannuelComponent {
   onUserSelectJalon(event: any) {
     const selectedUserName = event.target.value;
     const selectedUser = this.users.find(user => user.name === selectedUserName);
+
     if (selectedUser) {
+      // Mettre à jour les variables
       this.JEmail = selectedUser.email;
       this.JResponsable = selectedUser.name;
+
+      // Mettre à jour la valeur du champ 'email' dans le formulaire
+      this.jalonForm.get('email')?.setValue(this.JEmail);
     }
   }
+
+
 
 }

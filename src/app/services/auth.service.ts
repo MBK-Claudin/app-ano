@@ -17,7 +17,7 @@ export class AuthService {
 
   login() {
     // Rediriger l'utilisateur vers la page de connexion
-    window.location.href = `http://localhost:8000/auth`;
+    window.location.href = `https://cgpgabon24.alwaysdata.net/auth`;
   }
 
   logout() {
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   getAuthUser(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/auth/user/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/auth/user/'+id);
   }
 
   isBrowser(): boolean {

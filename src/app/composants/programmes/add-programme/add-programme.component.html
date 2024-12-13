@@ -64,6 +64,13 @@
                                             <label for="programme-start-date">Date de fin</label>
                                             <input type="date" class="form-control" id="date_fin" name="date_fin" formControlName="date_fin">
                                         </div>
+<<<<<<< Updated upstream
+=======
+                                        <div class="form-group">
+                                            <label class="font-weight-bold fs-5" for="programme-objectif">Description Objectif specifique :</label>
+                                            <textarea class="form-control" name="description_objectif_specifique" id="description_objectif_specifique" formControlName="description_objectif_specifique" rows="4"></textarea>
+                                        </div>
+>>>>>>> Stashed changes
                                     </div>
                                 </div>
                                 <div class="form-group text-right">
@@ -171,6 +178,89 @@
     </div>
 </div>
 
+<<<<<<< Updated upstream
+=======
+<div class="modal" tabindex="-1" role="dialog"  id="edit_org_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white">Modifier un ancrage</h5>
+                <button (click)="closeEditOrgModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (submit)="EditOrganisation()" [formGroup]="organisationsForm">
+                    <div id="block_organisation">
+                        <div class="form-group">
+                            <label for="Editorganisation">Libellé de l'organisation</label>
+                            <select class="form-control" formControlName="libelle" name="Editorganisation" id="Editorganisation">
+                                <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editAncrage">Ancrage</label>
+                            <select class="form-control" formControlName="ancrage" name="Editancrage" id="Editancrage">
+                                <option value="Stratégique">Stratégique</option>
+                                <option value="Opérationnel">Opérationnel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="organisationsForm.invalid">modifier l'ancrage</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog"  id="edit_resp_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-white">Modifier un responsable</h5>
+                <button (click)="closeEditRespModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulaire d'ajout -->
+                <form (submit)="EditResponsable()" [formGroup]="responsablesForm">
+                    <div id="block_responsables">
+                        <!-- Champs de saisie -->
+                        <div class="form-group">
+                            <label for="responsable">Responsables</label>
+                            <select id="responsable" type="text" class="form-control" name="responsables[]" (change)="onUserSelect($event)" required formControlName="responsable">
+                                <option *ngFor="let user of users" [value]="user.name">{{ user.name }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" class="form-control" name="emails" formControlName="email" readOnly>
+                        </div>
+                        <div class="form-group">
+                            <label for="role">Rôle :</label>
+                            <select type="text" name="role" id="role" class="form-control" formControlName="role">
+                                <option value="Coordonnateur Général">Coordonnateur Général</option>
+                                <option value="Coordonnateur Technique">Coordonnateur Technique</option>
+                                <option value="Référent Métier">Référent Métier</option>
+                                <option value="Référent Technique">Référent Technique</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="responsablesForm.invalid">Ajouter Organisation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+>>>>>>> Stashed changes
 <div class="modal" tabindex="-1" role="dialog"  id="resp_modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

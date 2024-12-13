@@ -12,14 +12,14 @@ export class OrganisationService {
   ) { }
 
   getOrganisations(): Observable<any>{
-    return this.Http.get<any>('http://localhost:8000/api/organisations');
+    return this.Http.get<any>('https://cgpgabon24.alwaysdata.net/api/organisations');
   }
 
   deleteOrganisation(id: any):Observable<any>{
-    return this.Http.delete<any>('http://localhost:8000/api/delete/organisations/'+id);
+    return this.Http.delete<any>('https://cgpgabon24.alwaysdata.net/api/delete/organisations/'+id);
   }
 
   insertOrganisation(data: any):Observable<any>{
-    return this.Http.post<any>('http://localhost:8000/api/insert/organisations/', data);
+    return this.Http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/organisations/', data);
   }
 }

@@ -12,30 +12,37 @@ export class BudgetannuelServiceService {
   ) { }
 
   insertBudgetAnnuel(data: any):Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/budgetannuel/', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/budgetannuel', data);
   }
 
   getDetails(id: any):Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/details/budgetannuel/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/details/budgetannuel/'+id);
   }
 
   getBudget(id: any):Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/budgetannuels/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/budgetannuels/'+id);
   }
 
   getAllBudget():Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/all/budgetannuels/');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/all/budgetannuels');
   }
 
   getActivites():Observable<any> {
-    return this.http.get<any>('http://localhost:8000/api/budgetannuel/activites');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/budgetannuel/activites');
   }
 
   getOneActivite(id: any):Observable<any> {
-    return this.http.get<any>('http://localhost:8000/api/budgetannuel/activite/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/budgetannuel/activite/'+id);
   }
 
   deleteActivite(id: any): Observable<any>{
-    return this.http.delete<any>('http://localhost:8000/api/budgetannuel/delete/activite/'+id);
+    return this.http.delete<any>('https://cgpgabon24.alwaysdata.net/api/budgetannuel/delete/activite/'+id);
   }
+<<<<<<< Updated upstream
+=======
+
+  getPlaningData(id: any): Observable<any>{
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/budgetannuel/activite/planing/data/'+id);
+  }
+>>>>>>> Stashed changes
 }

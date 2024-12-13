@@ -13,39 +13,46 @@ export class ProgrammeServiceService {
   ) { }
 
   getProgramme():Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/programmes');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/programmes');
   }
 
   insertProgramme(data: any):Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/programme/' , data)
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/programme' , data)
   }
 
   selectProgramme(id: any):Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/select/programme/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/programme/'+id);
   }
 
+<<<<<<< Updated upstream
+=======
+  selectEditProgramme(id: any):Observable<any>{
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/edit/programme/'+id);
+  }
+
+>>>>>>> Stashed changes
   editProgramme(data: any):Observable<any>{
-    return this.http.put<any>('http://localhost:8000/api/edit/programme/', data);
+    return this.http.put<any>('https://cgpgabon24.alwaysdata.net/api/edit/programme', data);
   }
 
   insertBudgetAnnuel(data: any):Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/budgetannuel/', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/budgetannuel', data);
   }
 
   planingData(id :any):Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/programme/planing/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/programme/planing/'+id);
   }
 
   deleteProgramme(id: any):Observable<any>{
-    return this.http.delete<any>("http://localhost:8000/api/delete/programme/"+id);
+    return this.http.delete<any>("https://cgpgabon24.alwaysdata.net/api/delete/programme/"+id);
   }
 
   getDataPlaning(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/programme/planing/data/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/programme/planing/data/'+id);
   }
 
   getDataPlanTransformation(id: any){
-    return this.http.get<any>('http://localhost:8000/api/programme/planTrasnformation/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/programme/planTrasnformation/'+id);
   }
 
 }

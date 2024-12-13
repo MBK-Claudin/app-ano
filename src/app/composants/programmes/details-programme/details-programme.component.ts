@@ -1,3 +1,4 @@
+import { FinancementComponent } from './../../../financement/financement.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -38,11 +39,17 @@ import { MissionListComponent } from "../../../mission-list/mission-list.compone
     AnoProgrammeComponent,
     ContractComponent,
     GanttPlaningComponent,
+    FinancementComponent,
     FactureProgrammeComponent,
     PlanTransformationComponent,
     ImpactsComponent,
+<<<<<<< Updated upstream
     MissionListComponent
 ],
+=======
+    MissionListComponent,
+  ],
+>>>>>>> Stashed changes
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'
 })

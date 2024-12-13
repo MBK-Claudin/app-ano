@@ -12,10 +12,10 @@ export class ContractService {
   ) { }
 
   getContracts(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/contracts/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/contracts/'+id);
   }
 
   insertContracts(data: any):Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/contract', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/contract', data);
   }
 }

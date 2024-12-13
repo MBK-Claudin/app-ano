@@ -11,20 +11,23 @@ export class ActiviteService {
     private http: HttpClient
   ) { }
 
+  getActivite(): Observable<any>{
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/activite')
+  }
   insertActivite(data: any): Observable<any> {
-    return this.http.post<any>('http://localhost:8000/api/insert/activite', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/activite', data);
   }
 
   getPhases(): Observable<any> {
-    return this.http.get<any>('http://localhost:8000/api/activite/phases');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/activite/phases');
   }
 
   getSites() : Observable<any> {
-    return this.http.get<any>('http://localhost:8000/api/activite/sites');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/activite/sites');
   }
-  
+
   getJalonActivitebudgetannuel(id: any):Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/activite/activitebudgetannuel/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/activite/activitebudgetannuel/'+id);
   }
 
 }

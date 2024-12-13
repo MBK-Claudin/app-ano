@@ -12,46 +12,46 @@ export class AnoService {
   ) { }
 
   insertANO(data: any): Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/ano/', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/ano/', data);
   }
 
   getANO(): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/ano');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/ano');
   }
-  
+
   getSelectANO(id: any):Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/select/edit/ano/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/edit/ano/'+id);
   }
 
   editAno(data: any): Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/edit/ano', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/edit/ano', data);
   }
 
   deleteAno(id: any): Observable<any>{
-    return this.http.delete<any>('http://localhost:8000/api/delete/ano/'+id);
+    return this.http.delete<any>('https://cgpgabon24.alwaysdata.net/api/delete/ano/'+id);
   }
 
   getDetailAno(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/detail/ano/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/detail/ano/'+id);
   }
 
   getAnoProgramme(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/ano/programme/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/ano/programme/'+id);
   }
 
   etudeAno(id: any, data: any):Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/ano/etude/'+id, data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/ano/etude/'+id, data);
   }
 
   validerAno(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/ano/valider/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/ano/valider/'+id);
   }
 
   getAnoActivitebudgetannuel(id: any): Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/ano/activitebudgetannuel/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/ano/activitebudgetannuel/'+id);
   }
 
   getCreateData(id: any){
-    return this.http.get<any>('http://localhost:8000/api/ano/programme/composantes/activite/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/ano/programme/composantes/activite/'+id);
   }
 }

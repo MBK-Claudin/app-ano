@@ -18,11 +18,11 @@ import { AuthService } from '../../../services/auth.service';
     NgxSkeletonLoaderModule,
   ],
   templateUrl: './objectif.component.html',
-  styleUrl: './objectif.component.css'
+  styleUrls: ['./objectif.component.css']
 })
 
 export class ObjectifComponent {
-  
+
 
   objectifs: any[] = [];
   filteredObjectifs: any[] = [];
@@ -55,18 +55,22 @@ export class ObjectifComponent {
     console.log(token)
   }
 
-  getobjectifs(){
+  getobjectifs() {
+    console.log('Appel à getobjectifs');
     this.objectifService.getobjectifs().subscribe(
       data => {
-      this.loader = false;
-      this.objectifs = data;
-      this.filteredObjectifs = data;
-      }, error => {
+        console.log('Données reçues:', data);
         this.loader = false;
-        console.error(error);
+        this.objectifs = data;
+        this.filteredObjectifs = data;
+      },
+      error => {
+        this.loader = false;
+        console.error('Erreur lors de la récupération des objectifs:', error);
       }
-    )
+    );
   }
+
 
   getLogin(){
     this.route.queryParams.subscribe(
@@ -86,7 +90,7 @@ export class ObjectifComponent {
       modal.style.display = 'none';
     }
   }
-  
+
   openDeleteModal(id: any){
     const selectedObjectif = this.objectifs.find(ob => ob.id === id);
     if (selectedObjectif) {

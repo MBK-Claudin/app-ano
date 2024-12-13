@@ -12,26 +12,35 @@ export class ObjectifServiceService {
   ) { }
 
   getobjectifs():Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/objectifs');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/objectifs');
   }
 
   insertObjectif(data: any):Observable<any>{
-    return this.http.post<any>('http://127.0.0.1:8000/api/insert/objectif/', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/objectif/', data);
+  }
+
+<<<<<<< Updated upstream
+  selectObjectif(id: any):Observable<any>{
+    return this.http.get<any>('http://127.0.0.1:8000/api/select/objectif/'+id);
+=======
+  selectEditObjectif(id: any):Observable<any>{
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/edit/objectif/'+id);
   }
 
   selectObjectif(id: any):Observable<any>{
-    return this.http.get<any>('http://127.0.0.1:8000/api/select/objectif/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/edit/objectif/'+id);
+>>>>>>> Stashed changes
   }
 
   editObjectif(data: any):Observable<any>{
-    return this.http.put<any>('http://127.0.0.1:8000/api/edit/objectif/', data);
+    return this.http.put<any>('https://cgpgabon24.alwaysdata.net/api/edit/objectif/', data);
   }
 
   deleteObjectif(id: any){
-    return this.http.delete<any>("http://localhost:8000/api/delete/objectif/"+id);
+    return this.http.delete<any>("https://cgpgabon24.alwaysdata.net/api/delete/objectif/"+id);
   }
 
   getProgrammeObjectif(id: any){
-    return this.http.get<any>("http://localhost:8000/api/objectif/programme/"+id);
+    return this.http.get<any>("https://cgpgabon24.alwaysdata.net/api/objectif/programme/"+id);
   }
 }

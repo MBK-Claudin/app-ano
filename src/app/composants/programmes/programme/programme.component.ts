@@ -21,7 +21,7 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
   styleUrl: './programme.component.css'
 })
 export class ProgrammeComponent {
-  
+
   programmes: any[] = [];
   loader = true;
   filterProgramme: any[] = [];
@@ -43,7 +43,7 @@ export class ProgrammeComponent {
       modal.style.display = 'none';
     }
   }
-  
+
   openDeleteModal(id: any){
     const selectedpro = this.programmes.find(prog => prog.id === id);
     if (selectedpro) {

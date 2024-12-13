@@ -30,19 +30,26 @@ import { PtbaComponent } from './composants/budgetannuels/ptba/ptba.component';
 import { ContractAllComponent } from './composants/contracts/contract-all/contract-all.component';
 import { DetailsFactureComponent } from './composants/factures/details-facture/details-facture.component';
 import { AddAnoProgrammeComponent } from './composants/anos/add-ano-programme/add-ano-programme.component';
+import { DetailMissionComponent } from './detail-mission/detail-mission.component';
 
 export const routes: Routes = [
   // canActivate: [authGuard],
     {
         path: '', component: MenuComponent, children: [
+<<<<<<< Updated upstream
             { path: '', component: ObjectifComponent },
+=======
+            { path: '', component: TachesComponent },
+>>>>>>> Stashed changes
             { path: 'objectif', component: ObjectifComponent },
             { path: 'select/objectif/:id', component: EditObjectifComponent },
             { path: 'add/objectif', component: AddObjectifComponent },
             { path: 'details/objectif/:id', component: DetailsObjectifComponent },
             { path: 'programmes', component: ProgrammeComponent },
             { path: 'add/programme', component: AddProgrammeComponent },
-            { path: 'details/programme/:id', component: DetailsProgrammeComponent },
+            { path: 'details/programme/:id', component: DetailsProgrammeComponent,
+
+             },
             { path: 'edit/programme/:id', component: EditProgrammeComponent },
             { path: 'taches', component: TachesComponent },
             { path: 'affectations', component: AffectationsComponent },
@@ -61,9 +68,10 @@ export const routes: Routes = [
             { path: 'ptba', component: PtbaComponent },
             { path: 'contracts', component: ContractAllComponent },
             { path: 'add/ano/programme/:id', component: AddAnoProgrammeComponent },
+            { path: 'details/mission/:id', component: DetailMissionComponent },
         ]
     },
-    { path: 'login', component: LoginComponent },
-    { path: 'user/organisation/:isOrg', component: AuthOrganisationComponent },
-    { path: 'login/check', component: LoginCheckComponent },
+    // { path: 'login', component: LoginComponent },
+    // { path: 'user/organisation/:isOrg', component: AuthOrganisationComponent },
+    // { path: 'login/check', component: LoginCheckComponent },
 ];

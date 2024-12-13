@@ -12,25 +12,25 @@ export class SiteService {
   ) { }
 
   getProgrammeSite(id: any):Observable<any>{
-    return this.http.get('http://localhost:8000/api/programme/site/'+id);
+    return this.http.get('https://cgpgabon24.alwaysdata.net/api/programme/site/'+id);
   }
 
   insertSites(data: any): Observable<any> {
-    return this.http.post<any>('http://localhost:8000/api/programme/insert/site', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/programme/insert/site', data);
   }
 
   insertNewSites(data: any): Observable<any> {
-    return this.http.post<any>('http://localhost:8000/api/insert/site', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/site', data);
   }
 
   deleteSites(id: any): Observable<any> {
-    return this.http.delete<any>('http://localhost:8000/api/delete/site/'+id);
+    return this.http.delete<any>('https://cgpgabon24.alwaysdata.net/api/delete/site/'+id);
   }
 
-  
+
   getSite(): Observable<any> {
-    return this.http.get<any>('http://localhost:8000/api/sites');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/sites');
   }
 
-  
+
 }

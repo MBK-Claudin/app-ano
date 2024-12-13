@@ -74,7 +74,7 @@ export class SiteComponent {
   getSites(){
     this.siteService.getProgrammeSite(this.programme_id).subscribe(
       data => {
-        this.sites = data;
+        this.sites = data.reverse();
         this.filtersites = data;
       }, error => {
         console.error('Erreur lors du chargement des sites !', error);

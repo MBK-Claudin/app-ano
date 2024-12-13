@@ -25,6 +25,7 @@
                                     <p class="text-dark font-weight-bold fs-3">Secteur:</p>
                                     <p class="text-primary font-weight-normal fs-4 mb-4">{{ programme.objectif.secteur }}<br>
                                     </p>
+<<<<<<< Updated upstream
                                     <p class="text-dark font-weight-bold fs-4">Objectif Spécifique :</p>
                                     <p class="text-primary font-weight-normal fs-4 mb-4">{{ programme.objectif_specifique }}</p>
                                     <p class="text-dark font-weight-bold fs-4">Ancrage</p>
@@ -39,6 +40,21 @@
                                     </p>
                                     <p class="text-success font-weight-bold fs-4 mb-3">
                                      {{ programme.Budget_planifier_us }} $
+=======
+                                    <p class="text-dark font-weight-bold fs-5">Objectif Spécifique :</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">{{ programme.objectif_specifique }}</p>
+                                    <p class="text-dark font-weight-bold fs-5">Responsable</p>
+                                    <p class="text-primary font-weight-normal fs-5 mb-4">
+                                        <ng-container *ngFor="let r of responsables">
+                                            {{ r.name }} ({{ r.pivot.role }})<br>
+                                        </ng-container></p>
+                                    <p class="text-dark font-weight-bold fs-5 mb-2">Budget :</p>
+                                    <p class="text-primary font-weight-bold fs-5">
+                                      {{ programme.Budget_planifier_fcfa | number }} FCFA
+                                    </p>
+                                    <p class="text-success font-weight-bold fs-5 mb-3">
+                                    {{ programme.Budget_planifier_us | number}} $
+>>>>>>> Stashed changes
                                     </p>
                                 </div>
                             </div>
@@ -90,6 +106,7 @@
                                     <div class="tabbar padding_infor_info">
                                         <nav>
                                             <div class="nav nav-tabs" id="nav-tab1" role="tablist">
+<<<<<<< Updated upstream
                                                 <a class="text-dark font-weight-bold fs-5 nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
                                                 <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#budget" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
                                                 <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#planing" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planing</a>
@@ -102,6 +119,19 @@
 
                                                 <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#anos" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Anos</a>
                                                 <a class="text-dark font-weight-bold fs-5 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#factures" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Factures</a>
+=======
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link active" id="nav-home-tab2" data-toggle="tab" href="#contributeurs" role="tab" aria-controls="nav-home_s2" aria-selected="true">Contributeurs</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#budget" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Budget Annuel</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-profile-tab2" data-toggle="tab" href="#planing" role="tab" aria-controls="nav-profile_s2" aria-selected="false">Planing</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#sites" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Sites</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#livrable" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Livrables</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#contract" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contracts</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#compacts" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Impacts</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#missions" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Missions</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#anos" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Anos</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#financement" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Financement</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#factures" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Factures</a>
+>>>>>>> Stashed changes
                                             </div>
                                         </nav>
                                         <div class="tab-content" id="nav-tabContent_2">
@@ -133,6 +163,7 @@
                                                 <app-facture-programme [programme_id]="programme.id"></app-facture-programme>
                                             </div>
                                             <div class="tab-pane fade" id="compacts" role="tabpanel" aria-labelledby="nav-contact-tab">
+<<<<<<< Updated upstream
                                               <app-impacts [programme_id]="programme.id"></app-impacts>
                                           </div>
 
@@ -143,6 +174,19 @@
                                         <div class="tab-pane fade" id="missions" role="tabpanel" aria-labelledby="nav-contact-tab">
                                           <app-mission-list ></app-mission-list>
                                       </div>
+=======
+                                                <app-impacts [programme_id]="programme.id"></app-impacts>
+                                            </div>
+                                            <div class="tab-pane fade" id="site" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-site [programme_id]="programme.id"></app-site>
+                                            </div>
+                                            <div class="tab-pane fade" id="financement" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                              <app-financement></app-financement>
+                                          </div>
+                                            <div class="tab-pane fade" id="missions" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                                <app-mission-list [programme_id]="programme.id" ></app-mission-list>
+                                            </div>
+>>>>>>> Stashed changes
                                         </div>
                                     </div>
                                 </div>

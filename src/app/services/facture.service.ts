@@ -12,34 +12,34 @@ export class FactureService {
   ) { }
 
   getFactures():Observable<any>{
-    return this.http.get<any>('http://localhost:8000/api/factures');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/factures');
   }
 
   insertFacture(data: any):Observable<any>{
-    return this.http.post<any>('http://localhost:8000/api/insert/factures', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/factures', data);
   }
 
   getAno():Observable<any>{
-    return this.http.get('http://localhost:8000/api/facture/ano');
+    return this.http.get('https://cgpgabon24.alwaysdata.net/api/facture/ano');
   }
 
   getContract():Observable<any>{
-    return this.http.get('http://localhost:8000/api/facture/contract');
+    return this.http.get('https://cgpgabon24.alwaysdata.net/api/facture/contract');
   }
 
   getOneFActure(id: any):Observable<any>{
-    return this.http.get('http://localhost:8000/api/select/facture/'+id);
+    return this.http.get('https://cgpgabon24.alwaysdata.net/api/select/facture/'+id);
   }
 
   getProgrammeFactures(id: any):Observable<any>{
-    return this.http.get('http://localhost:8000/api/programme/facture/'+id);
+    return this.http.get('https://cgpgabon24.alwaysdata.net/api/programme/facture/'+id);
   }
 
   getEtatFacture (id: any): Observable<any> {
-    return this.http.get<any>('http://localhost:8000/api/facture/etatActuel/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/facture/etatActuel/'+id);
   }
 
   traiterFacture(idFacture: any, idService: any, user_id: any): Observable<any>{
-    return this.http.get<any>(`http://localhost:8000/api/facture/traitement/${idFacture}/${idService}/${user_id}`);
+    return this.http.get<any>(`https://cgpgabon24.alwaysdata.net/api/facture/traitement/${idFacture}/${idService}/${user_id}`);
   }
 }

@@ -12,14 +12,14 @@ export class DataServiceService {
   ) { }
 
   getUsers():Observable<any> {
-    return this.http.get<any>('http://127.0.0.1:8000/api/users');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/users');
   }
 
   getOrganisations():Observable<any>{
-    return this.http.get<any>('http://127.0.0.1:8000/api/organisations');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/organisations');
   }
 
   getJalon(): Observable<any>{
-    return this.http.get<any>('http://127.0.0.1:8000/api/activite');
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/activite');
   }
 }

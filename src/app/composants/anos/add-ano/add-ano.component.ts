@@ -64,8 +64,8 @@ export class AddAnoComponent {
     const anoForm = new FormData();
     this.userid = localStorage.getItem('user_id')?.toString();
     anoForm.append('budget', this.budget);
-    anoForm.append('activite_id', this.activite_id);
-    anoForm.append('user_id', this.userid);
+    anoForm.append('libelle', this.activite_id);
+    anoForm.append('responsable', this.userid);
 
     for (let i = 0; i < this.files.length; i++) {
       anoForm.append('documents[]', this.files[i]); // Envoie les fichiers dans un tableau

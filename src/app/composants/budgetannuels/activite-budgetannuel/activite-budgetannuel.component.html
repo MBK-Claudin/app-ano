@@ -27,8 +27,8 @@
                                         </p>
                                         <p><strong>Responsable(s) :</strong><br>
                                             <ng-container *ngFor="let r of responsables">
-                                                {{ r.name }} ({{ r.pivot.poste }})<br> 
-                                            </ng-container>  
+                                                {{ r.name }} ({{ r.pivot.poste }})<br>
+                                            </ng-container>
                                         </p>
                                     </div>
                                 </div>
@@ -71,19 +71,23 @@
                                         <div class="tab-content" id="nav-tabContent_2">
                                             <div class="tab-pane fade show active" id="responsables" role="tabpanel" aria-labelledby="nav-home-tab">
                                                 <app-responsables-activitebudegtannuel [activite_id]="activite.id"></app-responsables-activitebudegtannuel>
-                                            </div>  
+                                            </div>
                                             <div class="tab-pane fade" id="jalon" role="tabpanel" aria-labelledby="nav-home-tab">
-                                                <app-jalon-budgetannuel [activite_id]="activite.id"></app-jalon-budgetannuel>
-                                            </div> 
+                                                <app-jalon-budgetannuel [id]="activite.id"></app-jalon-budgetannuel>
+                                            </div>
                                             <div class="tab-pane fade" id="anolist" role="tabpanel" aria-labelledby="nav-home-tab">
                                                 <app-ano-budgetannuel [activite_id]="activite.id"></app-ano-budgetannuel>
-                                            </div>  
+                                            </div>
                                             <div class="tab-pane fade" id="gantt" role="tabpanel" aria-labelledby="nav-home-tab">
                                                 <app-gantt-budgetannuel></app-gantt-budgetannuel>
+<<<<<<< Updated upstream
                                             </div>  
                                             <div class="tab-pane fade" id="tableau" role="tabpanel" aria-labelledby="nav-home-tab">
                                                 <app-planing-tableau-budgetannuel></app-planing-tableau-budgetannuel>
                                             </div>   
+=======
+                                            </div>
+>>>>>>> Stashed changes
                                         </div>
                                     </div>
                                 </div>
