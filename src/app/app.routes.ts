@@ -36,11 +36,7 @@ export const routes: Routes = [
   // canActivate: [authGuard],
     {
         path: '', component: MenuComponent, children: [
-<<<<<<< Updated upstream
-            { path: '', component: ObjectifComponent },
-=======
             { path: '', component: TachesComponent },
->>>>>>> Stashed changes
             { path: 'objectif', component: ObjectifComponent },
             { path: 'select/objectif/:id', component: EditObjectifComponent },
             { path: 'add/objectif', component: AddObjectifComponent },

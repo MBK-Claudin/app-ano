@@ -35,10 +35,7 @@ export class AddProgrammeComponent {
     objectif_specifique: new FormControl('', Validators.required),
     date_debut: new FormControl('', Validators.required),
     date_fin: new FormControl('', Validators.required),
-<<<<<<< Updated upstream
-=======
     description_objectif_specifique: new FormControl('', Validators.required)
->>>>>>> Stashed changes
   });
 
   organisationsForm = new FormGroup({
@@ -212,87 +209,6 @@ export class AddProgrammeComponent {
     if (selectedUser) {
       this.selectedEmail = selectedUser.email;
       this.responsablesForm.get('email')?.setValue(this.selectedEmail);
-<<<<<<< Updated upstream
-=======
-
-      if (selectedUser.organisations && selectedUser.organisations.length > 0) {
-        const organisationNames = selectedUser.organisations.map((org: any) => org.libelle).join(', ');
-        const postes = selectedUser.organisations.map((org: any) => org.pivot.poste).join(', ');
-
-        this.responsablesForm.get('organisation')?.setValue(organisationNames);
-        this.responsablesForm.get('poste')?.setValue(postes);
-      } else {
-        this.responsablesForm.get('organisation')?.setValue('Pas d’organisation');
-        this.responsablesForm.get('poste')?.setValue('Aucun poste');
-      }
-
-    }
-  }
-
-  openEditRespModal(id: any){
-    const modal = document.getElementById('edit_resp_modal');
-
-    if(modal != null){
-      this.indexResp = id;
-
-      this.responsablesForm.patchValue({
-        responsable: this.responsableList[id].responsable,
-        email: this.responsableList[id].email,
-        role: this.responsableList[id].role
-      })
-
-      modal.style.display = 'block'
-    }
-
-  }
-
-  closeEditRespModal(){
-    const modal = document.getElementById('edit_resp_modal');
-    if(modal != null){
-      modal.style.display = 'none'
-    }
-  }
-
-  openEditOrgModal(id: any){
-    const modal = document.getElementById('edit_org_modal');
-    if(modal != null){
-      this.indexOrg = id;
-      this.organisationsForm.patchValue({
-        libelle: this.organisationList[id].libelle,
-        ancrage: this.organisationList[id].ancrage
-      })
-      modal.style.display = 'block'
-    }
-  }
-
-  closeEditOrgModal(){
-    const modal = document.getElementById('edit_org_modal');
-    if(modal != null){
-      modal.style.display = 'none'
-    }
-  }
-
-  EditResponsable(){
-    if(this.responsablesForm.valid && this.indexResp != null){
-
-      this.responsableList[this.indexResp].responsable = this.responsablesForm.value.responsable || '';
-      this.responsableList[this.indexResp].email = this.responsablesForm.value.email || '';
-      this.responsableList[this.indexResp].role = this.responsablesForm.value.role || '';
-
-      this.responsablesForm.reset();
-      this.closeEditRespModal();
-    }
-  }
-
-  EditOrganisation(){
-    if(this.organisationsForm.valid && this.indexOrg != null){
-
-      this.organisationList[this.indexOrg].ancrage = this.organisationsForm.value.ancrage || '';
-      this.organisationList[this.indexOrg].libelle = this.organisationsForm.value.libelle || '';
-
-      this.organisationsForm.reset();
-      this.closeEditOrgModal();
->>>>>>> Stashed changes
     }
   }
 

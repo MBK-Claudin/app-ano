@@ -38,11 +38,8 @@ export class BudgetannuelServiceService {
   deleteActivite(id: any): Observable<any>{
     return this.http.delete<any>('https://cgpgabon24.alwaysdata.net/api/budgetannuel/delete/activite/'+id);
   }
-<<<<<<< Updated upstream
-=======
 
   getPlaningData(id: any): Observable<any>{
     return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/budgetannuel/activite/planing/data/'+id);
   }
->>>>>>> Stashed changes
 }

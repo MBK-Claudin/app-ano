@@ -1,4 +1,3 @@
-
 <!-- Affichage des données -->
 <div class="row">
   <div class="col-md-12">
@@ -13,7 +12,7 @@
                   <input type="text" class="form-control" placeholder="Recherche...">
               </div>
               <div class="col-3 text-right">
-                  <button  class="btn btn-primary" title="Ajouter un Impact">
+                  <button (click)="openModal()"  class="btn btn-primary" title="Ajouter un Impact">
                       <i id="modale" class="fas fa-plus"></i>
                   </button>
               </div>
@@ -33,15 +32,15 @@
                             <th>Actions</th>
                           </tr>
                       </thead>
-                      <tbody>
+                      <tbody *ngIf="impacts && impacts.length > 0">
                         <tr *ngFor="let impact of impacts">
                           <td>{{ impact.type_impact }}</td>
                           <td>{{ impact.libelle_impact }}</td>
+                          <td>{{ impact.activite}}</td>
                           <td>{{ impact.force }}</td>
-                          <td>{{ impact.site_id }}</td>
+                          <td>{{ impact.site}}</td>
                           <td>{{ impact.taille }}</td>
                           <td>{{ impact.mitigation }}</td>
-                          <td>{{ impact.activite_budget_annuel_id }}</td>
                           <td>
                             <div class="btn-group">
                               <button class="btn btn-secondary" title="Plus de détails">
@@ -56,10 +55,10 @@
                             </div>
                           </td>
                         </tr>
-
-
                       </tbody>
-
+                      <ng-template #noImpacts>
+                        <tr><td colspan="8">Aucun impact trouvé.</td></tr>
+                      </ng-template>
                   </table>
               </div>
           </div>
@@ -67,4 +66,72 @@
   </div>
 </div>
 
+<!-- Modal d'ajout -->
+<div class="modal" tabindex="-1" role="dialog"  id="add_impact">
+  <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+          <div class="modal-header bg-dark">
+              <h5 class="modal-title text-white">Nouvelle ANO </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span (click)="closeModal()" aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <!-- Formulaire d'ajout -->
+              <form [formGroup]="impactForm" (ngSubmit)="insertImpact()">
+                  <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="titre">Type d'impacts :</label>
+                            <select name="type_impact" id="type_impact" class="form-control" formControlName="type">
+                              <option value="Social">Social</option>
+                              <option value="Environnemental">Environnemental</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="libelle">Libelle :</label>
+                            <input type="text" class="form-control" id="libelle" name="libelle" formControlName="libelle">
+                        </div>
+                        <div class="form-group">
+                            <label for="force">Force :</label>
+                            <select name="force" id="force" class="form-control" formControlName="force">
+                              <option value="Faible">Faible</option>
+                              <option value="Très Faible">Très Faible</option>
+                              <option value="Forte">Forte</option>
+                              <option value="Très Forte">Très Forte</option>
+                              <option value="Moyenne">Moyenne</option>
+                            </select>
+                        </div>
 
+                        <div class="form-group">
+                          <label for="taille">Taille :</label>
+                          <input type="number" class="form-control" id="taille" name="taille" formControlName="taille">
+                      </div>
+                      <div class="form-group">
+                          <label for="mitigation">Mitigation :</label>
+                          <input type="text" class="form-control" id="mitigation" name="mitigation" formControlName="mitigation">
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                          <label for="site">Site :</label>
+                          <select name="site" id="site" class="form-control" formControlName="site" *ngIf="sites && sites.length">
+                            <option [value]="s.id" *ngFor="let s of sites">{{s.libelle}}</option>
+                          </select>
+                      </div>
+                      <div class="form-group">
+                          <label for="activite">Activité :</label>
+                          <select name="activite" id="activite" class="form-control" formControlName="activite" *ngIf="activite && activite.length">
+                            <option [value]="a.id" *ngFor="let a of activite">{{ a.libelle | slice:0:50 }}...</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary" [disabled]="impactForm.invalid">enregistrer l'ano</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

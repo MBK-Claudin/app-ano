@@ -19,17 +19,12 @@ export class ObjectifServiceService {
     return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/objectif/', data);
   }
 
-<<<<<<< Updated upstream
-  selectObjectif(id: any):Observable<any>{
-    return this.http.get<any>('http://127.0.0.1:8000/api/select/objectif/'+id);
-=======
   selectEditObjectif(id: any):Observable<any>{
     return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/edit/objectif/'+id);
   }
 
   selectObjectif(id: any):Observable<any>{
     return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/edit/objectif/'+id);
->>>>>>> Stashed changes
   }
 
   editObjectif(data: any):Observable<any>{

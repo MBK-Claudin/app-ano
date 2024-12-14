@@ -74,7 +74,6 @@ export class GanttPlaningComponent {
       }, error => {
         console.error('Erreur lors de la récuperation des données !!!!!!', error);
       }
-<<<<<<< Updated upstream
     )
   }
 
@@ -82,7 +81,7 @@ export class GanttPlaningComponent {
     return data.reduce((acc, current) => {
       current.activites.forEach((activite: any) => {
         const phaseName = activite.phase.libelle;
-  
+
         // Si la phase n'existe pas encore dans l'accumulateur, on la crée
         if (!acc[phaseName]) {
           acc[phaseName] = {
@@ -91,7 +90,7 @@ export class GanttPlaningComponent {
             activities: [],
           };
         }
-  
+
         // Ajout de l'activité à la phase correspondante
         acc[phaseName].activities.push({
           id: activite.id,
@@ -101,17 +100,17 @@ export class GanttPlaningComponent {
           budget: activite.budget,
         });
       });
-  
+
       return acc;  // Retour de l'accumulateur
     }, {});
   }
 
   transformForGantt(groupedData: any): any[] {
     this.ganttData = [];
-  
+
     Object.keys(groupedData).forEach((phaseName, index) => {
       const phase = groupedData[phaseName];
-  
+
       // Ajouter la phase comme une tâche parent
       this.ganttData.push({
         TaskID: phase.phase_id,
@@ -126,21 +125,21 @@ export class GanttPlaningComponent {
           EndDate: new Date(activity.date_fin),
           Budget: activity.budget,
           isParent: false,
-        })),        
+        })),
       });
     });
-  
+
     return this.ganttData;
   }
 
   transformDataTable(originalData: any): any[] {
     const transformedPhases = [];
-  
+
     // Parcours de chaque phase dans l'objet original
     for (const phaseKey in originalData) {
       if (originalData.hasOwnProperty(phaseKey)) {
         const phase = originalData[phaseKey];
-  
+
         // Création d'un objet pour la phase avec son libellé et ses activités
         const transformedPhase = {
           libelle: phase.phase_name,
@@ -151,12 +150,12 @@ export class GanttPlaningComponent {
             progress: this.calculateProgress(activity.date_debut, activity.date_fin),
           })),
         };
-  
+
         // Ajout de la phase transformée dans le tableau final
         transformedPhases.push(transformedPhase);
       }
     }
-  
+
     return transformedPhases;
   }
 
@@ -164,15 +163,14 @@ export class GanttPlaningComponent {
     const startDate = new Date(dateDebut);
     const endDate = new Date(dateFin);
     const today = new Date();
-  
+
     const totalDuration = endDate.getTime() - startDate.getTime();
     const elapsedDuration = today.getTime() - startDate.getTime();
-  
+
     if (totalDuration <= 0) return 100;  // Si la phase est terminée ou a une mauvaise configuration
     const progress = (elapsedDuration / totalDuration) * 100;
     return progress > 100 ? 100 : progress < 0 ? 0 : progress;  // Garde la progression entre 0 et 100
-=======
-    );
+
   }
 
   transformDataToGanttFormat(data: any[]): any[] {
@@ -259,7 +257,6 @@ export class GanttPlaningComponent {
       };
       return organizedPhase;
     });
->>>>>>> Stashed changes
   }
 
   insertJalon(){

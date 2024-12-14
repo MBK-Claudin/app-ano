@@ -21,9 +21,9 @@
                             <div class="row px-5">
                                 <div class="col-md-6">
                                     <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                        <p><strong>Buedget :</strong><br>  
-                                            {{ activite.budget_fcfa }} FCFA<br> 
-                                            {{ activite.budget_us }} USD<br> 
+                                        <p><strong>Buedget :</strong><br>
+                                            {{ activite.budget_fcfa }} FCFA<br>
+                                            {{ activite.budget_us }} USD<br>
                                         </p>
                                         <p><strong>Responsable(s) :</strong><br>
                                             <ng-container *ngFor="let r of responsables">
@@ -34,12 +34,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="full invoice_blog padding_infor_info padding-bottom_0">
-                                        <p><strong>Comptabilité :</strong><br>  
-                                            Montant décaissé : {{ activite.montant_decaisser || 0 }} FCFA<br> 
-                                            Montant restant : {{ activite.montant_restant || 0}} FCFA<br> 
+                                        <p><strong>Comptabilité :</strong><br>
+                                            Montant décaissé : {{ activite.montant_decaisser || 0 }} FCFA<br>
+                                            Montant restant : {{ activite.montant_restant || 0}} FCFA<br>
                                         </p>
                                         <p><strong>Période :</strong><br>
-                                            {{ activite.date_debut }} ({{ activite.date_fin }})<br> 
+                                            {{ activite.date_debut }} ({{ activite.date_fin }})<br>
                                         </p>
                                     </div>
                                 </div>
@@ -80,14 +80,7 @@
                                             </div>
                                             <div class="tab-pane fade" id="gantt" role="tabpanel" aria-labelledby="nav-home-tab">
                                                 <app-gantt-budgetannuel></app-gantt-budgetannuel>
-<<<<<<< Updated upstream
-                                            </div>  
-                                            <div class="tab-pane fade" id="tableau" role="tabpanel" aria-labelledby="nav-home-tab">
-                                                <app-planing-tableau-budgetannuel></app-planing-tableau-budgetannuel>
-                                            </div>   
-=======
                                             </div>
->>>>>>> Stashed changes
                                         </div>
                                     </div>
                                 </div>

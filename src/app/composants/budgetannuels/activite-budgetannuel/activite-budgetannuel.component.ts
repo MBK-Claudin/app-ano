@@ -64,13 +64,13 @@ export class ActiviteBudgetannuelComponent {
   isJalonList: boolean = false;
   isGantt: boolean = false;
   isProgressTable: boolean = false;
-  
+
   taskSettings: TaskFieldsModel | undefined;
   Data: object[] = [];
   DataII: any[] = [];
   ganttData: Object[] = [];
   DataTable: any[] = [];
-  
+
   constructor(
     private router: ActivatedRoute,
     private data: DataServiceService,
@@ -103,7 +103,7 @@ export class ActiviteBudgetannuelComponent {
   groupByPhase(data: any[]): any {
     return data.reduce((acc, current) => {
       const phaseName = current.phase.libelle;
-  
+
       // Si la phase n'existe pas encore dans l'accumulateur, on la crée
       if (!acc[phaseName]) {
         acc[phaseName] = {
@@ -112,7 +112,7 @@ export class ActiviteBudgetannuelComponent {
           activities: [],
         };
       }
-  
+
       // Ajout de l'activité à la phase correspondante
       acc[phaseName].activities.push({
         id: current.id,
@@ -121,17 +121,17 @@ export class ActiviteBudgetannuelComponent {
         date_fin: current.date_fin,
         budget: current.budget,
       });
-  
+
       return acc;
     }, {});
   }
 
   transformForGantt(groupedData: any): any[] {
     this.ganttData = [];
-  
+
     Object.keys(groupedData).forEach((phaseName, index) => {
       const phase = groupedData[phaseName];
-  
+
       // Ajouter la phase comme une tâche parent
       this.ganttData.push({
         TaskID: phase.phase_id,
@@ -146,21 +146,21 @@ export class ActiviteBudgetannuelComponent {
           EndDate: new Date(activity.date_fin),
           Budget: activity.budget,
           isParent: false,
-        })),        
+        })),
       });
     });
-  
+
     return this.ganttData;
   }
 
   transformDataTable(originalData: any): any[] {
     const transformedPhases = [];
-  
+
     // Parcours de chaque phase dans l'objet original
     for (const phaseKey in originalData) {
       if (originalData.hasOwnProperty(phaseKey)) {
         const phase = originalData[phaseKey];
-  
+
         // Création d'un objet pour la phase avec son libellé et ses activités
         const transformedPhase = {
           libelle: phase.phase_name,
@@ -171,12 +171,12 @@ export class ActiviteBudgetannuelComponent {
             progress: this.calculateProgress(activity.date_debut, activity.date_fin),
           })),
         };
-  
+
         // Ajout de la phase transformée dans le tableau final
         transformedPhases.push(transformedPhase);
       }
     }
-  
+
     return transformedPhases;
   }
 
@@ -184,10 +184,10 @@ export class ActiviteBudgetannuelComponent {
     const startDate = new Date(dateDebut);
     const endDate = new Date(dateFin);
     const today = new Date();
-  
+
     const totalDuration = endDate.getTime() - startDate.getTime();
     const elapsedDuration = today.getTime() - startDate.getTime();
-  
+
     if (totalDuration <= 0) return 100;  // Si la phase est terminée ou a une mauvaise configuration
     const progress = (elapsedDuration / totalDuration) * 100;
     return progress > 100 ? 100 : progress < 0 ? 0 : progress;  // Garde la progression entre 0 et 100

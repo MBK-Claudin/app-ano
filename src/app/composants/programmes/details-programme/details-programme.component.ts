@@ -19,7 +19,6 @@ import { GanttPlaningComponent } from '../gantt-planing/gantt-planing.component'
 import { FactureProgrammeComponent } from '../../factures/facture-programme/facture-programme.component';
 import { PlanTransformationComponent } from '../plan-transformation/plan-transformation.component';
 import { ImpactsComponent } from '../../../impacts/impacts.component';
-import { MissionListComponent } from "../../../mission-list/mission-list.component";
 
 @Component({
   selector: 'app-details-programme',
@@ -43,13 +42,7 @@ import { MissionListComponent } from "../../../mission-list/mission-list.compone
     FactureProgrammeComponent,
     PlanTransformationComponent,
     ImpactsComponent,
-<<<<<<< Updated upstream
-    MissionListComponent
-],
-=======
-    MissionListComponent,
   ],
->>>>>>> Stashed changes
   templateUrl: './details-programme.component.html',
   styleUrl: './details-programme.component.css'
 })

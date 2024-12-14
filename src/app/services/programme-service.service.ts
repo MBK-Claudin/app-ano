@@ -24,13 +24,10 @@ export class ProgrammeServiceService {
     return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/programme/'+id);
   }
 
-<<<<<<< Updated upstream
-=======
   selectEditProgramme(id: any):Observable<any>{
     return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/edit/programme/'+id);
   }
 
->>>>>>> Stashed changes
   editProgramme(data: any):Observable<any>{
     return this.http.put<any>('https://cgpgabon24.alwaysdata.net/api/edit/programme', data);
   }
