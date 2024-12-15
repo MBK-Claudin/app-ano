@@ -16,19 +16,19 @@ export class ObjectifServiceService {
   }
 
   insertObjectif(data: any):Observable<any>{
-    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/objectif/', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/objectif', data);
   }
 
   selectEditObjectif(id: any):Observable<any>{
-    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/edit/objectif/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/objectif/'+id);
   }
 
   selectObjectif(id: any):Observable<any>{
-    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/edit/objectif/'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/select/objectif/'+id);
   }
 
   editObjectif(data: any):Observable<any>{
-    return this.http.put<any>('https://cgpgabon24.alwaysdata.net/api/edit/objectif/', data);
+    return this.http.put<any>('https://cgpgabon24.alwaysdata.net/api/edit/objectif', data);
   }
 
   deleteObjectif(id: any){

@@ -12,7 +12,7 @@ export class AnoService {
   ) { }
 
   insertANO(data: any): Observable<any>{
-    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/ano/', data);
+    return this.http.post<any>('https://cgpgabon24.alwaysdata.net/api/insert/ano', data);
   }
 
   getANO(): Observable<any>{

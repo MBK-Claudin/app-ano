@@ -96,7 +96,7 @@
                                                 <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#livrable" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Livrables</a>
                                                 <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#contract" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Contracts</a>
                                                 <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#compacts" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Impacts</a>
-                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#missions" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Missions</a>
+                                                <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#mission" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Missions</a>
                                                 <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#anos" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Anos</a>
                                                 <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#financement" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Financement</a>
                                                 <a class="text-dark font-weight-bold fs-6 nav-item nav-link" id="nav-contact-tab2" data-toggle="tab" href="#factures" role="tab" aria-controls="nav-contacts_s2" aria-selected="false">Factures</a>
@@ -136,6 +136,9 @@
                                             <div class="tab-pane fade" id="site" role="tabpanel" aria-labelledby="nav-contact-tab">
                                                 <app-site [programme_id]="programme.id"></app-site>
                                             </div>
+                                            <div class="tab-pane fade" id="mission" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                              <app-mission-list [programme_id]="programme.id"></app-mission-list>
+                                          </div>
                                             <div class="tab-pane fade" id="financement" role="tabpanel" aria-labelledby="nav-contact-tab">
                                               <app-financement></app-financement>
                                           </div>

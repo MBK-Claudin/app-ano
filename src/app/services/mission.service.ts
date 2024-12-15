@@ -15,19 +15,19 @@ export class MissionService {
 
 getMissions(programmeId: any): Observable<any> {
   // URL de base pour les missions
-  const url = `https://cgpgabon24.alwaysdata.net/api/missions/${programmeId}`;
+  const url = `https://cgpgabon24.alwaysdata.net/api/mission/${programmeId}`;
 
   // Faites la requête GET en utilisant l'ID du programme comme paramètre
   return this.http.get<any>(url);
 }
 
 
-  createMission(missionData: any): Observable<any> {
-    return this.http.post('https://cgpgabon24.alwaysdata.net/api/missions/insert', missionData, {
+  createMission(data: any): Observable<any> {
+    return this.http.post('https://cgpgabon24.alwaysdata.net/api/mission/insert', data, {
     });
   }
 
   getdetailMission(id: any):Observable<any>{
-    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/missions'+id);
+    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/mission'+id);
   }
 }
