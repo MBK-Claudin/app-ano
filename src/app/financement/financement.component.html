@@ -1,139 +1,142 @@
 <!-- Affichage des données -->
 <div class="row">
   <div class="col-md-12">
-      <div class="white_shd full margin_bottom_30">
-          <div class="row full graph_head">
-              <div class="col-3">
-                  <div class="heading1 margin_0">
-                      <h2>Listes des Financements</h2>
-                  </div>
-              </div>
-              <div class="col-6">
-                  <input type="text" class="form-control" placeholder="Recherche...">
-              </div>
-              <div class="col-3 text-right">
-                  <!-- <button (click)="openModal()"  class="btn btn-primary" title="Ajouter un Impact"> -->
-                      <i id="modale" class="fas fa-plus"></i>
-                  <!-- </button> -->
-              </div>
+    <div class="white_shd full margin_bottom_30">
+      <div class="row full graph_head">
+        <div class="col-3">
+          <div class="heading1 margin_0">
+            <h2>Listes des Financements</h2>
           </div>
-          <div class="table_section padding_infor_info">
-              <div class="table-responsive-sm">
-                  <table class="table table-striped">
-                      <thead class="thead-dark">
-                          <tr>
-                            <th>Type de financement</th>
-                            <th>partenaire</th>
-                            <th>Montant FCFA</th>
-                            <th>Montant USD
-
-                            </th>
-                            <th>Site</th>
-                            <th>Taille</th>
-                            <th>Mitigation</th>
-                            <th>Actions</th>
-                          </tr>
-                      </thead>
-                      <!-- <tbody *ngIf="impacts && impacts.length > 0">
-                        <tr *ngFor="let impact of impacts">
-                          <td>{{ impact.type_impact }}</td>
-                          <td>{{ impact.libelle_impact }}</td>
-                          <td>{{ impact.force }}</td>
-                          <td>{{ impact.site_id }}</td>
-                          <td>{{ impact.taille }}</td>
-                          <td>{{ impact.mitigation }}</td>
-                          <td>{{ impact.activite_budget_annuel_id }}</td>
-                          <td>
-                            <div class="btn-group">
-                              <button class="btn btn-secondary" title="Plus de détails">
-                                <i class="fas fa-eye"></i>
-                              </button>
-                              <button class="btn btn-primary" title="Modifier">
-                                <i class="fas fa-edit"></i>
-                              </button>
-                              <button class="btn btn-danger">
-                                <i class="fas fa-trash"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody> -->
-                      <ng-template #noImpacts>
-                        <tr><td colspan="8">Aucun impact trouvé.</td></tr>
-                      </ng-template>
-                  </table>
-              </div>
-          </div>
+        </div>
+        <div class="col-12 text-right">
+          <button (click)="openmodal()"  class="btn btn-primary" title="Ajouter un Impact">
+              <i id="modale" class="fas fa-plus"></i>
+          </button>
       </div>
+
+      <div class="table_section padding_infor_info">
+        <div class="table-responsive-sm">
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Type de financement</th>
+                <th>Partenaire</th>
+                <th>Montant FCFA</th>
+                <th>Montant USD</th>
+                <th>Principal</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let financement of financements; let i = index">
+                <td>{{ financement.type_financement }}</td>
+                <td>{{ financement.partenaire }}</td>
+                <td>{{ financement.montant | number }}</td>
+                <td>{{ financement.montant_usd | number }}</td>
+
+                <td>
+
+                    <div class="form-group">
+                      <!-- Checkbox contrôlée via [(ngModel)] et l'événement (change) -->
+                      <input type="radio" class="form-check-input"
+                             [checked]="financement.principal"
+                             (change)="onPrincipalChange(financement, i)">
+                    </div>
+
+                </td>
+
+                <td>
+                  <div class="btn-group">
+                    <!-- View Details Button -->
+                    <button class="btn btn-info" title="Voir les détails" (click)="viewDetails(financement)">
+                      <i class="fas fa-eye"></i>
+                    </button>
+
+                    <!-- Edit Button -->
+                    <button class="btn btn-primary" title="Modifier" (click)="editFinancement(financement)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+
+                    <!-- Delete Button -->
+                    <button class="btn btn-danger" title="Supprimer" (click)="deleteFinancement(financement.id)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+
+          </table>
+
+          <ng-template #noFinancements>
+            <tr><td colspan="8">Aucun financement trouvé.</td></tr>
+          </ng-template>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
 
 <!-- Modal d'ajout -->
-<div class="modal" tabindex="-1" role="dialog"  id="add_impact">
+<!-- Modal d'ajout -->
+<div class="modal" tabindex="-1" role="dialog" *ngIf="isModalOpen" id="add_financement">
   <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content">
-          <div class="modal-header bg-dark">
-              <h5 class="modal-title text-white">Nouvelle ANO </h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <!-- <span (click)="closeModal()" aria-hidden="true">&times;</span> -->
-              </button>
-          </div>
-          <div class="modal-body">
-              <!-- Formulaire d'ajout -->
-              <!-- <form [formGroup]="impactForm" (ngSubmit)="insertImpact()"> -->
-                  <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="titre">Type d'impacts :</label>
-                            <select name="type_impact" id="type_impact" class="form-control" formControlName="type">
-                              <option value="Social">Social</option>
-                              <option value="Environnemental">Environnemental</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="libelle">Libelle :</label>
-                            <input type="text" class="form-control" id="libelle" name="libelle" formControlName="libelle">
-                        </div>
-                        <div class="form-group">
-                            <label for="force">Force :</label>
-                            <select name="force" id="force" class="form-control" formControlName="force">
-                              <option value="Faible">Faible</option>
-                              <option value="Très Faible">Très Faible</option>
-                              <option value="Forte">Forte</option>
-                              <option value="Très Forte">Très Forte</option>
-                              <option value="Moyenne">Moyenne</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                          <label for="taille">Taille :</label>
-                          <input type="number" class="form-control" id="taille" name="taille" formControlName="taille">
-                      </div>
-                      <div class="form-group">
-                          <label for="mitigation">Mitigation :</label>
-                          <input type="text" class="form-control" id="mitigation" name="mitigation" formControlName="mitigation">
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <!-- <div class="form-group">
-                          <label for="site">Site :</label>
-                          <select name="site" id="site" class="form-control" formControlName="site" *ngIf="sites && sites.length">
-                            <option [value]="s.id" *ngFor="let s of sites">{{s.libelle}}</option>
-                          </select>
-                      </div> -->
-                      <!-- <div class="form-group">
-                          <label for="activite">Activité :</label>
-                          <select name="activite" id="activite" class="form-control" formControlName="activite" *ngIf="activite && activite.length">
-                            <option [value]="a.id" *ngFor="let a of activite">{{ a.libelle | slice:0:50 }}...</option>
-                          </select>
-                      </div> -->
-                    </div>
-                  </div>
-                  <!-- <div class="modal-footer">
-                      <button type="submit" class="btn btn-primary" [disabled]="impactForm.invalid">enregistrer l'ano</button>
-                  </div> -->
-              <!-- </form> -->
-          </div>
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-white">Nouveau Financement</h5>
+        <button type="button" class="close" (click)="closeModal()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+        <form [formGroup]="financementForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="type_financement">Type de financement :</label>
+                <select id="type_financement" class="form-control" formControlName="type_financement">
+                  <option value="Social">PPP</option>
+                  <option value="Environnemental">Finex</option>
+                  <option value="Économique">Contre partie</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="montant">Montant FCFA :</label>
+                <input type="number" class="form-control" id="montant" formControlName="montant">
+              </div>
+
+              <div class="form-group">
+                <label for="partenaire">Partenaire :</label>
+                <select class="form-control" id="organisation" name="organisation" formControlName="partenaire" *ngIf="organisations && organisations.length">
+                  <option *ngFor="let org of organisations" [value]="org.libelle">{{ org.libelle }}</option>
+                </select>
+              </div>
+
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="montant_usd">Montant USD :</label>
+                <input type="number" class="form-control" id="montant_usd" formControlName="montant_usd">
+              </div>
+
+              <div class="form-group">
+                <label for="site">Statut :</label>
+                <select id="statut" class="form-control" formControlName="statut">
+                  <option value="decaissé">decaissé</option>
+                  <option value="en attente">en attente</option>
+                </select>
+                </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="financementForm.invalid">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
+
