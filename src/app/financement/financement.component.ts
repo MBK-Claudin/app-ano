@@ -1,3 +1,4 @@
+import { ProgrammeServiceService } from './../services/programme-service.service';
 import { OrganisationService } from './../services/organisation.service';
 import { SiteService } from './../services/site.service';
 import { FinancementsService } from './../services/financements.service';
@@ -22,6 +23,7 @@ export class FinancementComponent implements OnInit {
   @Input() programme_id!: number;
 
   financements: any[] = [];
+  programme: any;
   Sites: any[]=[];
   organisations:any[] = [];
   financementForm: FormGroup;
@@ -29,12 +31,15 @@ export class FinancementComponent implements OnInit {
   selectedFinancement: any = null;
   loading: boolean = false;
   errorMessage: string = '';
+  montantRestant: number = 0; // Variable pour la soustraction
+
 
   constructor(
     private fb: FormBuilder,
     private FinancementsService: FinancementsService,
         private SiteService: SiteService,
         private OrganisationService: OrganisationService,
+        private ProgrammeServiceService:ProgrammeServiceService,
 
   ) {
     this.financementForm = this.fb.group({
@@ -43,12 +48,14 @@ export class FinancementComponent implements OnInit {
       partenaire: ['', Validators.required],
       montant_usd: ['', [Validators.required, Validators.min(0)]],
       statut: ['', Validators.required],
+      programme_id:this.programme_id
     });
   }
 
   ngOnInit(): void {
     this.loadFinancements();
     this.getorganisations();
+    this.getProgramme()
   }
 
   loadFinancements(): void {
@@ -64,6 +71,11 @@ export class FinancementComponent implements OnInit {
       }
     );
   }
+
+
+
+
+
 
   openmodal(){
     const modal = document.getElementById('add_financement');
@@ -154,4 +166,27 @@ export class FinancementComponent implements OnInit {
       }
     );
   }
+  getProgramme(){
+    this.ProgrammeServiceService.selectProgramme(this.programme_id).subscribe(data => {
+      this.programme = data;
+      console.log('le budget financé',this.programme)
+      this.calculerMontantRestant();
+
+    },error => {
+      console.error(error);
+
+    });
+}
+
+
+calculerMontantRestant() {
+  const budget = this.programme.Budget_planifier_fcfa || 0;
+
+  // Somme des montants des financements
+  const montant = this.financements.reduce((acc, financement) => acc + (financement.montant || 0), 0) || 0;
+
+  this.montantRestant = budget - montant;
+}
+
+
 }

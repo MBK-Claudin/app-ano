@@ -27,7 +27,7 @@ export class ImpactsComponent implements OnInit {
   activite: any[] = [];
   sites: any;
   searchText: any = '';
-
+  editingImpactId: number | null = null;  // Nouvelle propriété pour l'édition des impacts
 
   impactForm = new FormGroup({
     type: new FormControl('', Validators.required),
@@ -37,14 +37,12 @@ export class ImpactsComponent implements OnInit {
     mitigation: new FormControl('', Validators.required),
     site: new FormControl('', Validators.required),
     activite: new FormControl('', Validators.required),
-  })
+  });
 
   constructor(
     private impactService: ImpactService,
     private siteService: SiteService,
     private ActiviteService: ActiviteService,
-
-
   ) {}
 
   ngOnInit() {
@@ -53,22 +51,21 @@ export class ImpactsComponent implements OnInit {
     this.getSites();
   }
 
-
+  // Récupérer les impacts
   getImpacts(): void {
     if (this.programme_id) {
       this.impactService.getImpacts(this.programme_id).subscribe(
         (data) => {
-          // Assurez-vous que data est un tableau
           if (Array.isArray(data)) {
             this.impacts = data.reverse();
             this.impactFilter = [...this.impacts];
-            console.log('impact chargées :', this.impacts);
+            console.log('impacts chargées :', this.impacts);
           } else {
             console.error('Données incorrectes reçues :', data);
           }
         },
         (error) => {
-          console.error('Erreur lors de la récupération des missions', error);
+          console.error('Erreur lors de la récupération des impacts', error);
         }
       );
     } else {
@@ -76,30 +73,36 @@ export class ImpactsComponent implements OnInit {
     }
   }
 
+  // Filtrer les impacts
+  // filterimpact() {
+  //   if (this.searchText === '') {
+  //     this.impactFilter = [...this.impacts];  // Affiche toutes les missions
+  //   } else {
+  //     this.impactFilter = this.impacts.filter(impact => {
+  //       const libelle = impact.libelle ? impact.libelle.toLowerCase() : '';
+  //       return libelle.includes(this.searchText.toLowerCase());
+  //     });
+  //   }
+  // }
 
-
-  filterimpact() {
-    if (this.searchText === '') {
-      // Si la recherche est vide, afficher toutes les missions
-      this.impactFilter = [...this.impacts];  // Affiche toutes les missions
-    } else {
-      // Si une recherche est effectuée, filtrer les missions
-      this.impactFilter = this.impacts.filter(impact => {
-        const libelle = impact.libelle ? impact.libelle.toLowerCase() : '';
-        return libelle.includes(this.searchText.toLowerCase());
-      });
-    }
-  }
-
-
-  openmodal(){
-    const modal = document.getElementById('modale');
+  // Ouvrir le modal pour ajouter un impact
+  openModal() {
+    const modal = document.getElementById('add_impact');
     if (modal != null) {
       modal.style.display = 'block';
     }
   }
 
-  getSites(){
+  // Fermer le modal
+  closeModal() {
+    const modal = document.getElementById('add_impact');
+    if (modal != null) {
+      modal.style.display = 'none';
+    }
+  }
+
+  // Récupérer les sites
+  getSites() {
     this.siteService.getSite().subscribe(
       data => {
         this.sites = data;
@@ -109,11 +112,10 @@ export class ImpactsComponent implements OnInit {
     );
   }
 
-  insertImpact(){
-    if(this.impactForm.valid){
-
+  // Ajouter un impact
+  insertImpact() {
+    if (this.impactForm.valid) {
       const impact = new FormData();
-
       const type_impact = this.impactForm.value.type;
       const libelle_impact = this.impactForm.value.libelle;
       const force = this.impactForm.value.force;
@@ -122,7 +124,6 @@ export class ImpactsComponent implements OnInit {
       const site = this.impactForm.value.site;
       const activite_id = this.impactForm.value.activite;
       const programme = this.programme_id;
-
 
       impact.append('type_impact', type_impact ? type_impact.toString() : '');
       impact.append('libelle_impact', libelle_impact ? libelle_impact.toString() : '');
@@ -133,33 +134,22 @@ export class ImpactsComponent implements OnInit {
       impact.append('activite_id', activite_id ? parseInt(activite_id).toString() : '');
       impact.append('programme_id', this.programme_id.toString());
 
-
       this.impactService.insertImpact(impact).subscribe(
         data => {
           console.log(data);
         }, error => {
           console.log("Erreur lors de l'insertion de l'impact", error);
         }
-      )
+      );
     }
   }
 
-  // getActiviteBudgetAnnuel(){
-  //   this.impactService.getAcitviteProgramme(this.programme_id).subscribe(
-  //     data => {
-  //       this.activite = data;
-  //       console.log('les activités impact', data)
-  //     }, error => {
-  //       console.error('Erreur lors du chargement des activités !', error);
-  //     }
-  //   )
-  // }
-
+  // Récupérer les activités
   getActivites(): void {
     this.ActiviteService.getActivite().subscribe(
       (data) => {
         this.activite = data;
-        console.log('Activités charg :', this.activite);
+        console.log('Activités chargées :', this.activite);
       },
       (error) => {
         console.error('Erreur lors du chargement des activités', error);
@@ -167,17 +157,51 @@ export class ImpactsComponent implements OnInit {
     );
   }
 
-  closeModal(){
-    const modal = document.getElementById('add_impact');
-    if(modal != null){
-      modal.style.display = 'none';
+  // Ouvrir le modal pour l'édition d'un impact
+  editImpact(impact: any) {
+    // Définir l'impact que l'on veut éditer
+    this.editingImpactId = impact.id;
+    // Pré-remplir le formulaire avec les valeurs de l'impact
+    this.impactForm.patchValue({
+      type: impact.type_impact,
+      libelle: impact.libelle_impact,
+      force: impact.force,
+      taille: impact.taille,
+      mitigation: impact.mitigation,
+      site: impact.site_id,
+      activite: impact.activite_id,
+    });
+    // Ouvrir le modal pour modification
+    this.openModal();
+  }
+
+  // Mettre à jour un impact existant
+  updateImpact() {
+    if (this.impactForm.valid) {
+      const updatedImpact = { ...this.impactForm.value, id: this.editingImpactId };
+      this.impactService.insertImpact(updatedImpact).subscribe(
+        () => {
+          this.getImpacts();  // Rafraîchir la liste des impacts
+          this.closeModal();   // Fermer le modal
+        },
+        (error) => {
+          console.error('Erreur lors de la mise à jour de l\'impact', error);
+        }
+      );
     }
   }
 
-  openModal(){
-    const modal = document.getElementById('add_impact');
-    if(modal != null){
-      modal.style.display = 'block';
+  // Supprimer un impact
+  deleteImpact(id: number) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet impact?')) {
+      this.impactService.deleteImpact(id).subscribe(
+        () => {
+          this.getImpacts();  // Rafraîchir la liste après suppression
+        },
+        (error) => {
+          console.error('Erreur lors de la suppression de l\'impact', error);
+        }
+      );
     }
   }
 }
