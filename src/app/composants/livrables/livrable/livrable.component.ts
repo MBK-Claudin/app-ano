@@ -16,12 +16,11 @@ import { LivrableService } from '../../../services/livrable.service';
   styleUrl: './livrable.component.css'
 })
 export class LivrableComponent {
-    @Input() programme_id!: number;
+    @Input() programme_id!: string;
 
     loager = true;
     livrables: any[] = [];
     jalons: any[] = [];
-
     activite: any;
 
     activite_id: any;
@@ -31,7 +30,6 @@ export class LivrableComponent {
 
     responsableList = [{
       responsable: '',
-      email: '',
     }];
 
     titres: string[] = [];
@@ -41,7 +39,6 @@ export class LivrableComponent {
     titre: string = "";
     livrable: string = "";
     responsable: string = '';
-    email: string = '';
 
     constructor(
       private data: DataServiceService,
@@ -57,25 +54,32 @@ export class LivrableComponent {
       const alivrableForm = new FormData();
       alivrableForm.append('livrable', this.livrable);
       alivrableForm.append('activite_id', this.activite_id);
+      alivrableForm.append('responsable', this.responsable);
+      alivrableForm.append('programme_id', this.programme_id);
+
+
+      // Ajouter les fichiers et titres associés
       for (let i = 0; i < this.files.length; i++) {
-        alivrableForm.append('documents[]', this.files[i]); // Envoie les fichiers dans un tableau
-        alivrableForm.append('titres[]', this.titres[i])
+        alivrableForm.append('documents[]', this.files[i]);
+        alivrableForm.append('titres[]', this.titres[i]);
       }
 
-      for(let j = 0; j < this.responsableList.length; j++){
-        alivrableForm.append('responsable[]', this.responsableList[j].responsable);
-        alivrableForm.append('email[]', this.responsableList[j].email);
-      }
-      console.log('insert anoForm', alivrableForm)
+
+      console.log('insert anoForm', alivrableForm);
 
       this.livrableService.insertLivrable(alivrableForm).subscribe(
         data => {
-          this.closemodal()
-
-        }, error => {
-          console.error('Error:', error);
+          console.log('Livrable ajouté avec succès', data);
+          this.closemodal();  // Fermer la fenêtre modale après l'ajout
+        },
+        error => {
+          console.error('Erreur lors de l\'insertion du livrable', error);
         }
-      )
+      );
+    }
+
+    extractFileName(url: string): string {
+      return url.split('/').pop() || 'Document';
     }
 
     getLivrable(){
@@ -98,29 +102,6 @@ export class LivrableComponent {
         }
       )
     }
-
-    addresponsables(){
-      if(this.responsable && this.email){
-        this.responsableList[this.indextEvent] = ({
-          responsable: this.responsable,
-          email: this.email
-        })
-
-        this.responsable = '';
-        this.email = '';
-        this.indextEvent += 1;
-      }
-    }
-
-    onUserSelect(event: any) {
-      const selectedUserName = event.target.value;
-      const selectedUser = this.users.find(user => user.name === selectedUserName);
-      if (selectedUser) {
-        this.email = selectedUser.email;
-        this.responsable = selectedUser.name;
-      }
-    }
-
     onFileChange(event: any) {
       this.fileToAdd = event.target.files[0];
       if (this.fileToAdd && this.titre) {
@@ -133,9 +114,8 @@ export class LivrableComponent {
     }
 
     removeFile(index: number) {
-      this.files.splice(index, 1); // Supprime le fichier de la liste
+      this.files.splice(index, 1);
     }
-
     getusers(){
       this.data.getUsers().subscribe(
         data => {
@@ -143,7 +123,6 @@ export class LivrableComponent {
         }
       )
     }
-
     closemodal(){
       const modal = document.getElementById('modal');
       if (modal != null) {

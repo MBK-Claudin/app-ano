@@ -155,10 +155,9 @@ export class FinancementComponent implements OnInit {
 
     const formData = this.financementForm.value;
     this.FinancementsService.createFinancement(formData).subscribe(
-      response => {
-        this.financements.push(response['data']);
+      data => {
         this.closeModal();
-        this.financementForm.reset();
+        // this.financementForm.reset();
         alert('Financement ajouté avec succès');
       },
       error => {
@@ -170,7 +169,7 @@ export class FinancementComponent implements OnInit {
     this.ProgrammeServiceService.selectProgramme(this.programme_id).subscribe(data => {
       this.programme = data;
       console.log('le budget financé',this.programme)
-      this.calculerMontantRestant();
+
 
     },error => {
       console.error(error);
@@ -179,14 +178,6 @@ export class FinancementComponent implements OnInit {
 }
 
 
-calculerMontantRestant() {
-  const budget = this.programme.Budget_planifier_fcfa || 0;
-
-  // Somme des montants des financements
-  const montant = this.financements.reduce((acc, financement) => acc + (financement.montant || 0), 0) || 0;
-
-  this.montantRestant = budget - montant;
 }
 
 
-}

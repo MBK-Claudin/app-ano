@@ -31,13 +31,11 @@ export class FinancementsService {
   }
 
   // Créer un financement
-  createFinancement(financementData: Partial<Financement>): Observable<any> {
-    return this.http.post(`${this.apiUrl}/insert`, financementData);
+  createFinancement(financementData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/insert`,financementData);
   }
 
-  getOrganisations():Observable<any>{
-    return this.http.get<any>('https://cgpgabon24.alwaysdata.net/api/organisations');
-  }
+
 
   // Récupérer un financement spécifique pour l'édition
   getFinancementById(financementId: number): Observable<Financement> {

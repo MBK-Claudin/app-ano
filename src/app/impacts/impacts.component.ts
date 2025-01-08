@@ -137,6 +137,8 @@ export class ImpactsComponent implements OnInit {
       this.impactService.insertImpact(impact).subscribe(
         data => {
           console.log(data);
+          this.closeModal();
+          this.getImpacts()
         }, error => {
           console.log("Erreur lors de l'insertion de l'impact", error);
         }
